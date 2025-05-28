@@ -7,5 +7,6 @@ namespace SchoolMedical.Core.Interfaces.Services
         Task<LoginResponse> LoginAsync(LoginRequest request);
         Task<bool> ValidateTokenAsync(string token);
         string GenerateJwtToken(int userId, string username, string role);
+        Task<object> TestDatabaseConnectionAsync();
     }
 }

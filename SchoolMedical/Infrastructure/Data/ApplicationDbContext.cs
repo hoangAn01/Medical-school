@@ -16,18 +16,6 @@ namespace SchoolMedical.Infrastructure.Data
         public DbSet<Nurse> Nurses { get; set; }
         public DbSet<ManagerAdmin> ManagerAdmins { get; set; }
         public DbSet<Class> Classes { get; set; }
-        public DbSet<HealthProfile> HealthProfiles { get; set; }
-        public DbSet<HealthReport> HealthReports { get; set; }
-        public DbSet<MedicalEvent> MedicalEvents { get; set; }
-        public DbSet<SchoolCheckup> SchoolCheckups { get; set; }
-        public DbSet<VaccinationEvent> VaccinationEvents { get; set; }
-        public DbSet<VaccineRecord> VaccineRecords { get; set; }
-        public DbSet<MedicalInventory> MedicalInventories { get; set; }
-        public DbSet<MedicalUsage> MedicalUsages { get; set; }
-        public DbSet<MedicineRequest> MedicineRequests { get; set; }
-        public DbSet<Allergen> Allergens { get; set; }
-        public DbSet<StudentAllergy> StudentAllergies { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,28 +28,92 @@ namespace SchoolMedical.Infrastructure.Data
                 entity.Property(e => e.Username).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.PasswordHash).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Role).IsRequired().HasMaxLength(50);
-                
+
                 // Create unique index on Username
                 entity.HasIndex(e => e.Username).IsUnique();
             });
 
-            // Configure relationships
-            modelBuilder.Entity<ManagerAdmin>()
-                .HasOne(m => m.Account)
-                .WithOne(a => a.ManagerAdmin)
-                .HasForeignKey<ManagerAdmin>(m => m.UserID);
+            // Configure ManagerAdmin entity
+            modelBuilder.Entity<ManagerAdmin>(entity =>
+            {
+                entity.HasKey(e => e.ManagerID);
+                entity.Property(e => e.FullName).HasMaxLength(100);
+                entity.Property(e => e.Gender).HasMaxLength(1);
+                entity.Property(e => e.Address).HasMaxLength(255);
 
-            modelBuilder.Entity<Nurse>()
-                .HasOne(n => n.Account)
-                .WithOne(a => a.Nurse)
-                .HasForeignKey<Nurse>(n => n.UserID);
+                // Configure relationship with Account
+                entity.HasOne(m => m.Account)
+                      .WithOne()
+                      .HasForeignKey<ManagerAdmin>(m => m.UserID)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            modelBuilder.Entity<Parent>()
-                .HasOne(p => p.Account)
-                .WithOne(a => a.Parent)
-                .HasForeignKey<Parent>(p => p.UserID);
+            // Configure Nurse entity
+            modelBuilder.Entity<Nurse>(entity =>
+            {
+                entity.HasKey(e => e.NurseID);
+                entity.Property(e => e.FullName).HasMaxLength(100);
+                entity.Property(e => e.Gender).HasMaxLength(1);
+                entity.Property(e => e.Phone).HasMaxLength(20);
 
-            // Add other entity configurations as needed
+                // Configure relationship with Account
+                entity.HasOne(n => n.Account)
+                      .WithOne()
+                      .HasForeignKey<Nurse>(n => n.UserID)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // Configure Parent entity
+            modelBuilder.Entity<Parent>(entity =>
+            {
+                entity.HasKey(e => e.ParentID);
+                entity.Property(e => e.FullName).HasMaxLength(100);
+                entity.Property(e => e.Gender).HasMaxLength(1);
+                entity.Property(e => e.Address).HasMaxLength(255);
+                entity.Property(e => e.Phone).HasMaxLength(20);
+
+                // Configure relationship with Account
+                entity.HasOne(p => p.Account)
+                      .WithOne()
+                      .HasForeignKey<Parent>(p => p.UserID)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // Configure Student entity
+            modelBuilder.Entity<Student>(entity =>
+            {
+                entity.HasKey(e => e.StudentID);
+                entity.Property(e => e.FullName).HasMaxLength(100);
+                entity.Property(e => e.Gender).HasMaxLength(1);
+
+                // Configure relationship with Account (optional)
+                entity.HasOne(s => s.Account)
+                      .WithOne()
+                      .HasForeignKey<Student>(s => s.UserID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Configure relationship with Parent
+                entity.HasOne(s => s.Parent)
+                      .WithMany()
+                      .HasForeignKey(s => s.ParentID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Configure relationship with Class
+                entity.HasOne(s => s.Class)
+                      .WithMany(c => c.Students)
+                      .HasForeignKey(s => s.ClassID)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // Configure Class entity
+            modelBuilder.Entity<Class>(entity =>
+            {
+                entity.HasKey(e => e.ClassID);
+                entity.Property(e => e.ClassName).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.SchoolYear).HasMaxLength(20);
+                entity.Property(e => e.TeacherName).HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(255);
+            });
         }
     }
 }

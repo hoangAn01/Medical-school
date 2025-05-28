@@ -22,6 +22,7 @@
     <Folder Include="Core\DTOs\Auth\" />
     <Folder Include="Core\Interfaces\Services\" />
     <Folder Include="Infrastructure\Services\" />
+    <Folder Include="Scripts\" />
   </ItemGroup>
 
 </Project>

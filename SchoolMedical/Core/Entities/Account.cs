@@ -21,10 +21,7 @@ namespace SchoolMedical.Core.Entities
         [StringLength(50)]
         public string Role { get; set; } = string.Empty;
 
-        // Navigation properties
-        public virtual ManagerAdmin? ManagerAdmin { get; set; }
-        public virtual Nurse? Nurse { get; set; }
-        public virtual Parent? Parent { get; set; }
-        public virtual Student? Student { get; set; }
+        // Remove navigation properties to avoid confusion
+        // Entity Framework will handle relationships through explicit configuration
     }
 }

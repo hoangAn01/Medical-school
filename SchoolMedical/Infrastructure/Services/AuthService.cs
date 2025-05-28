@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolMedical.Core.DTOs.Auth;
 using SchoolMedical.Core.Interfaces.Services;
@@ -14,23 +14,28 @@ namespace SchoolMedical.Infrastructure.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(ApplicationDbContext context, IConfiguration configuration)
+        public AuthService(ApplicationDbContext context, IConfiguration configuration, ILogger<AuthService> logger)
         {
             _context = context;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
             try
             {
+                _logger.LogInformation($"Login attempt for username: {request.Username}");
+
                 // Find user by username
                 var account = await _context.Accounts
                     .FirstOrDefaultAsync(a => a.Username == request.Username);
 
                 if (account == null)
                 {
+                    _logger.LogWarning($"User not found: {request.Username}");
                     return new LoginResponse
                     {
                         Success = false,
@@ -38,9 +43,16 @@ namespace SchoolMedical.Infrastructure.Services
                     };
                 }
 
+                _logger.LogInformation($"User found: {account.Username}, Role: {account.Role}");
+                _logger.LogInformation($"Stored hash: {account.PasswordHash}");
+
                 // Verify password
-                if (!VerifyPassword(request.Password, account.PasswordHash))
+                bool passwordValid = VerifyPassword(request.Password, account.PasswordHash);
+                _logger.LogInformation($"Password verification result: {passwordValid}");
+
+                if (!passwordValid)
                 {
+                    _logger.LogWarning($"Invalid password for user: {request.Username}");
                     return new LoginResponse
                     {
                         Success = false,
@@ -54,6 +66,8 @@ namespace SchoolMedical.Infrastructure.Services
                 // Generate JWT token
                 var token = GenerateJwtToken(account.UserID, account.Username, account.Role);
 
+                _logger.LogInformation($"Login successful for user: {request.Username}");
+
                 return new LoginResponse
                 {
                     Success = true,
@@ -64,6 +78,7 @@ namespace SchoolMedical.Infrastructure.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error during login for user: {request.Username}");
                 return new LoginResponse
                 {
                     Success = false,
@@ -133,10 +148,50 @@ namespace SchoolMedical.Infrastructure.Services
             }
         }
 
-        private bool VerifyPassword(string password, string hashedPassword) =>
-            // For demo purposes, using simple comparison
-            // In production, use proper password hashing like BCrypt
-            BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        private bool VerifyPassword(string password, string hashedPassword)
+        {
+            try
+            {
+                _logger.LogInformation($"Verifying password. Input: {password}");
+                _logger.LogInformation($"Against hash: {hashedPassword}");
+
+                // Kiểm tra nếu là hash BCrypt thật
+                if (hashedPassword.StartsWith("$2a$") || hashedPassword.StartsWith("$2b$") || hashedPassword.StartsWith("$2y$"))
+                {
+                    bool result = BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+                    _logger.LogInformation($"BCrypt verification result: {result}");
+                    return result;
+                }
+
+                // Fallback cho dữ liệu mẫu (tạm thời)
+                var tempPasswords = new Dictionary<string, string>
+                {
+                    { "hashed_password_1", "Admin123!" },
+                    { "hashed_password_2", "Nurse123!" },
+                    { "hashed_password_3", "Parent123!" },
+                    { "hashed_password_4", "Admin123!" },
+                    { "hashed_password_5", "Nurse123!" },
+                    { "hashed_password_6", "Parent123!" },
+                    { "hashed_password_7", "Parent123!" },
+                    { "hashed_password_8", "Nurse123!" }
+                };
+
+                if (tempPasswords.ContainsKey(hashedPassword))
+                {
+                    bool result = tempPasswords[hashedPassword] == password;
+                    _logger.LogInformation($"Temp password verification result: {result}");
+                    return result;
+                }
+
+                _logger.LogWarning($"Unknown password format: {hashedPassword}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error verifying password");
+                return false;
+            }
+        }
 
         private async Task<UserInfo> GetUserInfoAsync(Core.Entities.Account account)
         {
@@ -170,6 +225,42 @@ namespace SchoolMedical.Infrastructure.Services
             }
 
             return userInfo;
+        }
+
+        public async Task<object> TestDatabaseConnectionAsync()
+        {
+            try
+            {
+                _logger.LogInformation("Testing database connection...");
+
+                // Test connection
+                var canConnect = await _context.Database.CanConnectAsync();
+                if (!canConnect)
+                {
+                    return new { error = "Cannot connect to database" };
+                }
+
+                // Get all accounts
+                var accounts = await _context.Accounts.ToListAsync();
+
+                return new
+                {
+                    message = "Database connection successful",
+                    accountCount = accounts.Count,
+                    accounts = accounts.Select(a => new {
+                        a.UserID,
+                        a.Username,
+                        a.Role,
+                        PasswordHashLength = a.PasswordHash?.Length,
+                        PasswordHashPreview = a.PasswordHash?.Substring(0, Math.Min(20, a.PasswordHash.Length)) + "..."
+                    })
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Database test failed");
+                throw;
+            }
         }
     }
 }

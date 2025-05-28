@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolMedical.Infrastructure.Data;
@@ -10,6 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Add logging
+builder.Services.AddLogging(config =>
+{
+    config.AddConsole();
+    config.AddDebug();
+    config.SetMinimumLevel(LogLevel.Information);
+});
 
 // Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -70,5 +78,23 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Test database connection on startup
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await context.Database.CanConnectAsync();
+        Console.WriteLine("✅ Database connection successful");
+
+        var accountCount = await context.Accounts.CountAsync();
+        Console.WriteLine($"✅ Found {accountCount} accounts in database");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Database connection failed: {ex.Message}");
+    }
+}
 
 app.Run();
