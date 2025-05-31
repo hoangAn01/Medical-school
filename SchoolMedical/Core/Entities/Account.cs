@@ -7,7 +7,8 @@ namespace SchoolMedical.Core.Entities
     public class Account
     {
         [Key]
-        public int UserID { get; set; }
+		// [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int UserID { get; set; }
 
         [Required]
         [StringLength(100)]

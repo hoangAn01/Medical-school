@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolMedical.Core.DTOs.Auth;
+using SchoolMedical.Core.Entities;
 using SchoolMedical.Core.Interfaces.Services;
 using SchoolMedical.Infrastructure.Data;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace SchoolMedical.Infrastructure.Services
@@ -23,18 +24,15 @@ namespace SchoolMedical.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest request)
-        {
-            try
-            {
+        public async Task<LoginResponse> LoginAsync(LoginRequest request){
+            try{
                 _logger.LogInformation($"Login attempt for username: {request.Username}");
 
                 // Find user by username
                 var account = await _context.Accounts
                     .FirstOrDefaultAsync(a => a.Username == request.Username);
 
-                if (account == null)
-                {
+                if (account == null){
                     _logger.LogWarning($"User not found: {request.Username}");
                     return new LoginResponse
                     {
@@ -262,5 +260,47 @@ namespace SchoolMedical.Infrastructure.Services
                 throw;
             }
         }
-    }
+
+		public async Task<LoginResponse> RegisterAsync(RegisterRequest request)
+		{
+			// Check if username already exists
+			if (await _context.Accounts.AnyAsync(a => a.Username == request.Username))
+			{
+				return new LoginResponse
+				{
+					Success = false,
+					Message = "Username already exists"
+				};
+			}
+
+			// Hash the password (implement your own hashing if needed)
+			var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+			var account = new Account
+			{
+				Username = request.Username,
+				PasswordHash = hashedPassword,
+				Role = request.Role
+			};
+
+			_context.Accounts.Add(account);
+			await _context.SaveChangesAsync();
+
+			// Optionally, auto-login after registration
+			var token = GenerateJwtToken(account.UserID, account.Username, account.Role);
+
+			return new LoginResponse
+			{
+				Success = true,
+				Message = "Registration successful",
+				Token = token,
+				User = new UserInfo
+				{
+					UserID = account.UserID,
+					Username = account.Username,
+					Role = account.Role
+				}
+			};
+		}
+	}
 }
