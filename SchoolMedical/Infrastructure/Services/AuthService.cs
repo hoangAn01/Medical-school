@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolMedical.Core.DTOs.Auth;
+using SchoolMedical.Core.Entities;
 using SchoolMedical.Core.Interfaces.Services;
 using SchoolMedical.Infrastructure.Data;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace SchoolMedical.Infrastructure.Services
@@ -247,7 +248,8 @@ namespace SchoolMedical.Infrastructure.Services
                 {
                     message = "Database connection successful",
                     accountCount = accounts.Count,
-                    accounts = accounts.Select(a => new {
+                    accounts = accounts.Select(a => new
+                    {
                         a.UserID,
                         a.Username,
                         a.Role,
@@ -261,6 +263,63 @@ namespace SchoolMedical.Infrastructure.Services
                 _logger.LogError(ex, "Database test failed");
                 throw;
             }
+        }
+
+        public async Task<LoginResponse> RegisterAsync(RegisterRequest request)
+        {
+            // Check if username already exists
+            if (await _context.Accounts.AnyAsync(a => a.Username == request.Username))
+            {
+                return new LoginResponse
+                {
+                    Success = false,
+                    Message = "Username already exists"
+                };
+            }
+
+            // Hash the password
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+            // Always set role to "parent"
+            var account = new Account
+            {
+                Username = request.Username,
+                PasswordHash = hashedPassword,
+                Role = "parent"
+            };
+
+            _context.Accounts.Add(account);
+            await _context.SaveChangesAsync();
+
+			// Create Parent entity only
+			_context.Parents.Add(new Parent
+			{
+				FullName = request.FullName,
+				Gender = request.Gender,
+				DateOfBirth = request.DateOfBirth,
+				Address = request.Address,
+				Phone = request.Phone,
+				UserID = account.UserID // This links Parent to Account
+			});
+
+			await _context.SaveChangesAsync();
+
+            // Optionally, auto-login after registration
+            var token = GenerateJwtToken(account.UserID, account.Username, account.Role);
+
+            return new LoginResponse
+            {
+                Success = true,
+                Message = "Registration successful",
+                Token = token,
+                User = new UserInfo
+                {
+                    UserID = account.UserID,
+                    Username = account.Username,
+                    Role = account.Role,
+                    FullName = request.FullName
+                }
+            };
         }
     }
 }

@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SchoolMedical.Core.DTOs.Auth;
 using SchoolMedical.Core.Interfaces.Services;
 using SchoolMedical.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using SchoolMedical.Infrastructure.Services;
 
 namespace SchoolMedical.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
-    {
+    public class AuthController : ControllerBase{
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
 
@@ -20,9 +20,7 @@ namespace SchoolMedical.API.Controllers
             _logger = logger;
         }
 
-        /// <summary>
         /// Test database connection and check accounts
-        /// </summary>
         [HttpGet("test-db")]
         public async Task<ActionResult> TestDatabase()
         {
@@ -42,21 +40,15 @@ namespace SchoolMedical.API.Controllers
             }
         }
 
-        /// <summary>
         /// User login endpoint
-        /// </summary>
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
-        {
-            try
-            {
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request){
+            try{
                 _logger.LogInformation($"Login request received for username: {request.Username}");
 
-                if (!ModelState.IsValid)
-                {
+                if (!ModelState.IsValid){
                     _logger.LogWarning("Invalid model state for login request");
-                    return BadRequest(new LoginResponse
-                    {
+                    return BadRequest(new LoginResponse{
                         Success = false,
                         Message = "Invalid input data"
                     });
@@ -86,9 +78,7 @@ namespace SchoolMedical.API.Controllers
             }
         }
 
-        /// <summary>
         /// Validate JWT token
-        /// </summary>
         [HttpPost("validate-token")]
         public async Task<ActionResult<bool>> ValidateToken([FromBody] string token)
         {
@@ -96,9 +86,7 @@ namespace SchoolMedical.API.Controllers
             return Ok(isValid);
         }
 
-        /// <summary>
         /// Get current user info (requires authentication)
-        /// </summary>
         [HttpGet("me")]
         [Authorize]
         public ActionResult<object> GetCurrentUser()
@@ -115,14 +103,32 @@ namespace SchoolMedical.API.Controllers
             });
         }
 
-        /// <summary>
         /// Logout endpoint (client-side token removal)
-        /// </summary>
         [HttpPost("logout")]
         [Authorize]
-        public ActionResult Logout()
-        {
+        public ActionResult Logout(){
             return Ok(new { message = "Logout successful" });
         }
+
+
+        [HttpPost("register")]
+	    public async Task<ActionResult<LoginResponse>> Register([FromBody] RegisterRequest request)
+	    {
+		    if (!ModelState.IsValid)
+		    {
+			    return BadRequest(new LoginResponse
+			    {
+				    Success = false,
+				    Message = "Invalid input data"
+			    });
+		    }
+
+		    var result = await _authService.RegisterAsync(request);
+
+		    if (!result.Success)
+			    return BadRequest(result);
+
+		    return Ok(result);
+	    }
     }
 }

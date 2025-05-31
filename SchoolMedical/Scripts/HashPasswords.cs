@@ -2,8 +2,7 @@ using BCrypt.Net;
 
 namespace SchoolMedical.Scripts
 {
-    public class HashPasswords
-    {
+    public class HashPasswords{
         public static void Main()
         {
             // Hash passwords cho các user mẫu
