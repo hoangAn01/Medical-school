@@ -1,5 +1,6 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\",
   "Documents": [
     {
@@ -29,6 +30,13 @@
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\core\\dtos\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+  "WorkspaceRootPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432\\schoolmedical\\core\\interfaces\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\interfaces\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
     }
   ],
   "DocumentGroupContainers": [
@@ -37,8 +45,13 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
+<<<<<<< HEAD
           "DockedWidth": 389,
           "SelectedChildIndex": 3,
+=======
+          "DockedWidth": 244,
+          "SelectedChildIndex": 2,
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,6 +63,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 2,
               "Title": "RegisterRequest.cs",
               "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\RegisterRequest.cs",
@@ -141,6 +155,18 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-31T09:15:01.887Z"
+=======
+              "DocumentIndex": 0,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\SchoolMedical\\Core\\Interfaces\\Services\\IAuthService.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\Interfaces\\Services\\IAuthService.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\SchoolMedical\\Core\\Interfaces\\Services\\IAuthService.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\Interfaces\\Services\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T08:08:21.504Z",
+              "EditorCaption": ""
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
             }
           ]
         }

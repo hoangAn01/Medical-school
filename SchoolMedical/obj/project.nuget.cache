@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "sU5HjEU6Dx4=",
   "success": true,
   "projectFilePath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\SchoolMedical.csproj",
+=======
+  "dgSpecHash": "i5sPGd0fUC4=",
+  "success": true,
+  "projectFilePath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\SchoolMedical\\SchoolMedical.csproj",
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
   "expectedPackageFiles": [
     "C:\\Users\\thaim\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\thaim\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

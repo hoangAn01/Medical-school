@@ -278,10 +278,15 @@
       },
       "RegisterRequest": {
         "required": [
+<<<<<<< HEAD
           "dateOfBirth",
           "fullName",
           "gender",
           "password",
+=======
+          "password",
+          "role",
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
           "username"
         ],
         "type": "object",
@@ -296,6 +301,7 @@
             "minLength": 6,
             "type": "string"
           },
+<<<<<<< HEAD
           "fullName": {
             "maxLength": 100,
             "minLength": 0,
@@ -319,6 +325,12 @@
             "minLength": 0,
             "type": "string",
             "nullable": true
+=======
+          "role": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
           }
         },
         "additionalProperties": false

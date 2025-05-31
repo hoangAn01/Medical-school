@@ -14,6 +14,7 @@ namespace SchoolMedical.Core.DTOs.Auth
 
 		[Required]
 		[StringLength(100)]
+<<<<<<< HEAD
 		public string FullName { get; set; } = string.Empty;
 		
 		[Required]
@@ -27,5 +28,8 @@ namespace SchoolMedical.Core.DTOs.Auth
 		
 		[StringLength(20)]
 		public string? Phone { get; set; }
+=======
+		public string Role { get; set; } = "User";
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
 	}
 }
