@@ -278,10 +278,21 @@
       },
       "RegisterRequest": {
         "required": [
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
           "dateOfBirth",
           "fullName",
           "gender",
           "password",
+<<<<<<< HEAD
+=======
+=======
+          "password",
+          "role",
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
           "username"
         ],
         "type": "object",
@@ -296,6 +307,10 @@
             "minLength": 6,
             "type": "string"
           },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
           "fullName": {
             "maxLength": 100,
             "minLength": 0,
@@ -319,6 +334,15 @@
             "minLength": 0,
             "type": "string",
             "nullable": true
+<<<<<<< HEAD
+=======
+=======
+          "role": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
           }
         },
         "additionalProperties": false

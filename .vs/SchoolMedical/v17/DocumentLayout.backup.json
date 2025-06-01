@@ -1,6 +1,10 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,14 +35,30 @@
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
+<<<<<<< HEAD
+=======
+=======
+  "Documents": [],
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
+<<<<<<< HEAD
           "DockedWidth": 389,
           "SelectedChildIndex": 3,
+=======
+<<<<<<< HEAD
+          "DockedWidth": 389,
+          "SelectedChildIndex": 3,
+=======
+          "DockedWidth": 244,
+          "SelectedChildIndex": -1,
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,6 +67,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
             },
             {
               "$type": "Document",
@@ -58,7 +82,12 @@
               "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\Auth\\RegisterRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAcwBYAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< HEAD
               "WhenOpened": "2025-05-31T08:32:34.623Z"
+=======
+              "WhenOpened": "2025-05-31T08:32:34.623Z",
+              "EditorCaption": ""
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
             },
             {
               "$type": "Document",
@@ -68,7 +97,11 @@
               "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
               "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
               "RelativeToolTip": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+<<<<<<< HEAD
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAACUBAAAAAAAAAAAqwD0BAAAwAAAAAAAAAA==",
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-31T08:43:53.065Z",
               "EditorCaption": ""
@@ -95,7 +128,12 @@
               "RelativeToolTip": "SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAAAABUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< HEAD
               "WhenOpened": "2025-05-31T08:43:15.237Z"
+=======
+              "WhenOpened": "2025-05-31T08:43:15.237Z",
+              "EditorCaption": ""
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
             }
           ]
         },
@@ -139,6 +177,11 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-31T09:15:01.887Z"
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
             }
           ]
         }

@@ -288,6 +288,7 @@ E:\SWP391\Summer25SWP391_SE1832_Group432 - Old version\SchoolMedical\obj\Debug\n
 E:\SWP391\Summer25SWP391_SE1832_Group432 - Old version\SchoolMedical\obj\Debug\net8.0\SchoolMedical.pdb
 E:\SWP391\Summer25SWP391_SE1832_Group432 - Old version\SchoolMedical\obj\Debug\net8.0\SchoolMedical.genruntimeconfig.cache
 E:\SWP391\Summer25SWP391_SE1832_Group432 - Old version\SchoolMedical\obj\Debug\net8.0\ref\SchoolMedical.dll
+<<<<<<< HEAD
 E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\bin\Debug\net8.0\appsettings.Development.json
 E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\bin\Debug\net8.0\appsettings.json
 E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\bin\Debug\net8.0\SchoolMedical.staticwebassets.endpoints.json
@@ -433,3 +434,5 @@ E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summe
 E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\obj\Debug\net8.0\SchoolMedical.pdb
 E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\obj\Debug\net8.0\SchoolMedical.genruntimeconfig.cache
 E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\obj\Debug\net8.0\ref\SchoolMedical.dll
+=======
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
