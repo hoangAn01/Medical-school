@@ -1,0 +1,558 @@
+USE [master]
+GO
+/****** Object:  Database [MyWebAppDB]    Script Date: 5/31/2025 6:12:09 PM ******/
+CREATE DATABASE [MyWebAppDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'MyWebAppDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\MyWebAppDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'MyWebAppDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\MyWebAppDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [MyWebAppDB] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [MyWebAppDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [MyWebAppDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [MyWebAppDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [MyWebAppDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [MyWebAppDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [MyWebAppDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET RECOVERY FULL 
+GO
+ALTER DATABASE [MyWebAppDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [MyWebAppDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [MyWebAppDB] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [MyWebAppDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [MyWebAppDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [MyWebAppDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [MyWebAppDB] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'MyWebAppDB', N'ON'
+GO
+ALTER DATABASE [MyWebAppDB] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [MyWebAppDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [MyWebAppDB]
+GO
+/****** Object:  Table [dbo].[Account]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Account](
+	[Username] [nvarchar](100) NOT NULL,
+	[PasswordHash] [nvarchar](255) NOT NULL,
+	[Role] [nvarchar](50) NOT NULL,
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Allergen]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Allergen](
+	[AllergenID] [int] NOT NULL,
+	[AllergenName] [nvarchar](100) NOT NULL,
+	[Description] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AllergenID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Class]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Class](
+	[ClassID] [int] NOT NULL,
+	[ClassName] [nvarchar](50) NOT NULL,
+	[SchoolYear] [nvarchar](20) NULL,
+	[TeacherName] [nvarchar](100) NULL,
+	[Description] [nvarchar](255) NULL,
+	[TeacherID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ClassID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[HealthProfile]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HealthProfile](
+	[ProfileID] [int] NOT NULL,
+	[StudentID] [int] NULL,
+	[ChronicDisease] [nvarchar](255) NULL,
+	[VisionTest] [nvarchar](255) NULL,
+	[Allergy] [nvarchar](255) NULL,
+	[Weight] [decimal](5, 2) NULL,
+	[Height] [decimal](5, 2) NULL,
+	[LastCheckupDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProfileID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[HealthReport]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[HealthReport](
+	[ReportID] [int] NOT NULL,
+	[Date] [date] NULL,
+	[Description] [text] NULL,
+	[StudentID] [int] NULL,
+	[NurseID] [int] NULL,
+	[CheckupType] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ReportID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ManagerAdmin]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ManagerAdmin](
+	[ManagerID] [int] NOT NULL,
+	[FullName] [nvarchar](100) NULL,
+	[Gender] [char](1) NULL,
+	[DateOfBirth] [date] NULL,
+	[Address] [nvarchar](255) NULL,
+	[UserID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ManagerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MedicalEvent]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MedicalEvent](
+	[EventID] [int] NOT NULL,
+	[StudentID] [int] NULL,
+	[EventType] [nvarchar](100) NULL,
+	[Description] [text] NULL,
+	[Date] [date] NULL,
+	[NurseID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EventID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MedicalInventory]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MedicalInventory](
+	[ItemID] [int] NOT NULL,
+	[ItemName] [nvarchar](100) NULL,
+	[Category] [nvarchar](100) NULL,
+	[Quantity] [int] NULL,
+	[Unit] [nvarchar](50) NULL,
+	[Description] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MedicalUsage]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MedicalUsage](
+	[UsageID] [int] NOT NULL,
+	[ItemID] [int] NULL,
+	[StudentID] [int] NULL,
+	[NurseID] [int] NULL,
+	[UsageDate] [date] NULL,
+	[QuantityUsed] [int] NULL,
+	[Purpose] [nvarchar](255) NULL,
+	[RequestID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UsageID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MedicineRequest]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MedicineRequest](
+	[RequestID] [int] NOT NULL,
+	[Date] [date] NULL,
+	[MedicineName] [nvarchar](100) NULL,
+	[RequestStatus] [nvarchar](50) NULL,
+	[StudentID] [int] NULL,
+	[ParentID] [int] NULL,
+	[AllergenCheck] [nvarchar](255) NULL,
+	[ApprovedBy] [int] NULL,
+	[ApprovalDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[RequestID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Notification]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Notification](
+	[NotificationID] [int] NOT NULL,
+	[ParentID] [int] NULL,
+	[Title] [nvarchar](100) NULL,
+	[Content] [text] NULL,
+	[SentDate] [date] NULL,
+	[Status] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[NotificationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Nurse]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Nurse](
+	[NurseID] [int] NOT NULL,
+	[FullName] [nvarchar](100) NULL,
+	[Gender] [char](1) NULL,
+	[DateOfBirth] [date] NULL,
+	[Phone] [nvarchar](20) NULL,
+	[UserID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[NurseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Parent]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Parent](
+	[ParentID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NULL,
+	[FullName] [nvarchar](100) NULL,
+	[Gender] [char](1) NULL,
+	[DateOfBirth] [date] NULL,
+	[Address] [nvarchar](255) NULL,
+	[Phone] [nvarchar](20) NULL,
+ CONSTRAINT [PK_Parent_Temp] PRIMARY KEY CLUSTERED 
+(
+	[ParentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Parent_New]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Parent_New](
+	[ParentID] [int] IDENTITY(1,1) NOT NULL,
+	[UserID] [int] NULL,
+	[FullName] [nvarchar](255) NULL,
+	[Gender] [nvarchar](50) NULL,
+	[DateOfBirth] [date] NULL,
+	[Address] [nvarchar](255) NULL,
+	[Phone] [nvarchar](50) NULL,
+	[NewParentID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ParentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SchoolCheckup]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SchoolCheckup](
+	[CheckupID] [int] NOT NULL,
+	[StudentID] [int] NULL,
+	[Date] [date] NULL,
+	[Result] [text] NULL,
+	[Weight] [decimal](5, 2) NULL,
+	[Height] [decimal](5, 2) NULL,
+	[BloodPressure] [nvarchar](20) NULL,
+	[VisionLeft] [nvarchar](20) NULL,
+	[VisionRight] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CheckupID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Student]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Student](
+	[StudentID] [int] NOT NULL,
+	[FullName] [nvarchar](100) NULL,
+	[Gender] [char](1) NULL,
+	[DateOfBirth] [date] NULL,
+	[ParentID] [int] NULL,
+	[UserID] [int] NULL,
+	[ClassID] [int] NULL,
+	[NewParentID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[StudentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[StudentAllergy]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StudentAllergy](
+	[StudentID] [int] NOT NULL,
+	[AllergenID] [int] NOT NULL,
+	[Reaction] [text] NULL,
+	[Severity] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[StudentID] ASC,
+	[AllergenID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Teacher]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Teacher](
+	[TeacherID] [int] NOT NULL,
+	[FullName] [nvarchar](100) NULL,
+	[Phone] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TeacherID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[VaccinationEvent]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[VaccinationEvent](
+	[EventID] [int] NOT NULL,
+	[EventName] [nvarchar](100) NULL,
+	[Date] [date] NULL,
+	[Location] [nvarchar](100) NULL,
+	[ManagerID] [int] NULL,
+	[ClassID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EventID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[VaccineRecord]    Script Date: 5/31/2025 6:12:10 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[VaccineRecord](
+	[VaccineRecordID] [int] NOT NULL,
+	[StudentID] [int] NULL,
+	[VaccinationEventID] [int] NULL,
+	[NurseID] [int] NULL,
+	[VaccineName] [nvarchar](100) NULL,
+	[InjectionDate] [date] NULL,
+	[Reaction] [nvarchar](255) NULL,
+	[FollowUpStatus] [nvarchar](100) NULL,
+	[InjectionSite] [nvarchar](100) NULL,
+	[NextDoseDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[VaccineRecordID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Class]  WITH CHECK ADD FOREIGN KEY([TeacherID])
+REFERENCES [dbo].[Teacher] ([TeacherID])
+GO
+ALTER TABLE [dbo].[HealthProfile]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[HealthReport]  WITH CHECK ADD FOREIGN KEY([NurseID])
+REFERENCES [dbo].[Nurse] ([NurseID])
+GO
+ALTER TABLE [dbo].[HealthReport]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[ManagerAdmin]  WITH CHECK ADD  CONSTRAINT [FK_ManagerAdmin_UserID] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Account] ([UserID])
+GO
+ALTER TABLE [dbo].[ManagerAdmin] CHECK CONSTRAINT [FK_ManagerAdmin_UserID]
+GO
+ALTER TABLE [dbo].[MedicalEvent]  WITH CHECK ADD FOREIGN KEY([NurseID])
+REFERENCES [dbo].[Nurse] ([NurseID])
+GO
+ALTER TABLE [dbo].[MedicalEvent]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[MedicalUsage]  WITH CHECK ADD FOREIGN KEY([ItemID])
+REFERENCES [dbo].[MedicalInventory] ([ItemID])
+GO
+ALTER TABLE [dbo].[MedicalUsage]  WITH CHECK ADD FOREIGN KEY([NurseID])
+REFERENCES [dbo].[Nurse] ([NurseID])
+GO
+ALTER TABLE [dbo].[MedicalUsage]  WITH CHECK ADD FOREIGN KEY([RequestID])
+REFERENCES [dbo].[MedicineRequest] ([RequestID])
+GO
+ALTER TABLE [dbo].[MedicalUsage]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[MedicineRequest]  WITH CHECK ADD FOREIGN KEY([ApprovedBy])
+REFERENCES [dbo].[Nurse] ([NurseID])
+GO
+ALTER TABLE [dbo].[MedicineRequest]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[MedicineRequest]  WITH CHECK ADD  CONSTRAINT [FK_MedicineRequest_Parent] FOREIGN KEY([ParentID])
+REFERENCES [dbo].[Parent] ([ParentID])
+GO
+ALTER TABLE [dbo].[MedicineRequest] CHECK CONSTRAINT [FK_MedicineRequest_Parent]
+GO
+ALTER TABLE [dbo].[Notification]  WITH CHECK ADD  CONSTRAINT [FK_Notification_Parent] FOREIGN KEY([ParentID])
+REFERENCES [dbo].[Parent] ([ParentID])
+GO
+ALTER TABLE [dbo].[Notification] CHECK CONSTRAINT [FK_Notification_Parent]
+GO
+ALTER TABLE [dbo].[Nurse]  WITH CHECK ADD  CONSTRAINT [FK_Nurse_UserID] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Account] ([UserID])
+GO
+ALTER TABLE [dbo].[Nurse] CHECK CONSTRAINT [FK_Nurse_UserID]
+GO
+ALTER TABLE [dbo].[Parent]  WITH CHECK ADD  CONSTRAINT [FK_Parent_Account] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Account] ([UserID])
+GO
+ALTER TABLE [dbo].[Parent] CHECK CONSTRAINT [FK_Parent_Account]
+GO
+ALTER TABLE [dbo].[SchoolCheckup]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[Student]  WITH CHECK ADD FOREIGN KEY([ClassID])
+REFERENCES [dbo].[Class] ([ClassID])
+GO
+ALTER TABLE [dbo].[Student]  WITH CHECK ADD  CONSTRAINT [FK_Student_Parent] FOREIGN KEY([ParentID])
+REFERENCES [dbo].[Parent] ([ParentID])
+GO
+ALTER TABLE [dbo].[Student] CHECK CONSTRAINT [FK_Student_Parent]
+GO
+ALTER TABLE [dbo].[Student]  WITH CHECK ADD  CONSTRAINT [FK_Student_UserID] FOREIGN KEY([UserID])
+REFERENCES [dbo].[Account] ([UserID])
+GO
+ALTER TABLE [dbo].[Student] CHECK CONSTRAINT [FK_Student_UserID]
+GO
+ALTER TABLE [dbo].[StudentAllergy]  WITH CHECK ADD FOREIGN KEY([AllergenID])
+REFERENCES [dbo].[Allergen] ([AllergenID])
+GO
+ALTER TABLE [dbo].[StudentAllergy]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[VaccinationEvent]  WITH CHECK ADD FOREIGN KEY([ClassID])
+REFERENCES [dbo].[Class] ([ClassID])
+GO
+ALTER TABLE [dbo].[VaccinationEvent]  WITH CHECK ADD FOREIGN KEY([ManagerID])
+REFERENCES [dbo].[ManagerAdmin] ([ManagerID])
+GO
+ALTER TABLE [dbo].[VaccineRecord]  WITH CHECK ADD FOREIGN KEY([NurseID])
+REFERENCES [dbo].[Nurse] ([NurseID])
+GO
+ALTER TABLE [dbo].[VaccineRecord]  WITH CHECK ADD FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([StudentID])
+GO
+ALTER TABLE [dbo].[VaccineRecord]  WITH CHECK ADD FOREIGN KEY([VaccinationEventID])
+REFERENCES [dbo].[VaccinationEvent] ([EventID])
+GO
+USE [master]
+GO
+ALTER DATABASE [MyWebAppDB] SET  READ_WRITE 
+GO
