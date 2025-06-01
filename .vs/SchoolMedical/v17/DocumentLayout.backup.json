@@ -1,0 +1,191 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\core\\dtos\\auth\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\auth\\registerrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\core\\entities\\baseentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\entities\\baseentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\core\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\core\\dtos\\auth\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\auth\\loginrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432 - old version\\schoolmedical\\core\\dtos\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+<<<<<<< HEAD
+=======
+=======
+  "Documents": [],
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+<<<<<<< HEAD
+          "DockedWidth": 389,
+          "SelectedChildIndex": 3,
+=======
+<<<<<<< HEAD
+          "DockedWidth": 389,
+          "SelectedChildIndex": 3,
+=======
+          "DockedWidth": 244,
+          "SelectedChildIndex": -1,
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterRequest.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\RegisterRequest.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\Auth\\RegisterRequest.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\RegisterRequest.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\Auth\\RegisterRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAcwBYAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< HEAD
+              "WhenOpened": "2025-05-31T08:32:34.623Z"
+=======
+              "WhenOpened": "2025-05-31T08:32:34.623Z",
+              "EditorCaption": ""
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "RelativeToolTip": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+<<<<<<< HEAD
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAACUBAAAAAAAAAAAqwD0BAAAwAAAAAAAAAA==",
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T08:43:53.065Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Account.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\Entities\\Account.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\Entities\\Account.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\Entities\\Account.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\Entities\\Account.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T08:54:33.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAABUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< HEAD
+              "WhenOpened": "2025-05-31T08:43:15.237Z"
+=======
+              "WhenOpened": "2025-05-31T08:43:15.237Z",
+              "EditorCaption": ""
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+            }
+          ]
+        },
+        {
+          "DockedWidth": 99,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BaseEntities.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\Entities\\BaseEntities.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\Entities\\BaseEntities.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\Entities\\BaseEntities.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\Entities\\BaseEntities.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAD0AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T08:49:14.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginRequest.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\LoginRequest.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\Auth\\LoginRequest.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\LoginRequest.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\Auth\\LoginRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T09:15:05.24Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LoginResponse.cs",
+              "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\LoginResponse.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\Auth\\LoginResponse.cs",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432 - Old version\\SchoolMedical\\Core\\DTOs\\Auth\\LoginResponse.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\Auth\\LoginResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T09:15:01.887Z"
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
+>>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
