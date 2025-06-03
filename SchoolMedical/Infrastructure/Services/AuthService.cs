@@ -91,7 +91,16 @@ namespace SchoolMedical.Infrastructure.Services
             var secretKey = jwtSettings["SecretKey"];
             var issuer = jwtSettings["Issuer"];
             var audience = jwtSettings["Audience"];
-            var expiryMinutes = int.Parse(jwtSettings["ExpiryMinutes"]);
+            var expiryMinutesValue = jwtSettings["ExpiryMinutes"];
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+                throw new InvalidOperationException("JWT SecretKey is not configured.");
+            if (string.IsNullOrWhiteSpace(issuer))
+                throw new InvalidOperationException("JWT Issuer is not configured.");
+            if (string.IsNullOrWhiteSpace(audience))
+                throw new InvalidOperationException("JWT Audience is not configured.");
+            if (string.IsNullOrWhiteSpace(expiryMinutesValue) || !int.TryParse(expiryMinutesValue, out var expiryMinutes))
+                throw new InvalidOperationException("JWT ExpiryMinutes is not configured or invalid.");
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -118,32 +127,38 @@ namespace SchoolMedical.Infrastructure.Services
 
         public async Task<bool> ValidateTokenAsync(string token)
         {
-            try
+            return await Task.Run(() =>
             {
-                var jwtSettings = _configuration.GetSection("JwtSettings");
-                var secretKey = jwtSettings["SecretKey"];
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.UTF8.GetBytes(secretKey);
-
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                try
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtSettings["Issuer"],
-                    ValidateAudience = true,
-                    ValidAudience = jwtSettings["Audience"],
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
+                    var jwtSettings = _configuration.GetSection("JwtSettings");
+                    var secretKey = jwtSettings["SecretKey"];
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                    if (string.IsNullOrWhiteSpace(secretKey))
+                        return false;
+
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.UTF8.GetBytes(secretKey);
+
+                    tokenHandler.ValidateToken(token, new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = jwtSettings["Audience"],
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    }, out SecurityToken validatedToken);
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
         }
 
         private bool VerifyPassword(string password, string hashedPassword)
@@ -262,10 +277,6 @@ namespace SchoolMedical.Infrastructure.Services
             }
         }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
         public async Task<LoginResponse> RegisterAsync(RegisterRequest request)
         {
             // Check if username already exists
@@ -322,52 +333,5 @@ namespace SchoolMedical.Infrastructure.Services
                 }
             };
         }
-    }
-<<<<<<< HEAD
-=======
-=======
-		public async Task<LoginResponse> RegisterAsync(RegisterRequest request)
-		{
-			// Check if username already exists
-			if (await _context.Accounts.AnyAsync(a => a.Username == request.Username))
-			{
-				return new LoginResponse
-				{
-					Success = false,
-					Message = "Username already exists"
-				};
-			}
-
-			// Hash the password (implement your own hashing if needed)
-			var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
-
-			var account = new Account
-			{
-				Username = request.Username,
-				PasswordHash = hashedPassword,
-				Role = request.Role
-			};
-
-			_context.Accounts.Add(account);
-			await _context.SaveChangesAsync();
-
-			// Optionally, auto-login after registration
-			var token = GenerateJwtToken(account.UserID, account.Username, account.Role);
-
-			return new LoginResponse
-			{
-				Success = true,
-				Message = "Registration successful",
-				Token = token,
-				User = new UserInfo
-				{
-					UserID = account.UserID,
-					Username = account.Username,
-					Role = account.Role
-				}
-			};
-		}
 	}
->>>>>>> e4b0a303f915aed42098f95d1cde43130b261ee7
->>>>>>> 93fa48345c0a3c8f3500ad436c26a0c65bdded0f
 }
