@@ -81,13 +81,22 @@ namespace SchoolMedical.Core.Entities
 		// Navigation properties
 		public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 	}
+
 	[Table("HealthProfile")]
-	public class HealthProfile // làm lại
+	public class HealthProfile
 	{
 		[Key]
-		public int ClassID { get; set; }
+		public int ProfileID { get; set; }
 
-		// Navigation properties
-		public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+		public int? StudentID { get; set; }
+		public string? ChronicDisease { get; set; }
+		public string? VisionTest { get; set; }
+		public string? Allergy { get; set; }
+		public decimal? Weight { get; set; }
+		public decimal? Height { get; set; }
+		public DateTime? LastCheckupDate { get; set; }
+
+		// Navigation property
+		public virtual Student? Student { get; set; }
 	}
 }
