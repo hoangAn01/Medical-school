@@ -10,6 +10,8 @@ namespace SchoolMedical.Core.DTOs.Auth
 
 		[Required]
 		[StringLength(255, MinimumLength = 6)]
+		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?"":{}|<>]).*$",
+		ErrorMessage = "Password must contain at least one lowercase letter, one uppercase letter, and one special character")]
 		public string Password { get; set; } = string.Empty;
 
 		[Required]
@@ -18,14 +20,14 @@ namespace SchoolMedical.Core.DTOs.Auth
 		
 		[Required]
 		public char? Gender { get; set; }
-
+		    
 		[Required]
 		public DateTime? DateOfBirth { get; set; }
 
 		[StringLength(255)]
 		public string? Address { get; set; }
 		
-		[StringLength(20)]
+		[StringLength(10)]
 		public string? Phone { get; set; }
 	}
 }

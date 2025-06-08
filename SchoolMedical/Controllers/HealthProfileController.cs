@@ -67,6 +67,33 @@ namespace SchoolMedical.API.Controllers
             return dto;
         }
 
+        // GET: api/HealthProfile/searchByName
+        [HttpGet("searchByName")]
+        public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> SearchByStudentName([FromQuery] string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return BadRequest("Search name cannot be empty");
+
+            var profiles = await _context.HealthProfiles
+                .Include(h => h.Student)
+                .Where(h => h.Student.FullName.Contains(name))
+                .Select(h => new HealthProfileDTO
+                {
+                    ProfileID = h.ProfileID,
+                    StudentID = h.StudentID,
+                    ChronicDisease = h.ChronicDisease,
+                    VisionTest = h.VisionTest,
+                    Allergy = h.Allergy,
+                    Weight = h.Weight,
+                    Height = h.Height,
+                    LastCheckupDate = h.LastCheckupDate,
+                    StudentFullName = h.Student != null ? h.Student.FullName : null
+                })
+                .ToListAsync();
+
+            return profiles;
+        }
+
         // POST: api/HealthProfile
         [HttpPost]
         public async Task<ActionResult<HealthProfileDTO>> CreateHealthProfile(HealthProfileRequest request)

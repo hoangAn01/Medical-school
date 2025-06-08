@@ -568,6 +568,53 @@
         }
       }
     },
+    "/api/HealthProfile/searchByName": {
+      "get": {
+        "tags": [
+          "HealthProfile"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HealthProfileDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HealthProfileDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HealthProfileDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SimpleTest/ping": {
       "get": {
         "tags": [
@@ -816,6 +863,7 @@
           "password": {
             "maxLength": 255,
             "minLength": 6,
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>]).*$",
             "type": "string"
           },
           "fullName": {
@@ -837,7 +885,7 @@
             "nullable": true
           },
           "phone": {
-            "maxLength": 20,
+            "maxLength": 10,
             "minLength": 0,
             "type": "string",
             "nullable": true
