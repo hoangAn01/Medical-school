@@ -81,13 +81,29 @@ namespace SchoolMedical.Core.Entities
 		// Navigation properties
 		public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 	}
+
 	[Table("HealthProfile")]
-	public class HealthProfile // làm lại
+	public class HealthProfile
 	{
 		[Key]
-		public int ClassID { get; set; }
+		public int ProfileID { get; set; }
 
-		// Navigation properties
-		public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+		public int? StudentID { get; set; }
+		public string? ChronicDisease { get; set; }
+		public string? VisionTest { get; set; }
+		public string? Allergy { get; set; }
+
+		[Range(0, 500, ErrorMessage = "Weight must be between 0 and 500 kg")]
+		[Column(TypeName = "decimal(5,2)")]
+		public decimal? Weight { get; set; }
+
+		[Range(0, 300, ErrorMessage = "Height must be between 0 and 300 cm")]
+		[Column(TypeName = "decimal(5,2)")] // -999.99 -> 999.99x`
+		public decimal? Height { get; set; }
+
+		public DateTime? LastCheckupDate { get; set; }
+
+		// Navigation property
+		public virtual Student? Student { get; set; }
 	}
 }

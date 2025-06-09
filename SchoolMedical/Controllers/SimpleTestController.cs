@@ -26,8 +26,7 @@ namespace SchoolMedical.API.Controllers
 		[HttpGet("db-simple")]
 		public async Task<ActionResult> TestDatabaseSimple()
 		{
-			try
-			{
+			try{
 				var canConnect = await _context.Database.CanConnectAsync();
 				return Ok(new { canConnect, message = canConnect ? "DB Connected" : "DB Not Connected" });
 			}

@@ -13,6 +13,7 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<Nurse> Nurses { get; set; }
 		public DbSet<ManagerAdmin> ManagerAdmins { get; set; }
 		public DbSet<Class> Classes { get; set; }
+		public DbSet<HealthProfile> HealthProfiles { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -110,6 +111,23 @@ namespace SchoolMedical.Infrastructure.Data
 				entity.Property(e => e.SchoolYear).HasMaxLength(20);
 				entity.Property(e => e.TeacherName).HasMaxLength(100);
 				entity.Property(e => e.Description).HasMaxLength(255);
+			});
+
+			// Configure HealthProfile entity
+			modelBuilder.Entity<HealthProfile>(entity =>
+			{
+				entity.HasKey(e => e.ProfileID);
+				entity.Property(e => e.ChronicDisease).HasMaxLength(255);
+				entity.Property(e => e.VisionTest).HasMaxLength(255);
+				entity.Property(e => e.Allergy).HasMaxLength(255);
+				entity.Property(e => e.Weight).HasColumnType("decimal(5,2)");
+				entity.Property(e => e.Height).HasColumnType("decimal(5,2)");
+				entity.Property(e => e.LastCheckupDate).HasColumnType("date");
+
+				entity.HasOne(e => e.Student)
+					.WithMany()
+					.HasForeignKey(e => e.StudentID)
+					.OnDelete(DeleteBehavior.SetNull);
 			});
 		}
 	}
