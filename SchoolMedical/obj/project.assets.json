@@ -4212,11 +4212,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Summer25SWP391_SE1832_Group432_BE\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\SchoolMedical.csproj",
+      "projectUniqueName": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\SchoolMedical.csproj",
       "projectName": "SchoolMedical",
-      "projectPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Summer25SWP391_SE1832_Group432_BE\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\SchoolMedical.csproj",
+      "projectPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\SchoolMedical.csproj",
       "packagesPath": "C:\\Users\\thaim\\.nuget\\packages\\",
-      "outputPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Summer25SWP391_SE1832_Group432_BE\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\obj\\",
+      "outputPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
