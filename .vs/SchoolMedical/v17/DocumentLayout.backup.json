@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432\\backend\\schoolmedical\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432\\backend\\schoolmedical\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432\\backend\\schoolmedical\\controllers\\simpletestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\simpletestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432\\backend\\schoolmedical\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|e:\\swp391\\summer25swp391_se1832_group432\\backend\\schoolmedical\\controllers\\parentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -93,7 +93,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 292,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -108,14 +108,18 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "StudentController.cs",
               "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Controllers\\StudentController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\StudentController.cs",
               "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Controllers\\StudentController.cs",
               "RelativeToolTip": "SchoolMedical\\Controllers\\StudentController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T17:04:08.304Z",
               "EditorCaption": ""
@@ -126,8 +130,8 @@
               "Title": "StudentDTO.cs",
               "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Core\\DTOs\\StudentDTO.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\StudentDTO.cs",
-              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Core\\DTOs\\StudentDTO.cs*",
-              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\StudentDTO.cs*",
+              "ToolTip": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Core\\DTOs\\StudentDTO.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\StudentDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T17:03:34.048Z",
@@ -174,7 +178,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SimpleTestController.cs",
               "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Controllers\\SimpleTestController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\SimpleTestController.cs",
@@ -187,7 +191,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AuthController.cs",
               "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\AuthController.cs",
@@ -213,7 +217,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "HealthProfileController.cs",
               "DocumentMoniker": "E:\\SWP391\\Summer25SWP391_SE1832_Group432\\Backend\\SchoolMedical\\Controllers\\HealthProfileController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\HealthProfileController.cs",
@@ -223,10 +227,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-06T05:49:10.735Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
             },
             {
               "$type": "Document",
