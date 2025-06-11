@@ -6,166 +6,193 @@ using SchoolMedical.Core.DTOs.HealthProfile;
 
 namespace SchoolMedical.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class HealthProfileController : ControllerBase
-    {
-        private readonly ApplicationDbContext _context;
+	[ApiController]
+	[Route("api/[controller]")]
+	public class HealthProfileController : ControllerBase
+	{
+		private readonly ApplicationDbContext _context;
 
-        public HealthProfileController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+		public HealthProfileController(ApplicationDbContext context)
+		{
+			_context = context;
+		}
 
-        // GET: api/HealthProfile
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> GetHealthProfiles()
-        {
-            var profiles = await _context.HealthProfiles
-                .Include(h => h.Student)
-                .Select(h => new HealthProfileDTO
+		// GET: api/HealthProfile
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> GetHealthProfiles()
+		{
+			var profiles = await _context.HealthProfiles
+				.Include(h => h.Student)
+				.Select(h => new HealthProfileDTO
 				{
-                    ProfileID = h.ProfileID,
-                    StudentID = h.StudentID,
-                    ChronicDisease = h.ChronicDisease,
-                    VisionTest = h.VisionTest,
-                    Allergy = h.Allergy,
-                    Weight = h.Weight,
-                    Height = h.Height,
-                    LastCheckupDate = h.LastCheckupDate,
-                    StudentFullName = h.Student != null ? h.Student.FullName : null
-                })
-                .ToListAsync();
+					ProfileID = h.ProfileID,
+					StudentID = h.StudentID,
+					ChronicDisease = h.ChronicDisease,
+					VisionTest = h.VisionTest,
+					Allergy = h.Allergy,
+					Weight = h.Weight,
+					Height = h.Height,
+					LastCheckupDate = h.LastCheckupDate,
+					StudentFullName = h.Student != null ? h.Student.FullName : null
+				})
+				.ToListAsync();
 
-            return profiles;
-        }
+			return profiles;
+		}
 
-        // GET: api/HealthProfile/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HealthProfileDTO>> GetHealthProfile(int id)
-        {
-            var h = await _context.HealthProfiles
-                .Include(hp => hp.Student)
-                .FirstOrDefaultAsync(hp => hp.ProfileID == id);
+		// GET: api/HealthProfile/5
+		[HttpGet("{id}")]
+		public async Task<ActionResult<HealthProfileDTO>> GetHealthProfile(int id)
+		{
+			var h = await _context.HealthProfiles
+				.Include(hp => hp.Student)
+				.FirstOrDefaultAsync(hp => hp.ProfileID == id);
 
-            if (h == null)
-                return NotFound();
+			if (h == null) return NotFound();
 
-            var dto = new HealthProfileDTO
-            {
-                ProfileID = h.ProfileID,
-                StudentID = h.StudentID,
-                ChronicDisease = h.ChronicDisease,
-                VisionTest = h.VisionTest,
-                Allergy = h.Allergy,
-                Weight = h.Weight,
-                Height = h.Height,
-                LastCheckupDate = h.LastCheckupDate,
-                StudentFullName = h.Student != null ? h.Student.FullName : null
-            };
+			var dto = new HealthProfileDTO
+			{
+				ProfileID = h.ProfileID,
+				StudentID = h.StudentID,
+				ChronicDisease = h.ChronicDisease,
+				VisionTest = h.VisionTest,
+				Allergy = h.Allergy,
+				Weight = h.Weight,
+				Height = h.Height,
+				LastCheckupDate = h.LastCheckupDate,
+				StudentFullName = h.Student != null ? h.Student.FullName : null
+			};
+			return dto;
+		}
 
-            return dto;
-        }
+		// GET: api/HealthProfile/searchByName
+		[HttpGet("searchByName")]
+		public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> SearchByStudentName([FromQuery] string name)
+		{
+			if (string.IsNullOrWhiteSpace(name))
+				return BadRequest("Search name cannot be empty");
 
-        // GET: api/HealthProfile/searchByName
-        [HttpGet("searchByName")]
-        public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> SearchByStudentName([FromQuery] string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return BadRequest("Search name cannot be empty");
+			var profiles = await _context.HealthProfiles
+				.Include(h => h.Student)
+				.Where(h => h.Student.FullName.Contains(name))
+				.Select(h => new HealthProfileDTO
+				{
+					ProfileID = h.ProfileID,
+					StudentID = h.StudentID,
+					ChronicDisease = h.ChronicDisease,
+					VisionTest = h.VisionTest,
+					Allergy = h.Allergy,
+					Weight = h.Weight,
+					Height = h.Height,
+					LastCheckupDate = h.LastCheckupDate,
+					StudentFullName = h.Student != null ? h.Student.FullName : null
+				})
+				.ToListAsync();
 
-            var profiles = await _context.HealthProfiles
-                .Include(h => h.Student)
-                .Where(h => h.Student.FullName.Contains(name))
-                .Select(h => new HealthProfileDTO
-                {
-                    ProfileID = h.ProfileID,
-                    StudentID = h.StudentID,
-                    ChronicDisease = h.ChronicDisease,
-                    VisionTest = h.VisionTest,
-                    Allergy = h.Allergy,
-                    Weight = h.Weight,
-                    Height = h.Height,
-                    LastCheckupDate = h.LastCheckupDate,
-                    StudentFullName = h.Student != null ? h.Student.FullName : null
-                })
-                .ToListAsync();
+			return profiles;
+		}
 
-            return profiles;
-        }
+		 // GET: api/HealthProfile/student/{studentId}
+		[HttpGet("student/{studentId}")]
+		public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> GetHealthProfilesByStudentId(int studentId)
+		{
+			// Verify student exists
+			var student = await _context.Students.FindAsync(studentId);
+			if (student == null)
+				return NotFound($"Student with ID {studentId} not found");
 
-        // POST: api/HealthProfile
-        [HttpPost]
-        public async Task<ActionResult<HealthProfileDTO>> CreateHealthProfile(HealthProfileRequest request)
-        {
-            var healthProfile = new HealthProfile
-            {
-                StudentID = request.StudentID,
-                ChronicDisease = request.ChronicDisease,
-                VisionTest = request.VisionTest,
-                Allergy = request.Allergy,
-                Weight = request.Weight,
-                Height = request.Height,
-                LastCheckupDate = request.LastCheckupDate
-            };
+			var profiles = await _context.HealthProfiles
+				.Include(h => h.Student)
+				.Where(h => h.StudentID == studentId)
+				.Select(h => new HealthProfileDTO
+				{
+					ProfileID = h.ProfileID,
+					StudentID = h.StudentID,
+					ChronicDisease = h.ChronicDisease,
+					VisionTest = h.VisionTest,
+					Allergy = h.Allergy,
+					Weight = h.Weight,
+					Height = h.Height,
+					LastCheckupDate = h.LastCheckupDate,
+					StudentFullName = h.Student != null ? h.Student.FullName : null
+				})
+				.ToListAsync();
 
-            _context.HealthProfiles.Add(healthProfile);
-            await _context.SaveChangesAsync();
+			return profiles;
+		}
 
-            // Optionally fetch student for response
-            var student = await _context.Students.FindAsync(healthProfile.StudentID);
+		// POST: api/HealthProfile
+		[HttpPost]
+		public async Task<ActionResult<HealthProfileDTO>> CreateHealthProfile(HealthProfileRequest request)
+		{
+			var healthProfile = new HealthProfile
+			{
+				StudentID = request.StudentID,
+				ChronicDisease = request.ChronicDisease,
+				VisionTest = request.VisionTest,
+				Allergy = request.Allergy,
+				Weight = request.Weight,
+				Height = request.Height,
+				LastCheckupDate = request.LastCheckupDate
+			};
 
-            var dto = new HealthProfileDTO
-            {
-                ProfileID = healthProfile.ProfileID,
-                StudentID = healthProfile.StudentID,
-                ChronicDisease = healthProfile.ChronicDisease,
-                VisionTest = healthProfile.VisionTest,
-                Allergy = healthProfile.Allergy,
-                Weight = healthProfile.Weight,
-                Height = healthProfile.Height,
-                LastCheckupDate = healthProfile.LastCheckupDate,
-                StudentFullName = student?.FullName
-            };
+			_context.HealthProfiles.Add(healthProfile);
+			await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetHealthProfile), new { id = dto.ProfileID }, dto);
-        }
+			// Optionally fetch student for response
+			var student = await _context.Students.FindAsync(healthProfile.StudentID);
 
-        // PUT: api/HealthProfile/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateHealthProfile(int id, HealthProfileRequest request)
-        {
-            if (request.ProfileID == null || id != request.ProfileID)
-                return BadRequest();
+			var dto = new HealthProfileDTO
+			{
+				ProfileID = healthProfile.ProfileID,
+				StudentID = healthProfile.StudentID,
+				ChronicDisease = healthProfile.ChronicDisease,
+				VisionTest = healthProfile.VisionTest,
+				Allergy = healthProfile.Allergy,
+				Weight = healthProfile.Weight,
+				Height = healthProfile.Height,
+				LastCheckupDate = healthProfile.LastCheckupDate,
+				StudentFullName = student?.FullName
+			};
 
-            var healthProfile = await _context.HealthProfiles.FindAsync(id);
-            if (healthProfile == null)
-                return NotFound();
+			return CreatedAtAction(nameof(GetHealthProfile), new { id = dto.ProfileID }, dto);
+		}
 
-            healthProfile.StudentID = request.StudentID;
-            healthProfile.ChronicDisease = request.ChronicDisease;
-            healthProfile.VisionTest = request.VisionTest;
-            healthProfile.Allergy = request.Allergy;
-            healthProfile.Weight = request.Weight;
-            healthProfile.Height = request.Height;
-            healthProfile.LastCheckupDate = request.LastCheckupDate;
+		// PUT: api/HealthProfile/5
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateHealthProfile(int id, HealthProfileRequest request)
+		{
+			if (request.ProfileID == null || id != request.ProfileID)
+				return BadRequest();
 
-            await _context.SaveChangesAsync();
+			var healthProfile = await _context.HealthProfiles.FindAsync(id);
+			if (healthProfile == null)
+				return NotFound();
 
-            return NoContent();
-        }
+			healthProfile.StudentID = request.StudentID;
+			healthProfile.ChronicDisease = request.ChronicDisease;
+			healthProfile.VisionTest = request.VisionTest;
+			healthProfile.Allergy = request.Allergy;
+			healthProfile.Weight = request.Weight;
+			healthProfile.Height = request.Height;
+			healthProfile.LastCheckupDate = request.LastCheckupDate;
 
-        // DELETE: api/HealthProfile/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHealthProfile(int id)
-        {
-            var healthProfile = await _context.HealthProfiles.FindAsync(id);
-            if (healthProfile == null) return NotFound();
+			await _context.SaveChangesAsync();
 
-            _context.HealthProfiles.Remove(healthProfile);
-            await _context.SaveChangesAsync();
+			return NoContent();
+		}
 
-            return NoContent();
-        }
-    }
+		// DELETE: api/HealthProfile/5
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteHealthProfile(int id)
+		{
+			var healthProfile = await _context.HealthProfiles.FindAsync(id);
+			if (healthProfile == null) return NotFound();
+
+			_context.HealthProfiles.Remove(healthProfile);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+	}
 }

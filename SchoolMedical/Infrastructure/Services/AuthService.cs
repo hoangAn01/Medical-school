@@ -38,7 +38,7 @@ namespace SchoolMedical.Infrastructure.Services
 					{
 						Success = false,
 						Message = "Invalid username or password"
-					};
+					};	
 				}
 
 				_logger.LogInformation($"User found: {account.Username}, Role: {account.Role}");

@@ -14,6 +14,7 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<ManagerAdmin> ManagerAdmins { get; set; }
 		public DbSet<Class> Classes { get; set; }
 		public DbSet<HealthProfile> HealthProfiles { get; set; }
+		public DbSet<MedicineRequest> MedicineRequests { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -128,6 +129,35 @@ namespace SchoolMedical.Infrastructure.Data
 					.WithMany()
 					.HasForeignKey(e => e.StudentID)
 					.OnDelete(DeleteBehavior.SetNull);
+			});
+
+			// Configure MedicineRequest entity
+			modelBuilder.Entity<MedicineRequest>(entity =>
+			{
+				entity.HasKey(e => e.RequestID);
+				entity.Property(e => e.Date).HasColumnType("date").IsRequired();
+				entity.Property(e => e.MedicineName).IsRequired().HasMaxLength(100);
+				entity.Property(e => e.RequestStatus).HasMaxLength(50);
+				entity.Property(e => e.AllergenCheck).HasMaxLength(255);
+				entity.Property(e => e.ApprovalDate).HasColumnType("date");
+
+				// Configure relationship with Student (Required)
+				entity.HasOne(m => m.Student)
+					.WithMany()
+					.HasForeignKey(m => m.StudentID)
+					.OnDelete(DeleteBehavior.Restrict);
+
+				// Configure relationship with Parent (Optional)
+				entity.HasOne(m => m.Parent)
+					.WithMany()
+					.HasForeignKey(m => m.ParentID)
+					.OnDelete(DeleteBehavior.Restrict);
+
+				// Configure relationship with Nurse (Optional, for ApprovedBy)
+				entity.HasOne<Nurse>()
+					.WithMany()
+					.HasForeignKey(m => m.ApprovedBy)
+					.OnDelete(DeleteBehavior.Restrict);
 			});
 		}
 	}
