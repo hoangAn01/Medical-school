@@ -106,4 +106,40 @@ namespace SchoolMedical.Core.Entities
 		// Navigation property
 		public virtual Student? Student { get; set; }
 	}
+
+	[Table("MedicineRequest")]
+	public class MedicineRequest
+	{
+		[Key]
+		public int RequestID { get; set; }
+
+		[Required]
+		[Column(TypeName = "date")]
+		public DateTime Date { get; set; }
+
+		[Required]
+		[StringLength(100)]
+		public string MedicineName { get; set; } = string.Empty;
+
+		[StringLength(50)]
+		public string? RequestStatus { get; set; }
+
+		[Required]
+		public int StudentID { get; set; }
+
+		public int? ParentID { get; set; }
+
+		[StringLength(255)]
+		public string? AllergenCheck { get; set; }
+
+		public int? ApprovedBy { get; set; }
+
+		[Column(TypeName = "date")]
+		public DateTime? ApprovalDate { get; set; }
+
+		// Navigation properties
+		public virtual Student? Student { get; set; }
+		public virtual Parent? Parent { get; set; }
+		// public virtual Nurse? ApprovedByNurse { get; set; }
+	}
 }

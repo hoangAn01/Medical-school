@@ -48,8 +48,7 @@ namespace SchoolMedical.API.Controllers
 				.Include(hp => hp.Student)
 				.FirstOrDefaultAsync(hp => hp.ProfileID == id);
 
-			if (h == null)
-				return NotFound();
+			if (h == null) return NotFound();
 
 			var dto = new HealthProfileDTO
 			{
@@ -63,7 +62,6 @@ namespace SchoolMedical.API.Controllers
 				LastCheckupDate = h.LastCheckupDate,
 				StudentFullName = h.Student != null ? h.Student.FullName : null
 			};
-
 			return dto;
 		}
 
@@ -77,6 +75,35 @@ namespace SchoolMedical.API.Controllers
 			var profiles = await _context.HealthProfiles
 				.Include(h => h.Student)
 				.Where(h => h.Student.FullName.Contains(name))
+				.Select(h => new HealthProfileDTO
+				{
+					ProfileID = h.ProfileID,
+					StudentID = h.StudentID,
+					ChronicDisease = h.ChronicDisease,
+					VisionTest = h.VisionTest,
+					Allergy = h.Allergy,
+					Weight = h.Weight,
+					Height = h.Height,
+					LastCheckupDate = h.LastCheckupDate,
+					StudentFullName = h.Student != null ? h.Student.FullName : null
+				})
+				.ToListAsync();
+
+			return profiles;
+		}
+
+		 // GET: api/HealthProfile/student/{studentId}
+		[HttpGet("student/{studentId}")]
+		public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> GetHealthProfilesByStudentId(int studentId)
+		{
+			// Verify student exists
+			var student = await _context.Students.FindAsync(studentId);
+			if (student == null)
+				return NotFound($"Student with ID {studentId} not found");
+
+			var profiles = await _context.HealthProfiles
+				.Include(h => h.Student)
+				.Where(h => h.StudentID == studentId)
 				.Select(h => new HealthProfileDTO
 				{
 					ProfileID = h.ProfileID,
