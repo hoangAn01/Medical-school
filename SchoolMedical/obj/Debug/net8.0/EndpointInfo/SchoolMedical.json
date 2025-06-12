@@ -5,6 +5,44 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/admin/accounts/all": {
+      "get": {
+        "tags": [
+          "AdminAccount"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/admin/accounts": {
       "get": {
         "tags": [
@@ -1044,6 +1082,9 @@
           "role": {
             "type": "string",
             "nullable": true
+          },
+          "active": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1062,6 +1103,9 @@
           "role": {
             "type": "string",
             "nullable": true
+          },
+          "active": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1075,6 +1119,10 @@
           },
           "role": {
             "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
             "nullable": true
           }
         },
