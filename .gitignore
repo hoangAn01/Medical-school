@@ -370,3 +370,7 @@ FodyWeavers.xsd
 SchoolMedical/bin/Debug/net8.0/SchoolMedical.dll
 SchoolMedical/bin/Debug/net8.0/SchoolMedical.exe
 SchoolMedical/bin/Debug/net8.0/SchoolMedical.pdb
+/SchoolMedical/obj
+/SchoolMedical/bin
+/.vs
+.vs/SchoolMedical/DesignTimeBuild/.dtbcache.v2
