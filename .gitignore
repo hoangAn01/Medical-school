@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.vs/SchoolMedical/DesignTimeBuild/.dtbcache.v2
+.vs/SchoolMedical/DesignTimeBuild/.dtbcache.v2
+.vs/SchoolMedical/v17/.futdcache.v2
+.vs/SchoolMedical/v17/.suo
+.vs/SchoolMedical/v17/DocumentLayout.backup.json
+.vs/SchoolMedical/v17/DocumentLayout.json
+SchoolMedical/bin/Debug/net8.0/SchoolMedical.dll
+SchoolMedical/bin/Debug/net8.0/SchoolMedical.exe
+SchoolMedical/bin/Debug/net8.0/SchoolMedical.pdb
