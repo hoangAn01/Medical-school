@@ -14,6 +14,6 @@ namespace SchoolMedical.Core.DTOs.MedicineRequest
 		public int? ParentID { get; set; }
 
 		[StringLength(255)]
-		public string? AllergenCheck { get; set; }
+		public string? Note { get; set; }  // Changed from AllergenCheck
 	}
 }

@@ -32,7 +32,7 @@ namespace SchoolMedical.API.Controllers
 					RequestStatus = m.RequestStatus,
 					StudentID = m.StudentID,
 					ParentID = m.ParentID,
-					AllergenCheck = m.AllergenCheck,
+					Note = m.Note,  // Changed from AllergenCheck
 					ApprovedBy = m.ApprovedBy,
 					ApprovalDate = m.ApprovalDate,
 					StudentName = m.Student.FullName,
@@ -63,7 +63,7 @@ namespace SchoolMedical.API.Controllers
 				RequestStatus = request.RequestStatus,
 				StudentID = request.StudentID,
 				ParentID = request.ParentID,
-				AllergenCheck = request.AllergenCheck,
+				Note = request.Note,  // Changed from AllergenCheck
 				ApprovedBy = request.ApprovedBy,
 				ApprovalDate = request.ApprovalDate,
 				StudentName = request.Student?.FullName,
@@ -88,7 +88,7 @@ namespace SchoolMedical.API.Controllers
 				RequestStatus = "Pending",
 				StudentID = request.StudentID,
 				ParentID = request.ParentID,
-				AllergenCheck = request.AllergenCheck
+				Note = request.Note  // Changed from AllergenCheck
 			};
 
 			_context.MedicineRequests.Add(medicineRequest);
@@ -142,7 +142,7 @@ namespace SchoolMedical.API.Controllers
 					RequestStatus = m.RequestStatus,
 					StudentID = m.StudentID,
 					ParentID = m.ParentID,
-					AllergenCheck = m.AllergenCheck,
+					Note = m.Note,  // Changed from AllergenCheck
 					ApprovedBy = m.ApprovedBy,
 					ApprovalDate = m.ApprovalDate,
 					StudentName = m.Student.FullName,
