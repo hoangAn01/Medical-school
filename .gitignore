@@ -361,6 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+<<<<<<< Updated upstream
 .vs/SchoolMedical/DesignTimeBuild/.dtbcache.v2
 .vs/SchoolMedical/DesignTimeBuild/.dtbcache.v2
 .vs/SchoolMedical/v17/.futdcache.v2
@@ -374,3 +375,7 @@ SchoolMedical/bin/Debug/net8.0/SchoolMedical.pdb
 /SchoolMedical/bin
 /.vs
 .vs/SchoolMedical/DesignTimeBuild/.dtbcache.v2
+=======
+/.vs
+/.vs/SchoolMedical/v17
+>>>>>>> Stashed changes
