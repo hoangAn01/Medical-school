@@ -18,6 +18,11 @@ namespace SchoolMedical.Infrastructure.Data
         public DbSet<MedicineRequest> MedicineRequests { get; set; }
         public DbSet<MedicalInventory> MedicalInventory { get; set; }
         public DbSet<MedicalEvent> MedicalEvents { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<ParentNotification> ParentNotifications { get; set; }
+        public DbSet<ParentalConsent> ParentalConsents { get; set; }
+        public DbSet<VaccinationEvent> VaccinationEvents { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -161,6 +166,60 @@ namespace SchoolMedical.Infrastructure.Data
                     .HasForeignKey(m => m.ApprovedBy)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+
+            // Configure Notification entity (updated for many-to-many)
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasKey(e => e.NotificationID);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Content).IsRequired();
+                entity.Property(e => e.SentDate).IsRequired();
+                entity.Property(e => e.Status).HasMaxLength(50);
+            });
+
+            // Configure ParentNotification entity (join table)
+            modelBuilder.Entity<ParentNotification>(entity =>
+            {
+                entity.HasKey(e => new { e.NotificationID, e.ParentID });
+
+                entity.Property(e => e.IndividualSentDate).IsRequired();
+                entity.Property(e => e.IndividualStatus).HasMaxLength(50);
+
+                entity.HasOne(pn => pn.Notification)
+                    .WithMany(n => n.ParentNotifications)
+                    .HasForeignKey(pn => pn.NotificationID)
+                    .OnDelete(DeleteBehavior.Cascade); // Cascade delete from Notification to ParentNotification
+
+                entity.HasOne(pn => pn.Parent)
+                    .WithMany()
+                    .HasForeignKey(pn => pn.ParentID)
+                    .OnDelete(DeleteBehavior.Cascade); // Cascade delete from Parent to ParentNotification
+            });
+
+            // Configure ParentalConsent entity
+            modelBuilder.Entity<ParentalConsent>(entity =>
+            {
+                entity.HasKey(e => e.ConsentID);
+                entity.HasIndex(e => new { e.StudentID, e.VaccinationEventID }).IsUnique(); // Unique constraint
+                entity.Property(e => e.ConsentStatus).IsRequired().HasMaxLength(50);
+
+                entity.HasOne(pc => pc.Student)
+                    .WithMany()
+                    .HasForeignKey(pc => pc.StudentID)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(pc => pc.VaccinationEvent)
+                    .WithMany()
+                    .HasForeignKey(pc => pc.VaccinationEventID)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(pc => pc.Parent)
+                    .WithMany()
+                    .HasForeignKey(pc => pc.ParentID)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
         }
     }
 }
