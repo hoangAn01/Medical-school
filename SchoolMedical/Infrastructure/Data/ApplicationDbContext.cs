@@ -15,6 +15,7 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<Class> Classes { get; set; }
 		public DbSet<HealthProfile> HealthProfiles { get; set; }
 		public DbSet<MedicineRequest> MedicineRequests { get; set; }
+		public DbSet<MedicalInventory> MedicalInventory { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
