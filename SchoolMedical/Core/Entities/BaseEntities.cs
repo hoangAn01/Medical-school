@@ -164,4 +164,19 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(255)]
 		public string? Description { get; set; }
 	}
+    [Table("MedicalEvent")]
+    public class MedicalEvent
+    {
+        [Key]
+        public int EventID { get; set; }
+        public int StudentID { get; set; }
+        public string? EventType { get; set; }
+        public string? Description { get; set; }
+        public DateTime EventTime { get; set; }
+        public int? NurseID { get; set; }
+
+        // Navigation property
+        public virtual Student? Student { get; set; }
+        // Nếu có thể thêm navigation tới Nurse
+    }
 }
