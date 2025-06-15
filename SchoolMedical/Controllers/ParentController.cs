@@ -63,5 +63,45 @@ namespace SchoolMedical.API.Controllers
 
 			return dto;
 		}
+
+		// PUT: api/Parent/{id}
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateParent(int id, ParentDTO parentDTO)
+		{
+			if (id != parentDTO.ParentID)
+				return BadRequest();
+
+			var parent = await _context.Parents.FindAsync(id);
+
+			if (parent == null)
+				return NotFound();
+
+			// Update parent properties
+			parent.FullName = parentDTO.FullName;
+			parent.Gender = parentDTO.Gender;
+			parent.DateOfBirth = parentDTO.DateOfBirth;
+			parent.Address = parentDTO.Address;
+			parent.Phone = parentDTO.Phone;
+			// Note: UserID is typically not updated as it's a relationship identifier
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!await ParentExists(id))
+					return NotFound();
+				throw;
+			}
+
+			return NoContent();
+		}
+
+		// Helper method to check if parent exists
+		private async Task<bool> ParentExists(int id)
+		{
+			return await _context.Parents.AnyAsync(e => e.ParentID == id);
+		}
 	}
 }
