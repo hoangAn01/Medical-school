@@ -39,5 +39,41 @@ namespace SchoolMedical.API.Controllers
 
 			return dto;
 		}
+
+		[HttpGet("by-userid/{userId}")]
+		public async Task<ActionResult<int>> GetParentIdByUserId(int userId)
+		{
+			var parent = await _context.Parents
+				.FirstOrDefaultAsync(p => p.UserID == userId);
+
+			if (parent == null)
+				return NotFound();
+
+			return parent.ParentID;
+		}
+
+		// GET: api/Parent/user/{userId}
+		[HttpGet("user/{userId}")]
+		public async Task<ActionResult<ParentDTO>> GetParentByUserId(int userId)
+		{
+			var parent = await _context.Parents
+				.FirstOrDefaultAsync(p => p.UserID == userId);
+
+			if (parent == null)
+				return NotFound();
+
+			var dto = new ParentDTO
+			{
+				ParentID = parent.ParentID,
+				UserID = parent.UserID,
+				FullName = parent.FullName,
+				Gender = parent.Gender,
+				DateOfBirth = parent.DateOfBirth,
+				Address = parent.Address,
+				Phone = parent.Phone
+			};
+
+			return dto;
+		}
 	}
 }
