@@ -96,5 +96,4 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"❌ Database connection failed: {ex.Message}");
     }
 }
-
 app.Run();

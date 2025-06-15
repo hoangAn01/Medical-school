@@ -1,156 +1,121 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SchoolMedical.Core.DTOs.MedicineRequest;
 using SchoolMedical.Core.Entities;
 using SchoolMedical.Infrastructure.Data;
+using SchoolMedical.Core.DTOs.MedicineRequest;
 
-namespace SchoolMedical.API.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class MedicineRequestController : ControllerBase
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class MedicineRequestController : ControllerBase
-	{
-		private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-		public MedicineRequestController(ApplicationDbContext context)
-		{
-			_context = context;
-		}
+    public MedicineRequestController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
 
-		// GET: api/MedicineRequest
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetMedicineRequests()
-		{
-			var requests = await _context.MedicineRequests
-				.Include(m => m.Student)
-				.Include(m => m.Parent)
-				.Select(m => new MedicineRequestDTO
-				{
-					RequestID = m.RequestID,
-					Date = m.Date,
-					MedicineName = m.MedicineName,
-					RequestStatus = m.RequestStatus,
-					StudentID = m.StudentID,
-					ParentID = m.ParentID,
-					Note = m.Note,  // Changed from AllergenCheck
-					ApprovedBy = m.ApprovedBy,
-					ApprovalDate = m.ApprovalDate,
-					StudentName = m.Student.FullName,
-					ParentName = m.Parent.FullName
-				})
-				.ToListAsync();
+    // GET: api/MedicineRequest/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<MedicineRequestDTO>> GetMedicineRequest(int id)
+    {
+        var dto = await _context.MedicineRequests
+            .Include(m => m.Student)
+            .Include(m => m.Parent)
+            .Where(m => m.RequestID == id)
+            .Select(m => new MedicineRequestDTO
+            {
+                RequestID = m.RequestID,
+                Date = m.Date,
+                RequestStatus = m.RequestStatus,
+                StudentID = m.StudentID,
+                ParentID = m.ParentID,
+                Note = m.Note,
+                ApprovedBy = m.ApprovedBy,
+                ApprovalDate = m.ApprovalDate,
+                StudentName = m.Student.FullName,
+                ParentName = m.Parent.FullName,
+                MedicineDetails = _context.MedicineRequestDetails
+                    .Where(d => d.RequestID == m.RequestID)
+                    .Select(d => new MedicineRequestDetailDTO
+                    {
+                        RequestDetailID = d.RequestDetailID,
+                        RequestID = d.RequestID,
+                        ItemID = d.ItemID,
+                        Quantity = d.Quantity,
+                        DosageInstructions = d.DosageInstructions
+                    }).ToList()
+            })
+            .FirstOrDefaultAsync();
 
-			return requests;
-		}
+        if (dto == null) return NotFound();
+        return dto;
+    }
 
-		// GET: api/MedicineRequest/5
-		[HttpGet("{id}")]
-		public async Task<ActionResult<MedicineRequestDTO>> GetMedicineRequest(int id)
-		{
-			var request = await _context.MedicineRequests
-				.Include(m => m.Student)
-				.Include(m => m.Parent)
-				.FirstOrDefaultAsync(m => m.RequestID == id);
+    // POST: api/MedicineRequest
+    [HttpPost]
+    public async Task<ActionResult<MedicineRequestDTO>> CreateMedicineRequest(MedicineRequestCreateRequest request)
+    {
+        // Validate student exists
+        var student = await _context.Students.FindAsync(request.StudentID);
+        if (student == null)
+            return BadRequest("Invalid StudentID");
 
-			if (request == null)
-				return NotFound();
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            // Create main request
+            var medicineRequest = new MedicineRequest
+            {
+                Date = DateTime.UtcNow,
+                RequestStatus = "Pending",
+                StudentID = request.StudentID,
+                ParentID = request.ParentID,
+                Note = request.Note
+            };
 
-			var dto = new MedicineRequestDTO
-			{
-				RequestID = request.RequestID,
-				Date = request.Date,
-				MedicineName = request.MedicineName,
-				RequestStatus = request.RequestStatus,
-				StudentID = request.StudentID,
-				ParentID = request.ParentID,
-				Note = request.Note,  // Changed from AllergenCheck
-				ApprovedBy = request.ApprovedBy,
-				ApprovalDate = request.ApprovalDate,
-				StudentName = request.Student?.FullName,
-				ParentName = request.Parent?.FullName
-			};
+            _context.MedicineRequests.Add(medicineRequest);
+            await _context.SaveChangesAsync();
 
-			return dto;
-		}
+            // Add request details
+            foreach (var detail in request.MedicineDetails)
+            {
+                var requestDetail = new MedicineRequestDetail
+                {
+                    RequestID = medicineRequest.RequestID,
+                    ItemID = detail.ItemID,
+                    Quantity = detail.Quantity,
+                    DosageInstructions = detail.DosageInstructions
+                };
+                _context.MedicineRequestDetails.Add(requestDetail);
+            }
 
-		// POST: api/MedicineRequest
-		[HttpPost]
-		public async Task<ActionResult<MedicineRequestDTO>> CreateMedicineRequest(MedicineRequestCreateRequest request)
-		{
-			var student = await _context.Students.FindAsync(request.StudentID);
-			if (student == null)
-				return BadRequest("Invalid StudentID");
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
 
-			var medicineRequest = new MedicineRequest
-			{
-				Date = DateTime.UtcNow.Date,
-				MedicineName = request.MedicineName,
-				RequestStatus = "Pending",
-				StudentID = request.StudentID,
-				ParentID = request.ParentID,
-				Note = request.Note  // Changed from AllergenCheck
-			};
+            // Return the created request with details
+            return await GetMedicineRequest(medicineRequest.RequestID);
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
 
-			_context.MedicineRequests.Add(medicineRequest);
-			await _context.SaveChangesAsync();
+    // PUT: api/MedicineRequest/{id}/approve
+    [HttpPut("{id}/approve")]
+    public async Task<IActionResult> ApproveMedicineRequest(int id, [FromQuery] int approvedBy)
+    {
+        var medicineRequest = await _context.MedicineRequests.FindAsync(id);
+        if (medicineRequest == null)
+            return NotFound();
 
-			return await GetMedicineRequest(medicineRequest.RequestID);
-		}
+        medicineRequest.RequestStatus = "Approved";
+        medicineRequest.ApprovedBy = approvedBy;
+        medicineRequest.ApprovalDate = DateTime.UtcNow.Date;
 
-		// PUT: api/MedicineRequest/5/approve
-		[HttpPut("{id}/approve")]
-		public async Task<IActionResult> ApproveMedicineRequest(int id, [FromQuery] int approvedBy)
-		{
-			var medicineRequest = await _context.MedicineRequests.FindAsync(id);
-			if (medicineRequest == null)
-				return NotFound();
-
-			medicineRequest.RequestStatus = "Approved";
-			medicineRequest.ApprovedBy = approvedBy;
-			medicineRequest.ApprovalDate = DateTime.UtcNow.Date;
-
-			await _context.SaveChangesAsync();
-			return NoContent();
-		}
-
-		// PUT: api/MedicineRequest/5/reject
-		[HttpPut("{id}/reject")]
-		public async Task<IActionResult> RejectMedicineRequest(int id)
-		{
-			var medicineRequest = await _context.MedicineRequests.FindAsync(id);
-			if (medicineRequest == null)
-				return NotFound();
-
-			medicineRequest.RequestStatus = "Rejected";
-			await _context.SaveChangesAsync();
-			return NoContent();
-		}
-
-		// GET: api/MedicineRequest/student/5
-		[HttpGet("student/{studentId}")]
-		public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetStudentMedicineRequests(int studentId)
-		{
-			var requests = await _context.MedicineRequests
-				.Include(m => m.Student)
-				.Include(m => m.Parent)
-				.Where(m => m.StudentID == studentId)
-				.Select(m => new MedicineRequestDTO
-				{
-					RequestID = m.RequestID,
-					Date = m.Date,
-					MedicineName = m.MedicineName,
-					RequestStatus = m.RequestStatus,
-					StudentID = m.StudentID,
-					ParentID = m.ParentID,
-					Note = m.Note,  // Changed from AllergenCheck
-					ApprovedBy = m.ApprovedBy,
-					ApprovalDate = m.ApprovalDate,
-					StudentName = m.Student.FullName,
-					ParentName = m.Parent.FullName
-				})
-				.ToListAsync();
-
-			return requests;
-		}
-	}
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 }

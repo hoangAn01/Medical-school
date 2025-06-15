@@ -117,10 +117,6 @@ namespace SchoolMedical.Core.Entities
 		[Column(TypeName = "date")]
 		public DateTime Date { get; set; }
 
-		[Required]
-		[StringLength(100)]
-		public string MedicineName { get; set; } = string.Empty;
-
 		[StringLength(50)]
 		public string? RequestStatus { get; set; }
 
@@ -130,7 +126,7 @@ namespace SchoolMedical.Core.Entities
 		public int? ParentID { get; set; }
 
 		[StringLength(255)]
-		public string? Note { get; set; }  // Changed from AllergenCheck
+		public string? Note { get; set; }
 
 		public int? ApprovedBy { get; set; }
 
@@ -140,7 +136,8 @@ namespace SchoolMedical.Core.Entities
 		// Navigation properties
 		public virtual Student? Student { get; set; }
 		public virtual Parent? Parent { get; set; }
-		// public virtual Nurse? ApprovedByNurse { get; set; }
+
+		public virtual ICollection<MedicineRequestDetail> MedicineRequestDetails { get; set; } = new List<MedicineRequestDetail>();
 	}
 
 	[Table("MedicalInventory")]
@@ -164,19 +161,19 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(255)]
 		public string? Description { get; set; }
 	}
-    [Table("MedicalEvent")]
-    public class MedicalEvent
-    {
-        [Key]
-        public int EventID { get; set; }
-        public int StudentID { get; set; }
-        public string? EventType { get; set; }
-        public string? Description { get; set; }
-        public DateTime EventTime { get; set; }
-        public int? NurseID { get; set; }
+	[Table("MedicalEvent")]
+	public class MedicalEvent
+	{
+		[Key]
+		public int EventID { get; set; }
+		public int StudentID { get; set; }
+		public string? EventType { get; set; }
+		public string? Description { get; set; }
+		public DateTime EventTime { get; set; }
+		public int? NurseID { get; set; }
 
-        // Navigation property
-        public virtual Student? Student { get; set; }
-        // Nếu có thể thêm navigation tới Nurse
-    }
+		// Navigation property
+		public virtual Student? Student { get; set; }
+		// Nếu có thể thêm navigation tới Nurse
+	}
 }

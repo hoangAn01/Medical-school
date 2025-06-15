@@ -9,217 +9,217 @@ using System.Threading.Tasks;
 
 namespace SchoolMedical.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ParentNotificationsController : ControllerBase
-    {
-        private readonly ApplicationDbContext _context;
+	[ApiController]
+	[Route("api/[controller]")]
+	public class ParentNotificationsController : ControllerBase
+	{
+		private readonly ApplicationDbContext _context;
 
-        public ParentNotificationsController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+		public ParentNotificationsController(ApplicationDbContext context)
+		{
+			_context = context;
+		}
 
-        // GET: api/ParentNotifications
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> GetParentNotifications()
-        {
-            var parentNotifications = await _context.ParentNotifications
-                .Include(pn => pn.Notification)
-                .Include(pn => pn.Parent)
-                .Select(pn => new ParentNotificationDto
-                {
-                    NotificationID = pn.NotificationID,
-                    ParentID = pn.ParentID,
-                    ParentName = pn.Parent.FullName,
-                    NotificationTitle = pn.Notification.Title,
-                    IndividualSentDate = pn.IndividualSentDate,
-                    IndividualStatus = pn.IndividualStatus
-                })
-                .ToListAsync();
+		// GET: api/ParentNotifications
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> GetParentNotifications()
+		{
+			var parentNotifications = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus
+				})
+				.ToListAsync();
 
-            return Ok(parentNotifications);
-        }
+			return Ok(parentNotifications);
+		}
 
-        // GET: api/ParentNotifications/notification/{notificationId}/parent/{parentId}
-        [HttpGet("notification/{notificationId}/parent/{parentId}")]
-        public async Task<ActionResult<ParentNotificationDto>> GetParentNotification(
-            int notificationId, int parentId)
-        {
-            var parentNotification = await _context.ParentNotifications
-                .Include(pn => pn.Notification)
-                .Include(pn => pn.Parent)
-                .Where(pn => pn.NotificationID == notificationId && pn.ParentID == parentId)
-                .Select(pn => new ParentNotificationDto
-                {
-                    NotificationID = pn.NotificationID,
-                    ParentID = pn.ParentID,
-                    ParentName = pn.Parent.FullName,
-                    NotificationTitle = pn.Notification.Title,
-                    IndividualSentDate = pn.IndividualSentDate,
-                    IndividualStatus = pn.IndividualStatus
-                })
-                .FirstOrDefaultAsync();
+		// GET: api/ParentNotifications/notification/{notificationId}/parent/{parentId}
+		[HttpGet("notification/{notificationId}/parent/{parentId}")]
+		public async Task<ActionResult<ParentNotificationDto>> GetParentNotification(
+			int notificationId, int parentId)
+		{
+			var parentNotification = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.Where(pn => pn.NotificationID == notificationId && pn.ParentID == parentId)
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus
+				})
+				.FirstOrDefaultAsync();
 
-            if (parentNotification == null)
-            {
-                return NotFound();
-            }
+			if (parentNotification == null)
+			{
+				return NotFound();
+			}
 
-            return Ok(parentNotification);
-        }
+			return Ok(parentNotification);
+		}
 
-        // POST: api/ParentNotifications
-        [HttpPost]
-        public async Task<ActionResult<ParentNotificationDto>> CreateParentNotification(ParentNotificationDto createDto)
-        {
-            // Check if Parent and Notification exist
-            var parentExists = await _context.Parents.AnyAsync(p => p.ParentID == createDto.ParentID);
-            var notificationExists = await _context.Notifications.AnyAsync(n => n.NotificationID == createDto.NotificationID);
+		// POST: api/ParentNotifications
+		[HttpPost]
+		public async Task<ActionResult<ParentNotificationDto>> CreateParentNotification(ParentNotificationDto createDto)
+		{
+			// Check if Parent and Notification exist
+			var parentExists = await _context.Parents.AnyAsync(p => p.ParentID == createDto.ParentID);
+			var notificationExists = await _context.Notifications.AnyAsync(n => n.NotificationID == createDto.NotificationID);
 
-            if (!parentExists || !notificationExists)
-            {
-                return BadRequest("Invalid ParentID or NotificationID.");
-            }
+			if (!parentExists || !notificationExists)
+			{
+				return BadRequest("Invalid ParentID or NotificationID.");
+			}
 
-            var parentNotification = new ParentNotification
-            {
-                NotificationID = createDto.NotificationID,
-                ParentID = createDto.ParentID,
-                IndividualSentDate = DateTime.Now,
-                IndividualStatus = createDto.IndividualStatus ?? "Sent"
-            };
+			var parentNotification = new ParentNotification
+			{
+				NotificationID = createDto.NotificationID,
+				ParentID = createDto.ParentID,
+				IndividualSentDate = DateTime.Now,
+				IndividualStatus = createDto.IndividualStatus ?? "Sent"
+			};
 
-            _context.ParentNotifications.Add(parentNotification);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ParentNotificationExists(parentNotification.NotificationID, parentNotification.ParentID))
-                {
-                    return Conflict("This parent notification already exists.");
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			_context.ParentNotifications.Add(parentNotification);
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException)
+			{
+				if (ParentNotificationExists(parentNotification.NotificationID, parentNotification.ParentID))
+				{
+					return Conflict("This parent notification already exists.");
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-            var createdParentNotification = await _context.ParentNotifications
-                .Include(pn => pn.Notification)
-                .Include(pn => pn.Parent)
-                .Where(pn => pn.NotificationID == parentNotification.NotificationID && pn.ParentID == parentNotification.ParentID)
-                .Select(pn => new ParentNotificationDto
-                {
-                    NotificationID = pn.NotificationID,
-                    ParentID = pn.ParentID,
-                    ParentName = pn.Parent.FullName,
-                    NotificationTitle = pn.Notification.Title,
-                    IndividualSentDate = pn.IndividualSentDate,
-                    IndividualStatus = pn.IndividualStatus
-                })
-                .FirstOrDefaultAsync();
+			var createdParentNotification = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.Where(pn => pn.NotificationID == parentNotification.NotificationID && pn.ParentID == parentNotification.ParentID)
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus
+				})
+				.FirstOrDefaultAsync();
 
-            return CreatedAtAction(nameof(GetParentNotification), 
-                new { notificationId = createdParentNotification?.NotificationID, parentId = createdParentNotification?.ParentID }, createdParentNotification);
-        }
+			return CreatedAtAction(nameof(GetParentNotification), 
+				new { notificationId = createdParentNotification?.NotificationID, parentId = createdParentNotification?.ParentID }, createdParentNotification);
+		}
 
-        // PUT: api/ParentNotifications/notification/{notificationId}/parent/{parentId}
-        [HttpPut("notification/{notificationId}/parent/{parentId}")]
-        public async Task<IActionResult> UpdateParentNotification(
-            int notificationId, int parentId, ParentNotificationDto updateDto)
-        {
-            var parentNotification = await _context.ParentNotifications
-                .FindAsync(notificationId, parentId);
+		// PUT: api/ParentNotifications/notification/{notificationId}/parent/{parentId}
+		[HttpPut("notification/{notificationId}/parent/{parentId}")]
+		public async Task<IActionResult> UpdateParentNotification(
+			int notificationId, int parentId, ParentNotificationDto updateDto)
+		{
+			var parentNotification = await _context.ParentNotifications
+				.FindAsync(notificationId, parentId);
 
-            if (parentNotification == null)
-            {
-                return NotFound();
-            }
-            
-            // Ensure the IDs in the DTO match the route parameters
-            if (notificationId != updateDto.NotificationID || parentId != updateDto.ParentID)
-            {
-                return BadRequest("NotificationID or ParentID in DTO does not match route parameters.");
-            }
+			if (parentNotification == null)
+			{
+				return NotFound();
+			}
+			
+			// Ensure the IDs in the DTO match the route parameters
+			if (notificationId != updateDto.NotificationID || parentId != updateDto.ParentID)
+			{
+				return BadRequest("NotificationID or ParentID in DTO does not match route parameters.");
+			}
 
-            parentNotification.IndividualSentDate = updateDto.IndividualSentDate;
-            parentNotification.IndividualStatus = updateDto.IndividualStatus ?? parentNotification.IndividualStatus;
+			parentNotification.IndividualSentDate = updateDto.IndividualSentDate;
+			parentNotification.IndividualStatus = updateDto.IndividualStatus ?? parentNotification.IndividualStatus;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ParentNotificationExists(notificationId, parentId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ParentNotificationExists(notificationId, parentId))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-            return NoContent();
-        }
+			return NoContent();
+		}
 
-        // DELETE: api/ParentNotifications/notification/{notificationId}/parent/{parentId}
-        [HttpDelete("notification/{notificationId}/parent/{parentId}")]
-        public async Task<IActionResult> DeleteParentNotification(int notificationId, int parentId)
-        {
-            var parentNotification = await _context.ParentNotifications
-                .FindAsync(notificationId, parentId);
-            if (parentNotification == null)
-            {
-                return NotFound();
-            }
+		// DELETE: api/ParentNotifications/notification/{notificationId}/parent/{parentId}
+		[HttpDelete("notification/{notificationId}/parent/{parentId}")]
+		public async Task<IActionResult> DeleteParentNotification(int notificationId, int parentId)
+		{
+			var parentNotification = await _context.ParentNotifications
+				.FindAsync(notificationId, parentId);
+			if (parentNotification == null)
+			{
+				return NotFound();
+			}
 
-            _context.ParentNotifications.Remove(parentNotification);
-            await _context.SaveChangesAsync();
+			_context.ParentNotifications.Remove(parentNotification);
+			await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+			return NoContent();
+		}
 
-        // GET: api/ParentNotifications/search?keyword=abc
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> SearchParentNotifications(
-            [FromQuery] string? keyword)
-        {
-            var query = _context.ParentNotifications
-                .Include(pn => pn.Notification)
-                .Include(pn => pn.Parent)
-                .AsQueryable();
+		// GET: api/ParentNotifications/search?keyword=abc
+		[HttpGet("search")]
+		public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> SearchParentNotifications(
+			[FromQuery] string? keyword)
+		{
+			var query = _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.AsQueryable();
 
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                query = query.Where(pn =>
-                    pn.Parent.FullName.Contains(keyword) ||
-                    pn.Notification.Title.Contains(keyword) ||
-                    pn.IndividualStatus.Contains(keyword));
-            }
+			if (!string.IsNullOrEmpty(keyword))
+			{
+				query = query.Where(pn =>
+					pn.Parent.FullName.Contains(keyword) ||
+					pn.Notification.Title.Contains(keyword) ||
+					pn.IndividualStatus.Contains(keyword));
+			}
 
-            var parentNotifications = await query
-                .Select(pn => new ParentNotificationDto
-                {
-                    NotificationID = pn.NotificationID,
-                    ParentID = pn.ParentID,
-                    ParentName = pn.Parent.FullName,
-                    NotificationTitle = pn.Notification.Title,
-                    IndividualSentDate = pn.IndividualSentDate,
-                    IndividualStatus = pn.IndividualStatus
-                })
-                .ToListAsync();
+			var parentNotifications = await query
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus
+				})
+				.ToListAsync();
 
-            return Ok(parentNotifications);
-        }
+			return Ok(parentNotifications);
+		}
 
-        private bool ParentNotificationExists(int notificationId, int parentId)
-        {
-            return _context.ParentNotifications.Any(e => e.NotificationID == notificationId && e.ParentID == parentId);
-        }
-    }
+		private bool ParentNotificationExists(int notificationId, int parentId)
+		{
+			return _context.ParentNotifications.Any(e => e.NotificationID == notificationId && e.ParentID == parentId);
+		}
+	}
 }
