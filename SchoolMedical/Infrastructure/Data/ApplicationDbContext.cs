@@ -25,6 +25,7 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<ParentalConsent> ParentalConsents { get; set; }
 		public DbSet<VaccinationEvent> VaccinationEvents { get; set; }
 		public DbSet<MedicineRequestDetail> MedicineRequestDetails { get; set; }
+		public DbSet<Blog> Blogs { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -235,6 +236,15 @@ namespace SchoolMedical.Infrastructure.Data
 				entity.HasOne(pc => pc.Parent)
 					.WithMany()
 					.HasForeignKey(pc => pc.ParentID)
+					.OnDelete(DeleteBehavior.Restrict);
+			});
+
+			// Configure Blog entity
+			modelBuilder.Entity<Blog>(entity =>
+			{
+				entity.HasOne(b => b.Account)
+					.WithMany()
+					.HasForeignKey(b => b.AuthorID)
 					.OnDelete(DeleteBehavior.Restrict);
 			});
 
