@@ -52,6 +52,42 @@ public class MedicineRequestController : ControllerBase
         return dto;
     }
 
+    // GET: api/MedicineRequest/getAll
+    [HttpGet("getAll")]
+    public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetAllMedicineRequests()
+    {
+        var requests = await _context.MedicineRequests
+            .Include(m => m.Student)
+            .Include(m => m.Parent)
+            .Select(m => new MedicineRequestDTO
+            {
+                RequestID = m.RequestID,
+                Date = m.Date,
+                RequestStatus = m.RequestStatus,
+                StudentID = m.StudentID,
+                ParentID = m.ParentID,
+                Note = m.Note,
+                ApprovedBy = m.ApprovedBy,
+                ApprovalDate = m.ApprovalDate,
+                StudentName = m.Student.FullName,
+                ParentName = m.Parent.FullName,
+                MedicineDetails = _context.MedicineRequestDetails
+                    .Where(d => d.RequestID == m.RequestID)
+                    .Select(d => new MedicineRequestDetailDTO
+                    {
+                        RequestDetailID = d.RequestDetailID,
+                        RequestID = d.RequestID,
+                        ItemID = d.ItemID,
+                        Quantity = d.Quantity,
+                        DosageInstructions = d.DosageInstructions
+                    }).ToList()
+            })
+            .OrderByDescending(m => m.Date)
+            .ToListAsync();
+
+        return Ok(requests);
+    }
+
     // POST: api/MedicineRequest
     [HttpPost]
     public async Task<ActionResult<MedicineRequestDTO>> CreateMedicineRequest(MedicineRequestCreateRequest request)

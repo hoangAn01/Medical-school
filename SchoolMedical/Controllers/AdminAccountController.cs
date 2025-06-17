@@ -10,7 +10,7 @@ namespace SchoolMedical.API.Controllers
 {
 	[ApiController]
 	[Route("api/admin/accounts")]
-	[Authorize(Roles = "ManagerAdmin")]  // Comnent this line if you want to allow all roles to access this controller
+	[Authorize(Roles = "Admin")] // Comnent this line if you want to allow all roles to access this controller
 	public class AdminAccountController : ControllerBase
 	{
 		private readonly ApplicationDbContext _context;
@@ -50,6 +50,7 @@ namespace SchoolMedical.API.Controllers
 		public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAccounts(string? search = null, string? role = null, int page = 1, int pageSize = 20)
 		{
 			var query = from a in _context.Accounts
+						where a.Role != "Admin" // Add this condition to exclude Admin accounts
 						join p in _context.Parents on a.UserID equals p.UserID into parentJoin
 						from parent in parentJoin.DefaultIfEmpty()
 						join n in _context.Nurses on a.UserID equals n.UserID into nurseJoin
@@ -60,8 +61,7 @@ namespace SchoolMedical.API.Controllers
 
 			if (!string.IsNullOrEmpty(search))
 				query = query.Where(x => (x.a.Role == "Parent" && x.parent.FullName.Contains(search)) ||
-										(x.a.Role == "Nurse" && x.nurse.FullName.Contains(search)) ||
-										(x.a.Role == "Admin" && x.manager.FullName.Contains(search)));
+										(x.a.Role == "Nurse" && x.nurse.FullName.Contains(search)));
 			if (!string.IsNullOrEmpty(role))
 				query = query.Where(x => x.a.Role == role);
 
@@ -78,7 +78,6 @@ namespace SchoolMedical.API.Controllers
 					Active = x.a.Active,
 					FullName = x.a.Role == "Parent" ? x.parent.FullName :
 							  x.a.Role == "Nurse" ? x.nurse.FullName :
-							  x.a.Role == "Admin" ? x.manager.FullName :
 							  null
 				})
 				.ToListAsync();

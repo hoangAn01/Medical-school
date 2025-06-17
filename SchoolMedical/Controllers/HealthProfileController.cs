@@ -93,7 +93,7 @@ namespace SchoolMedical.API.Controllers
 		}
 
 		 // GET: api/HealthProfile/student/{studentId}
-		[HttpGet("student/{studentId}")]
+		[HttpGet("search/{studentId}")]
 		public async Task<ActionResult<IEnumerable<HealthProfileDTO>>> GetHealthProfilesByStudentId(int studentId)
 		{
 			// Verify student exists

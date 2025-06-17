@@ -16,9 +16,9 @@ namespace SchoolMedical.API.Controllers
 			_context = context;
 		}
 
-		// GET: api/Student?parentId=1
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudents([FromQuery] int? parentId = null)
+		// GET: api/Student/{parentId}
+		[HttpGet("{parentId:int?}")]
+		public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudents(int? parentId)
 		{
 			var query = _context.Students
 				.Include(s => s.Parent)
@@ -49,6 +49,65 @@ namespace SchoolMedical.API.Controllers
 					ClassName = s.Class != null ? s.Class.ClassName : null
 				})
 				.ToListAsync();
+
+			return students;
+		}
+
+		// GET: api/Student/{studentId}
+		[HttpGet("search/{studentId}")]
+		public async Task<ActionResult<StudentDTO>> GetStudentInfo(int studentId)
+		{
+			var student = await _context.Students
+				.Include(s => s.Parent)
+				.Include(s => s.Class)
+				.Where(s => s.StudentID == studentId)
+				.Select(s => new StudentDTO
+				{
+					StudentID = s.StudentID,
+					FullName = s.FullName,
+					Gender = s.Gender,
+					DateOfBirth = s.DateOfBirth,
+					ParentID = s.ParentID,
+					UserID = s.UserID,
+					ClassID = s.ClassID,
+					ParentName = s.Parent != null ? s.Parent.FullName : null,
+					ClassName = s.Class != null ? s.Class.ClassName : null
+				})
+				.FirstOrDefaultAsync();
+
+			if (student == null)
+				return NotFound($"Student with ID {studentId} not found");
+
+			return student;
+		}
+
+		// GET: api/Student/search/{studentName}
+		[HttpGet("search/{studentName}")]
+		public async Task<ActionResult<IEnumerable<StudentDTO>>> SearchStudentsByName(string studentName)
+		{
+			if (string.IsNullOrWhiteSpace(studentName))
+				return BadRequest("Student name cannot be empty");
+
+			var students = await _context.Students
+				.Include(s => s.Parent)
+				.Include(s => s.Class)
+				.Where(s => s.FullName != null && s.FullName.Contains(studentName))
+				.Select(s => new StudentDTO
+				{
+					StudentID = s.StudentID,
+					FullName = s.FullName,
+					Gender = s.Gender,
+					DateOfBirth = s.DateOfBirth,
+					ParentID = s.ParentID,
+					UserID = s.UserID,
+					ClassID = s.ClassID,
+					ParentName = s.Parent != null ? s.Parent.FullName : null,
+					ClassName = s.Class != null ? s.Class.ClassName : null
+				})
+				.ToListAsync();
+
+			if (!students.Any())
+				return NotFound($"No students found with name containing '{studentName}'");
 
 			return students;
 		}

@@ -31,7 +31,6 @@ namespace SchoolMedical.API.Controllers
 					Description = i.Description
 				})
 				.ToListAsync();
-
 			return items;
 		}
 

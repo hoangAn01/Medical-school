@@ -17,7 +17,7 @@ namespace SchoolMedical.API.Controllers
 		}
 
 		// GET: api/Nurse?userId=1
-		[HttpGet]
+		[HttpGet] // [HttpGet("{id}")]
 		public async Task<ActionResult<NurseDTO>> GetNurse([FromQuery] int? userId = null)
 		{
 			var query = _context.Nurses
