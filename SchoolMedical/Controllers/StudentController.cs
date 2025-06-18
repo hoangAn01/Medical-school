@@ -54,7 +54,7 @@ namespace SchoolMedical.API.Controllers
 		}
 
 		// GET: api/Student/{studentId}
-		[HttpGet("search/{studentId}")]
+		[HttpGet("id/{studentId}")]
 		public async Task<ActionResult<StudentDTO>> GetStudentInfo(int studentId)
 		{
 			var student = await _context.Students
