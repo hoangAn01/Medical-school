@@ -11,6 +11,7 @@ namespace SchoolMedical.Core.DTOs.Notification
 		public string Content { get; set; }
 		public DateTime SentDate { get; set; }
 		public string? Status { get; set; }
+		public string? NotificationType { get; set; }
 		public List<ParentNotificationDto> ParentNotifications { get; set; } = new List<ParentNotificationDto>();
 	}
-} 
+}

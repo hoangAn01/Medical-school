@@ -184,6 +184,60 @@ namespace SchoolMedical.Controllers
 			return NoContent();
 		}
 
+		// GET: api/ParentNotifications/parent/{parentId}
+		[HttpGet("parent/{parentId}")]
+		public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> GetNotificationsByParentId(int parentId)
+		{
+			var notifications = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.Where(pn => pn.ParentID == parentId)
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus
+				})
+				.ToListAsync();
+
+			if (!notifications.Any())
+			{
+				return NotFound($"Không tìm thấy thông báo nào cho phụ huynh có ID {parentId}");
+			}
+
+			return Ok(notifications);
+		}
+
+		// GET: api/ParentNotifications/parent/name/{parentName}
+		[HttpGet("parent/name/{parentName}")]
+		public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> GetNotificationsByParentName(string parentName)
+		{
+			var notifications = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.Where(pn => pn.Parent.FullName.Contains(parentName))
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus
+				})
+				.ToListAsync();
+
+			if (!notifications.Any())
+			{
+				return NotFound($"Không tìm thấy thông báo nào cho phụ huynh có tên {parentName}");
+			}
+
+			return Ok(notifications);
+		}
+
 		// GET: api/ParentNotifications/search?keyword=abc
 		[HttpGet("search")]
 		public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> SearchParentNotifications(
