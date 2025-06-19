@@ -10,7 +10,7 @@ namespace SchoolMedical.API.Controllers
 {
 	[ApiController]
 	[Route("api/admin/accounts")]
-	[Authorize(Roles = "Admin")] // Comnent this line if you want to allow all roles to access this controller
+	// [Authorize(Roles = "Admin")] // Comnent this line if you want to allow all roles to access this controller
 	public class AdminAccountController : ControllerBase
 	{
 		private readonly ApplicationDbContext _context;
@@ -25,6 +25,7 @@ namespace SchoolMedical.API.Controllers
 		public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAllAccounts()
 		{
 			var accounts = await (from a in _context.Accounts
+								  where a.Role != "Admin"  // Added condition to exclude Admin accounts
 								  join p in _context.Parents on a.UserID equals p.UserID into parentJoin
 								  from parent in parentJoin.DefaultIfEmpty()
 								  join n in _context.Nurses on a.UserID equals n.UserID into nurseJoin
