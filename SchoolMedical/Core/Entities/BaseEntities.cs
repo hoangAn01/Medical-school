@@ -171,6 +171,7 @@ namespace SchoolMedical.Core.Entities
 		public string? Description { get; set; }
 		public DateTime EventTime { get; set; }
 		public int? NurseID { get; set; }
+		public string? Status { get; set; }
 
 		// Navigation property
 		public virtual Student? Student { get; set; }

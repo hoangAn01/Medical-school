@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using SchoolMedical.Core.DTOs.MedicalEvent;
 using SchoolMedical.Core.Entities;
 using SchoolMedical.Infrastructure.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace SchoolMedical.Controllers
 {
 	[ApiController]
@@ -133,6 +129,57 @@ namespace SchoolMedical.Controllers
 
 			return Ok(events);
 		}
+
+		[HttpPost("{id}/use-items")]
+		public async Task<IActionResult> UseMedicalItems(int id, [FromBody] UseItemsDto dto)
+		{
+			var medicalEvent = await _context.MedicalEvents.FindAsync(id);
+			if (medicalEvent == null)
+				return NotFound("Sự kiện y tế không tồn tại");
+
+			using var transaction = await _context.Database.BeginTransactionAsync();
+			try
+			{
+				foreach (var item in dto.Items)
+				{
+					// Kiểm tra và cập nhật số lượng trong kho
+					var inventory = await _context.MedicalInventory
+						.FirstOrDefaultAsync(i => i.ItemID == item.ItemId);
+
+					if (inventory == null)
+						return NotFound($"Không tìm thấy vật tư y tế có ID {item.ItemId}");
+
+					if (inventory.Quantity < item.Quantity)
+						return BadRequest($"Số lượng {inventory.ItemName} trong kho không đủ");
+
+					// Ghi nhận việc sử dụng vật tư
+					var eventInventory = new MedicalEventInventory
+					{
+						EventID = id,
+						ItemID = item.ItemId,
+						QuantityUsed = item.Quantity,
+						UsedTime = DateTime.Now
+					};
+					_context.MedicalEventInventory.Add(eventInventory);
+
+					// Cập nhật số lượng trong kho
+					inventory.Quantity -= item.Quantity;
+				}
+
+				// Cập nhật trạng thái sự kiện
+				medicalEvent.Status = "Đã xử lý";
+
+				await _context.SaveChangesAsync();
+				await transaction.CommitAsync();
+
+				return Ok("Đã cập nhật sử dụng vật tư y tế thành công");
+			}
+			catch (Exception)
+			{
+				await transaction.RollbackAsync();
+				return StatusCode(500, "Đã xảy ra lỗi khi cập nhật sử dụng vật tư y tế");
+			}
+		}
 	}
 
 	public class MedicalEventUpdateDto
@@ -142,4 +189,17 @@ namespace SchoolMedical.Controllers
 		public DateTime EventTime { get; set; }
 		public int? NurseID { get; set; }
 	}
+
+// DTO cho việc sử dụng vật tư y tế
+public class UseItemsDto
+{
+    public List<EventItemDto> Items { get; set; }
+}
+
+public class EventItemDto
+{
+    public int ItemId { get; set; }
+    public int Quantity { get; set; }
+}
+
 }
