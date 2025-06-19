@@ -41,9 +41,10 @@ public class MedicineRequestController : ControllerBase
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemID = d.ItemID,
+						ItemName = d.ItemName,
 						Quantity = d.Quantity,
-						DosageInstructions = d.DosageInstructions
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
 					}).ToList()
 			})
 			.FirstOrDefaultAsync();
@@ -77,9 +78,10 @@ public class MedicineRequestController : ControllerBase
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemID = d.ItemID,
+						ItemName = d.ItemName,
 						Quantity = d.Quantity,
-						DosageInstructions = d.DosageInstructions
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
 					}).ToList()
 			})
 			.OrderByDescending(m => m.Date)
@@ -118,9 +120,10 @@ public class MedicineRequestController : ControllerBase
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemID = d.ItemID,
+						ItemName = d.ItemName,
 						Quantity = d.Quantity,
-						DosageInstructions = d.DosageInstructions
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
 					}).ToList()
 			})
 			.OrderByDescending(m => m.Date)
@@ -160,9 +163,10 @@ public class MedicineRequestController : ControllerBase
 				var requestDetail = new MedicineRequestDetail
 				{
 					RequestID = medicineRequest.RequestID,
-					ItemID = detail.ItemID,
+					ItemName = detail.ItemName,
 					Quantity = detail.Quantity,
-					DosageInstructions = detail.DosageInstructions
+					DosageInstructions = detail.DosageInstructions,
+					Time = detail.Time // <-- Add this line
 				};
 				_context.MedicineRequestDetails.Add(requestDetail);
 			}

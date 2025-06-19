@@ -20,12 +20,13 @@ namespace SchoolMedical.Core.DTOs.MedicineRequest
     public class MedicineRequestDetailCreateRequest
     {
         [Required]
-        public int ItemID { get; set; }
-        
+        public string ItemName { get; set; } = string.Empty;
+
         [Required]
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
         
         public string? DosageInstructions { get; set; }
+        public string? Time { get; set; } // <-- Add this line
     }
 }

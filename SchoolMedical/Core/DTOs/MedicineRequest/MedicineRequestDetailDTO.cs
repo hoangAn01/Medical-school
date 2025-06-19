@@ -8,11 +8,13 @@ namespace SchoolMedical.Core.DTOs.MedicineRequest
 		
 		public int RequestID { get; set; }
 		
-		public int ItemID { get; set; }
+		public string ItemName { get; set; } = string.Empty;
 		
 		public int Quantity { get; set; }
 		
 		[StringLength(255)]
 		public string? DosageInstructions { get; set; }
+		
+		public string? Time { get; set; }
 	}
 }

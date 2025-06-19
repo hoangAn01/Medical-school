@@ -180,11 +180,6 @@ namespace SchoolMedical.Infrastructure.Data
 					.WithMany(m => m.MedicineRequestDetails)
 					.HasForeignKey(d => d.RequestID)
 					.OnDelete(DeleteBehavior.Restrict);
-
-				entity.HasOne(d => d.MedicalInventory)
-					.WithMany()
-					.HasForeignKey(d => d.ItemID)
-					.OnDelete(DeleteBehavior.Restrict);
 			});
 
 			// Configure Notification entity (updated for many-to-many)
