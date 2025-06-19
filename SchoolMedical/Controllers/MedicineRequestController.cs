@@ -87,9 +87,9 @@ public class MedicineRequestController : ControllerBase
 		return Ok(requests);
 	}
 
-	// GET: api/MedicineRequest/sent{parentId}
-	[HttpGet("sent{parentId}")]
-	public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetSentMedicineRequests([FromQuery] int parentId)
+	// GET: api/MedicineRequest/sent/{parentId}
+	[HttpGet("sent/{parentId}")]
+	public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetSentMedicineRequests([FromRoute] int parentId)
 	{
 		// Validate parent exists
 		var parent = await _context.Parents.FindAsync(parentId);
