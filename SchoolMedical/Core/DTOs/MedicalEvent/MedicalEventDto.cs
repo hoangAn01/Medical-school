@@ -6,5 +6,5 @@
     public string EventType { get; set; }
     public DateTime EventTime { get; set; }
     public string Description { get; set; }
-    public string? Status { get; set; } = "Chưa xử lý"; // Default status is "Chưa xử lý"
+    public string Status { get; set; }
 }

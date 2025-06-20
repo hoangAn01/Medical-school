@@ -28,7 +28,8 @@ namespace SchoolMedical.Controllers
 					StudentName = me.Student.FullName,
 					EventType = me.EventType,
 					EventTime = me.EventTime,
-					Description = me.Description
+					Description = me.Description,
+					Status = me.Status
 				})
 				.ToListAsync();
 
@@ -38,16 +39,47 @@ namespace SchoolMedical.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateMedicalEvent([FromBody] MedicalEventCreateDto dto)
 		{
+			// 1. Tạo MedicalEvent
 			var medicalEvent = new MedicalEvent
 			{
 				StudentID = dto.StudentID,
 				EventType = dto.EventType,
 				Description = dto.Description,
 				EventTime = dto.EventTime,
-				NurseID = dto.NurseID
+				NurseID = dto.NurseID,
+				Status = "Đang xử lý"
 			};
 			_context.MedicalEvents.Add(medicalEvent);
 			await _context.SaveChangesAsync();
+
+			// 2. Lấy thông tin học sinh và phụ huynh
+			var student = await _context.Students.FindAsync(dto.StudentID);
+			if (student != null && student.ParentID.HasValue)
+			{
+				// 3. Tạo Notification (nội dung thông báo)
+				var notification = new Notification
+				{
+					Title = "Thông báo sự cố y tế",
+					Content = $"Con bạn {student.FullName} gặp sự cố: {dto.EventType} - {dto.Description} vào lúc {dto.EventTime:dd/MM/yyyy HH:mm}",
+					SentDate = DateTime.Now,
+					Status = "Published",
+					NotificationType = "MEDICAL_EVENT"
+				};
+				_context.Notifications.Add(notification);
+				await _context.SaveChangesAsync();
+
+				// 4. Tạo ParentNotification (gửi cho phụ huynh)
+				var parentNotification = new ParentNotification
+				{
+					ParentID = student.ParentID.Value,
+					NotificationID = notification.NotificationID,
+					IndividualSentDate = DateTime.Now,
+					IndividualStatus = "Sent"
+				};
+				_context.ParentNotifications.Add(parentNotification);
+				await _context.SaveChangesAsync();
+			}
+
 			return CreatedAtAction(nameof(GetMedicalEventById), new { id = medicalEvent.EventID }, medicalEvent);
 		}
 
@@ -64,7 +96,8 @@ namespace SchoolMedical.Controllers
 					StudentName = me.Student.FullName,
 					EventType = me.EventType,
 					EventTime = me.EventTime,
-					Description = me.Description
+					Description = me.Description,
+					Status = me.Status
 				})
 				.FirstOrDefaultAsync();
 
@@ -123,7 +156,8 @@ namespace SchoolMedical.Controllers
 					StudentName = me.Student.FullName,
 					EventType = me.EventType,
 					EventTime = me.EventTime,
-					Description = me.Description
+					Description = me.Description,
+					Status = me.Status
 				})
 				.ToListAsync();
 
@@ -179,6 +213,39 @@ namespace SchoolMedical.Controllers
 				await transaction.RollbackAsync();
 				return StatusCode(500, "Đã xảy ra lỗi khi cập nhật sử dụng vật tư y tế");
 			}
+		}
+
+		[HttpGet("student/{studentId}")]
+		public async Task<ActionResult<IEnumerable<MedicalEventDto>>> GetMedicalEventsByStudentId(int studentId)
+		{
+			var events = await _context.MedicalEvents
+				.Include(me => me.Student)
+				.Where(me => me.StudentID == studentId)
+				.Select(me => new MedicalEventDto
+				{
+					EventID = me.EventID,
+					StudentID = me.StudentID,
+					StudentName = me.Student.FullName,
+					EventType = me.EventType,
+					EventTime = me.EventTime,
+					Description = me.Description,
+					Status = me.Status
+				})
+				.ToListAsync();
+
+			return Ok(events);
+		}
+
+		[HttpPut("{id}/status")]
+		public async Task<IActionResult> UpdateMedicalEventStatus(int id, [FromBody] string status)
+		{
+			var medicalEvent = await _context.MedicalEvents.FindAsync(id);
+			if (medicalEvent == null)
+				return NotFound();
+
+			medicalEvent.Status = status;
+			await _context.SaveChangesAsync();
+			return NoContent();
 		}
 	}
 

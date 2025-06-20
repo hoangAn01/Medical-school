@@ -6,6 +6,7 @@ using SchoolMedical.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SchoolMedical.Core.DTOs.Notification;
 
 namespace SchoolMedical.Controllers
 {
@@ -186,27 +187,23 @@ namespace SchoolMedical.Controllers
 
 		// GET: api/ParentNotifications/parent/{parentId}
 		[HttpGet("parent/{parentId}")]
-		public async Task<ActionResult<IEnumerable<ParentNotificationDto>>> GetNotificationsByParentId(int parentId)
+		public async Task<ActionResult<IEnumerable<NotificationDto>>> GetNotificationsForParent(int parentId)
 		{
 			var notifications = await _context.ParentNotifications
-				.Include(pn => pn.Notification)
-				.Include(pn => pn.Parent)
 				.Where(pn => pn.ParentID == parentId)
-				.Select(pn => new ParentNotificationDto
-				{
-					NotificationID = pn.NotificationID,
-					ParentID = pn.ParentID,
-					ParentName = pn.Parent.FullName,
-					NotificationTitle = pn.Notification.Title,
-					IndividualSentDate = pn.IndividualSentDate,
-					IndividualStatus = pn.IndividualStatus
-				})
+				.Join(_context.Notifications,
+					  pn => pn.NotificationID,
+					  n => n.NotificationID,
+					  (pn, n) => new NotificationDto
+					  {
+						  NotificationID = n.NotificationID,
+						  Title = n.Title,
+						  Content = n.Content,
+						  SentDate = pn.IndividualSentDate,
+						  Status = pn.IndividualStatus,
+						  NotificationType = n.NotificationType
+					  })
 				.ToListAsync();
-
-			if (!notifications.Any())
-			{
-				return NotFound($"Không tìm thấy thông báo nào cho phụ huynh có ID {parentId}");
-			}
 
 			return Ok(notifications);
 		}
@@ -275,5 +272,7 @@ namespace SchoolMedical.Controllers
 		{
 			return _context.ParentNotifications.Any(e => e.NotificationID == notificationId && e.ParentID == parentId);
 		}
+
+		
 	}
 }
