@@ -229,15 +229,23 @@ public class MedicineRequestController : ControllerBase
 
 	// PUT: api/MedicineRequest/{id}/approve
 	[HttpPut("{id}/approve")]
-	public async Task<IActionResult> ApproveMedicineRequest(int id, [FromQuery] int approvedBy)
+	public async Task<IActionResult> ApproveMedicineRequest(int id, [FromBody] ApproveRequestDto request)
 	{
 		var medicineRequest = await _context.MedicineRequests.FindAsync(id);
 		if (medicineRequest == null)
 			return NotFound();
 
 		medicineRequest.RequestStatus = "Approved";
-		medicineRequest.ApprovedBy = approvedBy;
+		medicineRequest.ApprovedBy = request.ApprovedBy;
 		medicineRequest.ApprovalDate = DateTime.UtcNow.Date;
+
+		// Append nurse note to existing note (with separator if needed)
+		if (!string.IsNullOrWhiteSpace(request.NurseNote))
+		{
+			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
+				medicineRequest.Note += "\n---\n";
+			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
+		}
 
 		await _context.SaveChangesAsync();
 		return NoContent();
@@ -264,9 +272,37 @@ public class MedicineRequestController : ControllerBase
 		await _context.SaveChangesAsync();
 		return NoContent();
 	}
+
+	// GET: api/MedicineRequest/items
+	[HttpGet("items")]
+	public async Task<ActionResult<IEnumerable<MedicineItemTypeDto>>> GetAllItemNamesAndMedicineTypes()
+	{
+		var items = await _context.MedicineRequestDetails
+			.Select(d => new MedicineItemTypeDto
+			{
+				ItemName = d.ItemName
+				// MedicineType = d.MedicineType
+			})
+			.ToListAsync();
+
+		return Ok(items);
+	}
 }
 
 public class RefuseRequestDto
 {
 	public string NurseNote { get; set; } = string.Empty;
+}
+
+public class ApproveRequestDto
+{
+	public int ApprovedBy { get; set; }
+	public string NurseNote { get; set; } = string.Empty;
+}
+
+// DTO for returning ItemName and MedicineType
+public class MedicineItemTypeDto
+{
+	public string? ItemName { get; set; }
+	// public string? MedicineType { get; set; }
 }

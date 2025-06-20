@@ -14,7 +14,7 @@ namespace SchoolMedical.Core.Entities
 		
 		public string? ItemName { get; set; }
 		
-		public string? MedicineType { get; set; } // Add this line
+		// public string? MedicineType { get; set; } // Add this line
 		
 		[Required]
 		public int Quantity { get; set; }
