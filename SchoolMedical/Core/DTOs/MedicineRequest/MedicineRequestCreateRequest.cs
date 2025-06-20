@@ -22,7 +22,7 @@ namespace SchoolMedical.Core.DTOs.MedicineRequest
         [Required]
         public string ItemName { get; set; } = string.Empty;
         
-        public string? MedicineType { get; set; } // Add this line
+        // public string? MedicineType { get; set; } // Add this line
 
         [Required]
         [Range(1, int.MaxValue)]

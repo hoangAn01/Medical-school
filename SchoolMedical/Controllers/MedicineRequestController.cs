@@ -42,7 +42,7 @@ public class MedicineRequestController : ControllerBase
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
 						ItemName = d.ItemName,
-						MedicineType = d.MedicineType, // Add this line
+						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -80,7 +80,7 @@ public class MedicineRequestController : ControllerBase
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
 						ItemName = d.ItemName,
-						MedicineType = d.MedicineType, // Add this line
+						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -123,7 +123,46 @@ public class MedicineRequestController : ControllerBase
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
 						ItemName = d.ItemName,
-						MedicineType = d.MedicineType, // Add this line
+						// MedicineType = d.MedicineType, // commented out
+						Quantity = d.Quantity,
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
+					}).ToList()
+			})
+			.OrderByDescending(m => m.Date)
+			.ToListAsync();
+
+		return Ok(requests);
+	}
+
+	// GET: api/MedicineRequest/pending
+	[HttpGet("pending")]
+	public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetPendingMedicineRequests()
+	{
+		var requests = await _context.MedicineRequests
+			.Include(m => m.Student)
+			.Include(m => m.Parent)
+			.Where(m => m.RequestStatus == "Pending")
+			.Select(m => new MedicineRequestDTO
+			{
+				RequestID = m.RequestID,
+				Date = m.Date,
+				RequestStatus = m.RequestStatus,
+				StudentID = m.StudentID,
+				ParentID = m.ParentID,
+				Note = m.Note,
+				ApprovedBy = m.ApprovedBy,
+				ApprovalDate = m.ApprovalDate,
+				StudentName = m.Student.FullName,
+				ParentName = m.Parent.FullName,
+				MedicineDetails = _context.MedicineRequestDetails
+					.Where(d => d.RequestID == m.RequestID)
+					.Select(d => new MedicineRequestDetailDTO
+					{
+						RequestDetailID = d.RequestDetailID,
+						RequestID = d.RequestID,
+						ItemName = d.ItemName,
+						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -167,10 +206,10 @@ public class MedicineRequestController : ControllerBase
 				{
 					RequestID = medicineRequest.RequestID,
 					ItemName = detail.ItemName,
-					MedicineType = detail.MedicineType, // Add this line
+					// MedicineType = detail.MedicineType, // commented out
 					Quantity = detail.Quantity,
 					DosageInstructions = detail.DosageInstructions,
-					Time = detail.Time // <-- Add this line
+					Time = detail.Time
 				};
 				_context.MedicineRequestDetails.Add(requestDetail);
 			}
@@ -203,4 +242,31 @@ public class MedicineRequestController : ControllerBase
 		await _context.SaveChangesAsync();
 		return NoContent();
 	}
+
+	// PUT: api/MedicineRequest/{id}/refuse
+	[HttpPut("{id}/refuse")]
+	public async Task<IActionResult> RefuseMedicineRequest(int id, [FromBody] RefuseRequestDto request)
+	{
+		var medicineRequest = await _context.MedicineRequests.FindAsync(id);
+		if (medicineRequest == null)
+			return NotFound();
+
+		// Set status to "Refused"
+		medicineRequest.RequestStatus = "Refused";
+
+		// Append nurse note to existing note (with separator if needed)
+		if (!string.IsNullOrWhiteSpace(request.NurseNote))
+		{
+			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
+				medicineRequest.Note += "\n---\n";
+			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
+		}
+		await _context.SaveChangesAsync();
+		return NoContent();
+	}
+}
+
+public class RefuseRequestDto
+{
+	public string NurseNote { get; set; } = string.Empty;
 }

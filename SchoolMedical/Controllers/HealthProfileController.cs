@@ -194,5 +194,42 @@ namespace SchoolMedical.API.Controllers
 
 			return NoContent();
 		}
+
+		// GET: api/HealthProfile/students-without-profile?parentId=123
+		[HttpGet("students-without-profile")]
+		public async Task<ActionResult<IEnumerable<StudentInfoDTO>>> GetStudentsWithoutHealthProfile([FromQuery] int parentId)
+		{
+			// Validate parent exists
+			var parent = await _context.Parents.FindAsync(parentId);
+			if (parent == null)
+				return NotFound($"Parent with ID {parentId} not found");
+
+			var students = await _context.Students
+				.Where(s => s.ParentID == parentId && !_context.HealthProfiles.Any(hp => hp.StudentID == s.StudentID))
+				.Select(s => new StudentInfoDTO
+				{
+					StudentID = s.StudentID,
+					FullName = s.FullName,
+					Gender = s.Gender,
+					DateOfBirth = s.DateOfBirth,
+					ClassID = s.ClassID,
+					ParentID = s.ParentID,
+					UserID = s.UserID
+				})
+				.ToListAsync();
+
+			return Ok(students);
+		}
 	}
+}
+
+public class StudentInfoDTO
+{
+	public int StudentID { get; set; }
+	public string? FullName { get; set; }
+	public char? Gender { get; set; }
+	public DateTime? DateOfBirth { get; set; }
+	public int? ClassID { get; set; }
+	public int? ParentID { get; set; }
+	public int? UserID { get; set; }
 }

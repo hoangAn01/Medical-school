@@ -12,4 +12,14 @@ namespace SchoolMedical.Core.DTOs
 		public string? ParentName { get; set; }
 		public string? ClassName { get; set; }
 	}
+	public class StudentInfoDTO
+	{
+		public int StudentID { get; set; }
+		public string? FullName { get; set; }
+		public char? Gender { get; set; }
+		public DateTime? DateOfBirth { get; set; }
+		public int? ClassID { get; set; }
+		public int? ParentID { get; set; }
+		public int? UserID { get; set; }
+	}
 }
