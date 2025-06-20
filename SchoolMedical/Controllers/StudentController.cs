@@ -81,6 +81,8 @@ namespace SchoolMedical.API.Controllers
 			return student;
 		}
 
+
+
 		// GET: api/Student/search/{studentName}
 		[HttpGet("search/{studentName}")]
 		public async Task<ActionResult<IEnumerable<StudentDTO>>> SearchStudentsByName(string studentName)

@@ -14,13 +14,15 @@ namespace SchoolMedical.Core.Entities
 		
 		public string? ItemName { get; set; }
 		
+		public string? MedicineType { get; set; } // Add this line
+		
 		[Required]
 		public int Quantity { get; set; }
 		
 		[StringLength(255)]
 		public string? DosageInstructions { get; set; }
 		
-		public string? Time { get; set; } // <-- Add this line
+		public string? Time { get; set; }
 
 		// Navigation properties
 		[ForeignKey("RequestID")]

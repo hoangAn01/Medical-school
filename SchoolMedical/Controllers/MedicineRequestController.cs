@@ -42,6 +42,7 @@ public class MedicineRequestController : ControllerBase
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
 						ItemName = d.ItemName,
+						MedicineType = d.MedicineType, // Add this line
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -79,6 +80,7 @@ public class MedicineRequestController : ControllerBase
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
 						ItemName = d.ItemName,
+						MedicineType = d.MedicineType, // Add this line
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -121,6 +123,7 @@ public class MedicineRequestController : ControllerBase
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
 						ItemName = d.ItemName,
+						MedicineType = d.MedicineType, // Add this line
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -164,6 +167,7 @@ public class MedicineRequestController : ControllerBase
 				{
 					RequestID = medicineRequest.RequestID,
 					ItemName = detail.ItemName,
+					MedicineType = detail.MedicineType, // Add this line
 					Quantity = detail.Quantity,
 					DosageInstructions = detail.DosageInstructions,
 					Time = detail.Time // <-- Add this line

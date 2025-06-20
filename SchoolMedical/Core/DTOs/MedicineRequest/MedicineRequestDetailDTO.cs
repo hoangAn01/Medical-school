@@ -10,6 +10,8 @@ namespace SchoolMedical.Core.DTOs.MedicineRequest
 		
 		public string ItemName { get; set; } = string.Empty;
 		
+		public string? MedicineType { get; set; } // Add this line
+		
 		public int Quantity { get; set; }
 		
 		[StringLength(255)]
