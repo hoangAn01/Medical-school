@@ -26,6 +26,8 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<VaccinationEvent> VaccinationEvents { get; set; }
 		public DbSet<MedicineRequestDetail> MedicineRequestDetails { get; set; }
 		public DbSet<Blog> Blogs { get; set; }
+		public DbSet<MedicalEventInventory> MedicalEventInventory { get; set; }
+		public DbSet<AuditLog> AuditLogs { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

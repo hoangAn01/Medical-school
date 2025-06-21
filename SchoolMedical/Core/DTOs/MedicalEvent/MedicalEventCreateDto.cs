@@ -7,5 +7,7 @@ namespace SchoolMedical.Core.DTOs.MedicalEvent
         public string Description { get; set; }
         public DateTime EventTime { get; set; }
         public int? NurseID { get; set; }
+
+        public string? Status { get; set; } = "Ch?a x? lý"; // Default status is "Ch?a x? lý"
     }
 } 

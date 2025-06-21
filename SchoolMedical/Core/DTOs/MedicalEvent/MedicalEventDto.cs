@@ -1,4 +1,4 @@
-public class MedicalEventDto
+﻿public class MedicalEventDto
 {
     public int EventID { get; set; }
     public int StudentID { get; set; }
@@ -6,4 +6,5 @@ public class MedicalEventDto
     public string EventType { get; set; }
     public DateTime EventTime { get; set; }
     public string Description { get; set; }
+    public string Status { get; set; }
 }

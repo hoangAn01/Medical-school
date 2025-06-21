@@ -24,7 +24,10 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(50)]
 		public string? Status { get; set; }
 
+		[StringLength(50)]
+		public string? NotificationType { get; set; }
+
 		// Navigation property for the many-to-many relationship
 		public ICollection<ParentNotification> ParentNotifications { get; set; } = new List<ParentNotification>();
 	}
-} 
+}

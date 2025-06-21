@@ -86,44 +86,28 @@ namespace SchoolMedical.Infrastructure.Services
 		}
 
 		public string GenerateJwtToken(int userId, string username, string role)
-		{
-			var jwtSettings = _configuration.GetSection("JwtSettings");
-			var secretKey = jwtSettings["SecretKey"];
-			var issuer = jwtSettings["Issuer"];
-			var audience = jwtSettings["Audience"];
-			var expiryMinutesValue = jwtSettings["ExpiryMinutes"];
+{
+    var claims = new[]
+    {
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+        new Claim(ClaimTypes.Name, username),
+        new Claim(ClaimTypes.Role, role)
+    };
 
-			if (string.IsNullOrWhiteSpace(secretKey))
-				throw new InvalidOperationException("JWT SecretKey is not configured.");
-			if (string.IsNullOrWhiteSpace(issuer))
-				throw new InvalidOperationException("JWT Issuer is not configured.");
-			if (string.IsNullOrWhiteSpace(audience))
-				throw new InvalidOperationException("JWT Audience is not configured.");
-			if (string.IsNullOrWhiteSpace(expiryMinutesValue) || !int.TryParse(expiryMinutesValue, out var expiryMinutes))
-				throw new InvalidOperationException("JWT ExpiryMinutes is not configured or invalid.");
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!));
+    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+    var expires = DateTime.Now.AddHours(1); // Thêm thời gian hết hạn
 
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-			var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+    var token = new JwtSecurityToken(
+        issuer: _configuration["JwtSettings:Issuer"],
+        audience: _configuration["JwtSettings:Audience"],
+        claims: claims,
+        expires: expires,
+        signingCredentials: creds
+    );
 
-			var claims = new[]
-			{
-				new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-				new Claim(ClaimTypes.Name, username),
-				new Claim(ClaimTypes.Role, role),
-				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-				new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-			};
-
-			var token = new JwtSecurityToken(
-				issuer: issuer,
-				audience: audience,
-				claims: claims,
-				expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
-				signingCredentials: credentials
-			);
-
-			return new JwtSecurityTokenHandler().WriteToken(token);
-		}
+    return new JwtSecurityTokenHandler().WriteToken(token);
+}
 
 		public async Task<bool> ValidateTokenAsync(string token)
 		{

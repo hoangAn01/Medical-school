@@ -31,7 +31,8 @@ namespace SchoolMedical.Controllers
 					Title = n.Title,
 					Content = n.Content,
 					SentDate = n.SentDate,
-					Status = n.Status
+					Status = n.Status,
+					NotificationType = n.NotificationType
 					// ParentNotifications will be loaded separately or in a specific endpoint if needed
 				})
 				.ToListAsync();
@@ -51,7 +52,8 @@ namespace SchoolMedical.Controllers
 					Title = n.Title,
 					Content = n.Content,
 					SentDate = n.SentDate,
-					Status = n.Status
+					Status = n.Status,
+					NotificationType = n.NotificationType
 				})
 				.FirstOrDefaultAsync();
 
@@ -72,7 +74,8 @@ namespace SchoolMedical.Controllers
 				Title = createDto.Title,
 				Content = createDto.Content,
 				SentDate = DateTime.Now, // Set current date/time
-				Status = createDto.Status ?? "Draft" // Default status
+				Status = createDto.Status ?? "Draft", // Default status
+				NotificationType = createDto.NotificationType
 			};
 
 			_context.Notifications.Add(notification);
@@ -86,7 +89,8 @@ namespace SchoolMedical.Controllers
 					Title = n.Title,
 					Content = n.Content,
 					SentDate = n.SentDate,
-					Status = n.Status
+					Status = n.Status,
+					NotificationType = n.NotificationType
 				})
 				.FirstOrDefaultAsync();
 
@@ -106,6 +110,7 @@ namespace SchoolMedical.Controllers
 			notification.Title = updateDto.Title;
 			notification.Content = updateDto.Content;
 			notification.Status = updateDto.Status ?? notification.Status; // Update status, keep old if null
+			notification.NotificationType = updateDto.NotificationType ?? notification.NotificationType; // Update type, keep old if null
 
 			await _context.SaveChangesAsync();
 
@@ -139,7 +144,8 @@ namespace SchoolMedical.Controllers
 			{
 				query = query.Where(n =>
 					n.Title.Contains(keyword) ||
-					n.Content.Contains(keyword));
+					n.Content.Contains(keyword) ||
+					n.NotificationType.Contains(keyword));
 			}
 
 			var notifications = await query
@@ -149,11 +155,12 @@ namespace SchoolMedical.Controllers
 					Title = n.Title,
 					Content = n.Content,
 					SentDate = n.SentDate,
-					Status = n.Status
+					Status = n.Status,
+					NotificationType = n.NotificationType
 				})
 				.ToListAsync();
 
 			return Ok(notifications);
 		}
 	}
-} 
+}
