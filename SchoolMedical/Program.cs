@@ -6,11 +6,16 @@ using SchoolMedical.Infrastructure.Services;
 using SchoolMedical.Core.Interfaces.Services;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    });
 
 // Add logging
 builder.Services.AddLogging(config =>
