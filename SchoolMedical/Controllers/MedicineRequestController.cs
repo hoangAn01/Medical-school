@@ -3,16 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using SchoolMedical.Core.Entities;
 using SchoolMedical.Infrastructure.Data;
 using SchoolMedical.Core.DTOs.MedicineRequest;
+using SchoolMedical.Infrastructure.Services;
 
 [ApiController]
 [Route("api/[controller]")]
 public class MedicineRequestController : ControllerBase
 {
 	private readonly ApplicationDbContext _context;
+	private readonly INotificationService _notificationService;
 
-	public MedicineRequestController(ApplicationDbContext context)
+	public MedicineRequestController(ApplicationDbContext context, INotificationService notificationService)
 	{
 		_context = context;
+		_notificationService = notificationService;
 	}
 
 	// GET: api/MedicineRequest/{id}
@@ -262,6 +265,10 @@ public class MedicineRequestController : ControllerBase
 		}
 
 		await _context.SaveChangesAsync();
+		
+		// Send automatic notification to parent
+		await _notificationService.SendMedicineRequestNotificationAsync(id, "Approved", request.NurseNote);
+		
 		return NoContent();
 	}
 
@@ -284,6 +291,10 @@ public class MedicineRequestController : ControllerBase
 			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
 		}
 		await _context.SaveChangesAsync();
+		
+		// Send automatic notification to parent
+		await _notificationService.SendMedicineRequestNotificationAsync(id, "Refused", request.NurseNote);
+		
 		return NoContent();
 	}
 
