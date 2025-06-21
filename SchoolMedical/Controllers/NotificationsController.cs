@@ -32,8 +32,9 @@ namespace SchoolMedical.Controllers
 					Content = n.Content,
 					SentDate = n.SentDate,
 					Status = n.Status,
-					NotificationType = n.NotificationType
-					// ParentNotifications will be loaded separately or in a specific endpoint if needed
+					NotificationType = n.NotificationType,
+					VaccinationEventID = n.VaccinationEventID,
+					MedicalEventID = n.MedicalEventID
 				})
 				.ToListAsync();
 
@@ -53,7 +54,9 @@ namespace SchoolMedical.Controllers
 					Content = n.Content,
 					SentDate = n.SentDate,
 					Status = n.Status,
-					NotificationType = n.NotificationType
+					NotificationType = n.NotificationType,
+					VaccinationEventID = n.VaccinationEventID,
+					MedicalEventID = n.MedicalEventID
 				})
 				.FirstOrDefaultAsync();
 
@@ -75,7 +78,9 @@ namespace SchoolMedical.Controllers
 				Content = createDto.Content,
 				SentDate = DateTime.Now, // Set current date/time
 				Status = createDto.Status ?? "Draft", // Default status
-				NotificationType = createDto.NotificationType
+				NotificationType = createDto.NotificationType,
+				VaccinationEventID = createDto.VaccinationEventID,
+				MedicalEventID = createDto.MedicalEventID
 			};
 
 			_context.Notifications.Add(notification);
@@ -90,7 +95,9 @@ namespace SchoolMedical.Controllers
 					Content = n.Content,
 					SentDate = n.SentDate,
 					Status = n.Status,
-					NotificationType = n.NotificationType
+					NotificationType = n.NotificationType,
+					VaccinationEventID = n.VaccinationEventID,
+					MedicalEventID = n.MedicalEventID
 				})
 				.FirstOrDefaultAsync();
 
@@ -111,6 +118,8 @@ namespace SchoolMedical.Controllers
 			notification.Content = updateDto.Content;
 			notification.Status = updateDto.Status ?? notification.Status; // Update status, keep old if null
 			notification.NotificationType = updateDto.NotificationType ?? notification.NotificationType; // Update type, keep old if null
+			notification.VaccinationEventID = updateDto.VaccinationEventID;
+			notification.MedicalEventID = updateDto.MedicalEventID;
 
 			await _context.SaveChangesAsync();
 
@@ -156,7 +165,9 @@ namespace SchoolMedical.Controllers
 					Content = n.Content,
 					SentDate = n.SentDate,
 					Status = n.Status,
-					NotificationType = n.NotificationType
+					NotificationType = n.NotificationType,
+					VaccinationEventID = n.VaccinationEventID,
+					MedicalEventID = n.MedicalEventID
 				})
 				.ToListAsync();
 

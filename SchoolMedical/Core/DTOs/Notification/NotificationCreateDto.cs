@@ -16,5 +16,11 @@ namespace SchoolMedical.Core.DTOs.Notification
 
 		[StringLength(50)]
 		public string? NotificationType { get; set; }
+
+		public int? VaccinationEventID { get; set; }
+
+		public int? MedicalEventID { get; set; }
+
+		public List<int>? ParentIds { get; set; }
 	}
 }

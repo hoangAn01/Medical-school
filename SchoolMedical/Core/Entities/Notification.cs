@@ -27,7 +27,17 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(50)]
 		public string? NotificationType { get; set; }
 
-		// Navigation property for the many-to-many relationship
+		// Liên kết đến sự kiện tiêm chủng (nếu có)
+		public int? VaccinationEventID { get; set; }
+		[ForeignKey("VaccinationEventID")]
+		public VaccinationEvent? VaccinationEvent { get; set; }
+
+		// Liên kết đến sự kiện y tế (nếu có)
+		public int? MedicalEventID { get; set; }
+		[ForeignKey("MedicalEventID")]
+		public MedicalEvent? MedicalEvent { get; set; }
+
+		// Navigation property for the join table
 		public ICollection<ParentNotification> ParentNotifications { get; set; } = new List<ParentNotification>();
 	}
 }

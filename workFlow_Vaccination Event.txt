@@ -1,0 +1,37 @@
+(1): Tạo sự kiện tiêm chủng (Người quản lý/Admin)
+Tạo bản ghi mới cho sự kiện với tên, ngày, địa điểm, người quản lý và lớp áp dụng (nếu có).
+
+✅ Kết quả: Sự kiện tiêm chủng được lên lịch.
+->
+(2): Gửi thông báo và xin ý kiến phụ huynh (Người quản lý/Admin)
+Soạn phiếu đồng ý.
+
+Gửi thông báo cá nhân đến phụ huynh học sinh liên quan.
+
+Ghi nhận trạng thái “Chờ phản hồi” trong bảng đồng ý.
+
+✅ Kết quả: Phụ huynh nhận được thông báo và hệ thống sẵn sàng nhận phản hồi.
+->
+(3): Phụ huynh phản hồi (Phụ huynh)
+Đồng ý hoặc từ chối tiêm cho con.
+
+Có thể ghi chú thêm.
+
+✅ Kết quả: Hệ thống ghi nhận quyết định của phụ huynh.
+->
+(4): Lập danh sách học sinh tiêm (Y tá/Quản lý)
+Truy xuất danh sách học sinh được phụ huynh đồng ý.
+
+✅ Kết quả: Có danh sách chính xác học sinh tham gia tiêm.
+->
+(5): Thực hiện tiêm và ghi nhận kết quả (Y tá)
+Tiêm và cập nhật thông tin: loại vắc xin, ngày tiêm, phản ứng, cần theo dõi, mũi tiếp theo,…
+
+✅ Kết quả: Mỗi lần tiêm được ghi nhận đầy đủ.
+->
+(6): Theo dõi sau tiêm và gửi thông báo (Y tá/Hệ thống)
+Theo dõi các trường hợp đặc biệt, nhắc mũi tiếp theo.
+
+Gửi thông báo cập nhật đến phụ huynh.
+
+✅ Kết quả: Phụ huynh nắm rõ tình hình và lịch trình tiếp theo.

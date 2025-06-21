@@ -63,7 +63,8 @@ namespace SchoolMedical.Controllers
 					Content = $"Con bạn {student.FullName} gặp sự cố: {dto.EventType} - {dto.Description} vào lúc {dto.EventTime:dd/MM/yyyy HH:mm}",
 					SentDate = DateTime.Now,
 					Status = "Published",
-					NotificationType = "MEDICAL_EVENT"
+					NotificationType = "MEDICAL_EVENT",
+					MedicalEventID = medicalEvent.EventID
 				};
 				_context.Notifications.Add(notification);
 				await _context.SaveChangesAsync();
