@@ -27,4 +27,4 @@ namespace SchoolMedical.Core.Entities
 		// Navigation property for the many-to-many relationship
 		public ICollection<ParentNotification> ParentNotifications { get; set; } = new List<ParentNotification>();
 	}
-} 
+}

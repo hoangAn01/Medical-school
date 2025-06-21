@@ -6,7 +6,7 @@ namespace SchoolMedical.Core.DTOs.MedicineRequest
 	{
 		public int RequestDetailID { get; set; }
 		
-		public int RequestID { get; set; }
+		// public int RequestID { get; set; }
 		
 		public int RequestItemID { get; set; }
 		

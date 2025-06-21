@@ -41,11 +41,9 @@ public class MedicineRequestController : ControllerBase
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
 						RequestItemID = d.RequestItemID,
 						RequestItemName = d.RequestItem.RequestItemName,
 						Description = d.RequestItem.Description,
-						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -82,11 +80,9 @@ public class MedicineRequestController : ControllerBase
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
 						RequestItemID = d.RequestItemID,
 						RequestItemName = d.RequestItem.RequestItemName,
 						Description = d.RequestItem.Description,
-						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -128,11 +124,9 @@ public class MedicineRequestController : ControllerBase
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
 						RequestItemID = d.RequestItemID,
 						RequestItemName = d.RequestItem.RequestItemName,
 						Description = d.RequestItem.Description,
-						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -170,11 +164,9 @@ public class MedicineRequestController : ControllerBase
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
 						RequestItemID = d.RequestItemID,
 						RequestItemName = d.RequestItem.RequestItemName,
 						Description = d.RequestItem.Description,
-						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
@@ -229,7 +221,6 @@ public class MedicineRequestController : ControllerBase
 				{
 					RequestID = medicineRequest.RequestID,
 					RequestItemID = detail.RequestItemID,
-					// MedicineType = detail.MedicineType, // commented out
 					Quantity = detail.Quantity,
 					DosageInstructions = detail.DosageInstructions,
 					Time = detail.Time
