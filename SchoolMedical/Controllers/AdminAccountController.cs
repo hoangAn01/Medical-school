@@ -25,25 +25,25 @@ namespace SchoolMedical.API.Controllers
 		public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAllAccounts()
 		{
 			var accounts = await (from a in _context.Accounts
-								  where a.Role != "Admin"  // Added condition to exclude Admin accounts
-								  join p in _context.Parents on a.UserID equals p.UserID into parentJoin
-								  from parent in parentJoin.DefaultIfEmpty()
-								  join n in _context.Nurses on a.UserID equals n.UserID into nurseJoin
-								  from nurse in nurseJoin.DefaultIfEmpty()
-								  join m in _context.ManagerAdmins on a.UserID equals m.UserID into managerJoin
-								  from manager in managerJoin.DefaultIfEmpty()
-								  orderby a.UserID
-								  select new AccountDTOfullName
-								  {
-									  UserID = a.UserID,
-									  Username = a.Username,
-									  Role = a.Role,
-									  Active = a.Active,
-									  FullName = a.Role == "Parent" ? parent.FullName :
-											   a.Role == "Nurse" ? nurse.FullName :
-											   a.Role == "Admin" ? manager.FullName :
-											   null
-								  }).ToListAsync();
+								where a.Role != "Admin" // Added condition to exclude Admin accounts
+								join p in _context.Parents on a.UserID equals p.UserID into parentJoin
+								from parent in parentJoin.DefaultIfEmpty()
+								join n in _context.Nurses on a.UserID equals n.UserID into nurseJoin
+								from nurse in nurseJoin.DefaultIfEmpty()
+								join m in _context.ManagerAdmins on a.UserID equals m.UserID into managerJoin
+								from manager in managerJoin.DefaultIfEmpty()
+								orderby a.UserID
+								select new AccountDTOfullName
+								{
+									UserID = a.UserID,
+									Username = a.Username,
+									Role = a.Role,
+									Active = a.Active,
+									FullName = a.Role == "Parent" ? parent.FullName :
+											 a.Role == "Nurse" ? nurse.FullName :
+											 a.Role == "Admin" ? manager.FullName :
+											 null
+								}).ToListAsync();
 			return Ok(accounts);
 		}
 		// GET: api/admin/accounts?search=...&role=...&page=1&pageSize=20
@@ -78,8 +78,8 @@ namespace SchoolMedical.API.Controllers
 					Role = x.a.Role,
 					Active = x.a.Active,
 					FullName = x.a.Role == "Parent" ? x.parent.FullName :
-							  x.a.Role == "Nurse" ? x.nurse.FullName :
-							  null
+							x.a.Role == "Nurse" ? x.nurse.FullName :
+							null
 				})
 				.ToListAsync();
 			return Ok(new { total, accounts });

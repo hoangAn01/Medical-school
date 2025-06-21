@@ -6,7 +6,6 @@ namespace SchoolMedical.Core.Entities
 {[Table("ParentalConsent")]
 	public class ParentalConsent
 	{
-		
 		[Key]
 		//[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int ConsentID { get; set; }

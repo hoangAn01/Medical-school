@@ -36,12 +36,15 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemName = d.ItemName,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
@@ -74,12 +77,15 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemName = d.ItemName,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
@@ -117,12 +123,15 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemName = d.ItemName,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
@@ -156,12 +165,15 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
 						RequestID = d.RequestID,
-						ItemName = d.ItemName,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						// MedicineType = d.MedicineType, // commented out
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
@@ -182,6 +194,17 @@ public class MedicineRequestController : ControllerBase
 		var student = await _context.Students.FindAsync(request.StudentID);
 		if (student == null)
 			return BadRequest("Invalid StudentID");
+
+		// Validate all RequestItemIDs exist
+		var requestItemIds = request.MedicineDetails.Select(d => d.RequestItemID).Distinct().ToList();
+		var existingItems = await _context.RequestItemList
+			.Where(ri => requestItemIds.Contains(ri.RequestItemID))
+			.Select(ri => ri.RequestItemID)
+			.ToListAsync();
+
+		var missingItems = requestItemIds.Except(existingItems).ToList();
+		if (missingItems.Any())
+			return BadRequest($"Invalid RequestItemID(s): {string.Join(", ", missingItems)}");
 
 		using var transaction = await _context.Database.BeginTransactionAsync();
 		try
@@ -205,7 +228,7 @@ public class MedicineRequestController : ControllerBase
 				var requestDetail = new MedicineRequestDetail
 				{
 					RequestID = medicineRequest.RequestID,
-					ItemName = detail.ItemName,
+					RequestItemID = detail.RequestItemID,
 					// MedicineType = detail.MedicineType, // commented out
 					Quantity = detail.Quantity,
 					DosageInstructions = detail.DosageInstructions,
@@ -275,13 +298,14 @@ public class MedicineRequestController : ControllerBase
 
 	// GET: api/MedicineRequest/items
 	[HttpGet("items")]
-	public async Task<ActionResult<IEnumerable<MedicineItemTypeDto>>> GetAllItemNamesAndMedicineTypes()
+	public async Task<ActionResult<IEnumerable<RequestItemListDTO>>> GetAllItemNamesAndMedicineTypes()
 	{
-		var items = await _context.MedicineRequestDetails
-			.Select(d => new MedicineItemTypeDto
+		var items = await _context.RequestItemList
+			.Select(ri => new RequestItemListDTO
 			{
-				ItemName = d.ItemName
-				// MedicineType = d.MedicineType
+				RequestItemID = ri.RequestItemID,
+				RequestItemName = ri.RequestItemName,
+				Description = ri.Description
 			})
 			.ToListAsync();
 
@@ -298,11 +322,4 @@ public class ApproveRequestDto
 {
 	public int ApprovedBy { get; set; }
 	public string NurseNote { get; set; } = string.Empty;
-}
-
-// DTO for returning ItemName and MedicineType
-public class MedicineItemTypeDto
-{
-	public string? ItemName { get; set; }
-	// public string? MedicineType { get; set; }
 }

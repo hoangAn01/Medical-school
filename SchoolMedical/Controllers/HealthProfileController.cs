@@ -125,6 +125,13 @@ namespace SchoolMedical.API.Controllers
 		[HttpPost]
 		public async Task<ActionResult<HealthProfileDTO>> CreateHealthProfile(HealthProfileRequest request)
 		{
+			// Check if StudentID is provided
+			if (request.StudentID == null) return BadRequest("StudentID is required.");
+
+			// Check if a health profile already exists for this student
+			bool exists = await _context.HealthProfiles.AnyAsync(hp => hp.StudentID == request.StudentID);
+			if (exists) return BadRequest("A health profile for this student already exists.");
+
 			var healthProfile = new HealthProfile
 			{
 				StudentID = request.StudentID,
@@ -162,13 +169,13 @@ namespace SchoolMedical.API.Controllers
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateHealthProfile(int id, HealthProfileRequest request)
 		{
-			if (request.ProfileID == null || id != request.ProfileID)
-				return BadRequest();
-
+			// Remove ProfileID check to prevent updating the profile's own ID
 			var healthProfile = await _context.HealthProfiles.FindAsync(id);
 			if (healthProfile == null)
 				return NotFound();
 
+			// Do not allow changing the ProfileID
+			// Only update other fields
 			healthProfile.StudentID = request.StudentID;
 			healthProfile.ChronicDisease = request.ChronicDisease;
 			healthProfile.VisionTest = request.VisionTest;

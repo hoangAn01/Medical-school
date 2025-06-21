@@ -12,7 +12,8 @@ namespace SchoolMedical.Core.Entities
 		[Required]
 		public int RequestID { get; set; }
 		
-		public string? ItemName { get; set; }
+		[Required]
+		public int RequestItemID { get; set; }
 		
 		// public string? MedicineType { get; set; } // Add this line
 		
@@ -27,5 +28,8 @@ namespace SchoolMedical.Core.Entities
 		// Navigation properties
 		[ForeignKey("RequestID")]
 		public virtual MedicineRequest? MedicineRequest { get; set; }
+		
+		[ForeignKey("RequestItemID")]
+		public virtual RequestItemList? RequestItem { get; set; }
 	}
 }
