@@ -40,7 +40,8 @@ namespace SchoolMedical.Infrastructure.Services
 				Title = title,
 				Content = content,
 				SentDate = DateTime.UtcNow,
-				Status = "Sent"
+				Status = "Sent",
+				NotificationType = "MEDICAL_REQUEST"
 			};
 
 			_context.Notifications.Add(notification);
@@ -64,7 +65,7 @@ namespace SchoolMedical.Infrastructure.Services
 			var studentName = request.Student?.FullName?? "Không xác định";
 			var statusText = status == "Approved" ? "được phê duyệt" : "bị từ chối";
 			
-			var title = $"Yêu cầu thuốc {status} - {studentName}";
+			var title = $"Yêu cầu thuốc của học sinh {studentName} đã được {statusText}";
 			
 			var contentBuilder = new StringBuilder();
 			contentBuilder.AppendLine($"Kính gửi phụ huynh,");
@@ -73,7 +74,7 @@ namespace SchoolMedical.Infrastructure.Services
 			contentBuilder.AppendLine();
 			contentBuilder.AppendLine($"Chi tiết yêu cầu:");
 			contentBuilder.AppendLine($"- Ngày yêu cầu: {request.Date:dd/MM/yyyy}");
-			contentBuilder.AppendLine($"- Trạng thái: {status}");
+			contentBuilder.AppendLine($"- Trạng thái: {statusText}");
 			
 			if (request.ApprovalDate.HasValue)
 				contentBuilder.AppendLine($"- Ngày phê duyệt: {request.ApprovalDate.Value:dd/MM/yyyy}");

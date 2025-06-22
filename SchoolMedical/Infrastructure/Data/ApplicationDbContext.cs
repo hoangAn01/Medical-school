@@ -31,8 +31,6 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<AuditLog> AuditLogs { get; set; }
 		public DbSet<VaccineRecord> VaccineRecords { get; set; }
 
-		
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
