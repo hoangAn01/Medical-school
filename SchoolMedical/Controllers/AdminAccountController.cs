@@ -10,7 +10,7 @@ namespace SchoolMedical.API.Controllers
 {
 	[ApiController]
 	[Route("api/admin/accounts")]
-	// [Authorize(Roles = "Admin")] // Comnent this line if you want to allow all roles to access this controller
+	[Authorize(Roles = "Admin")] // Comnent this line if you want to allow all roles to access this controller
 	public class AdminAccountController : ControllerBase
 	{
 		private readonly ApplicationDbContext _context;
