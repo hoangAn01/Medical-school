@@ -27,7 +27,8 @@ namespace SchoolMedical.API.Controllers
 					Category = i.Category,
 					Quantity = i.Quantity,
 					Unit = i.Unit,
-					Description = i.Description
+					Description = i.Description,
+					ItemID = i.ItemID
 				})
 				.ToListAsync();
 			return items;
@@ -45,7 +46,8 @@ namespace SchoolMedical.API.Controllers
 					Category = i.Category,
 					Quantity = i.Quantity,
 					Unit = i.Unit,
-					Description = i.Description
+					Description = i.Description,
+					ItemID = i.ItemID
 				})
 				.FirstOrDefaultAsync();
 
@@ -80,7 +82,8 @@ namespace SchoolMedical.API.Controllers
 					Category = item.Category,
 					Quantity = item.Quantity,
 					Unit = item.Unit,
-					Description = item.Description
+					Description = item.Description,
+					ItemID = item.ItemID
 				});
 		}
 

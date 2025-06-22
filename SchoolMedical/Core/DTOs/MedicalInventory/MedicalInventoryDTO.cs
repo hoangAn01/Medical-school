@@ -7,5 +7,6 @@ namespace SchoolMedical.Core.DTOs.MedicalInventory
 		public int? Quantity { get; set; }
 		public string? Unit { get; set; }
 		public string? Description { get; set; }
+		public int ItemID { get; set; }
 	}
 }

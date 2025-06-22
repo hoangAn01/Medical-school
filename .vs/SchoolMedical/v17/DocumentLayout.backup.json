@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\medicaleventiventory.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\medicaleventiventory.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\simpletestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\simpletestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\medicaleventinventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\medicaleventinventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\interfaces\\services\\ischoolcheckupservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -67,10 +87,6 @@
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\entities\\vaccinerecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\blogcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\healthprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\healthprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -91,10 +107,6 @@
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\medicinerequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\medicaleventiventory.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\medicaleventiventory.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\medicalevent\\medicaleventcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\medicalevent\\medicaleventcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -111,16 +123,8 @@
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\medicalinventory\\medicalinventorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\healthprofile\\healthprofilerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\healthprofile\\healthprofilerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\simpletestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\controllers\\simpletestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -129,10 +133,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|solutionrelative:schoolmedical\\core\\dtos\\accountdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D7321BB-99D6-40C8-B7C3-408030BDD87E}|SchoolMedical\\SchoolMedical.csproj|d:\\testgit\\summer25swp391_se1832_group432-be\\schoolmedical\\core\\dtos\\medicinerequest\\medicinerequestcreaterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -191,21 +191,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 38,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CheckupService.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Services\\CheckupService.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Services\\CheckupService.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Services\\CheckupService.cs*",
-              "RelativeToolTip": "SchoolMedical\\Services\\CheckupService.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T15:50:19.174Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
@@ -216,7 +203,85 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CheckupController.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\CheckupController.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\CheckupController.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\CheckupController.cs",
+              "RelativeToolTip": "SchoolMedical\\Controllers\\CheckupController.cs",
+              "ViewState": "AgIAAPIAAAAAAAAAAADwv9UAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-22T15:09:03.275Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MedicalEventIventory.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-19T19:31:12.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BlogController.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\BlogController.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\BlogController.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\BlogController.cs",
+              "RelativeToolTip": "SchoolMedical\\Controllers\\BlogController.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAuwKAAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-16T15:32:09.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SimpleTestController.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\SimpleTestController.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\SimpleTestController.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\SimpleTestController.cs",
+              "RelativeToolTip": "SchoolMedical\\Controllers\\SimpleTestController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T12:47:31.618Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "RelativeToolTip": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAIwBwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T12:47:31.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AccountDTO.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAwwCMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T12:47:31.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "MedicalEventInventoryController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\MedicalEventInventoryController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\MedicalEventInventoryController.cs",
@@ -228,33 +293,21 @@
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{4bcd4392-dbcf-4aa2-9852-01129d229cd8}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{537833a5-e0f1-4405-821d-d83d89370b78}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CheckupController.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\CheckupController.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\CheckupController.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\CheckupController.cs*",
-              "RelativeToolTip": "SchoolMedical\\Controllers\\CheckupController.cs*",
-              "ViewState": "AgIAAPIAAAAAAAAAAADwv9UAAAAmAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "CheckupService.cs",
+              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Services\\CheckupService.cs",
+              "RelativeDocumentMoniker": "SchoolMedical\\Services\\CheckupService.cs",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Services\\CheckupService.cs",
+              "RelativeToolTip": "SchoolMedical\\Services\\CheckupService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T15:09:03.275Z",
+              "WhenOpened": "2025-06-22T15:50:19.174Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\AuthController.cs",
@@ -267,12 +320,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "ISchoolCheckupService.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Interfaces\\Services\\ISchoolCheckupService.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\Interfaces\\Services\\ISchoolCheckupService.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Interfaces\\Services\\ISchoolCheckupService.cs*",
-              "RelativeToolTip": "SchoolMedical\\Core\\Interfaces\\Services\\ISchoolCheckupService.cs*",
+              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Interfaces\\Services\\ISchoolCheckupService.cs",
+              "RelativeToolTip": "SchoolMedical\\Core\\Interfaces\\Services\\ISchoolCheckupService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-22T15:43:36.964Z",
@@ -280,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "AdminAccountController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\AdminAccountController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\AdminAccountController.cs",
@@ -293,7 +346,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "ParentalConsent.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Entities\\ParentalConsent.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\Entities\\ParentalConsent.cs",
@@ -306,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "ParentalConsentsController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\ParentalConsentsController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\ParentalConsentsController.cs",
@@ -319,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "ParentNotificationsController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\ParentNotificationsController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\ParentNotificationsController.cs",
@@ -332,7 +385,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Data\\ApplicationDbContext.cs",
@@ -345,7 +398,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "ParentController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\ParentController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\ParentController.cs",
@@ -358,7 +411,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "AuditLogInterceptor.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Infrastructure\\Interceptors\\AuditLogInterceptor.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Interceptors\\AuditLogInterceptor.cs",
@@ -371,7 +424,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "DashboardController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\DashboardController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\DashboardController.cs",
@@ -384,7 +437,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "DashboardService.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Services\\DashboardService.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Services\\DashboardService.cs",
@@ -396,7 +449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "VaccinationEventController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\VaccinationEventController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\VaccinationEventController.cs",
@@ -408,7 +461,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "VaccineRecord.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Entities\\VaccineRecord.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\Entities\\VaccineRecord.cs",
@@ -420,19 +473,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "BlogController.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\BlogController.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\BlogController.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\BlogController.cs",
-              "RelativeToolTip": "SchoolMedical\\Controllers\\BlogController.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAuwKAAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T15:32:09.333Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "HealthProfileController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\HealthProfileController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\HealthProfileController.cs",
@@ -444,7 +485,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "MedicalEventsController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\MedicalEventsController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\MedicalEventsController.cs",
@@ -456,7 +497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "NotificationsController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\NotificationsController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\NotificationsController.cs",
@@ -468,7 +509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 24,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Program.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Program.cs",
@@ -480,7 +521,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "MedicineRequestController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\MedicineRequestController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\MedicineRequestController.cs",
@@ -492,7 +533,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 28,
               "Title": "MedicalEventDto.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalEvent\\MedicalEventDto.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\MedicalEvent\\MedicalEventDto.cs",
@@ -504,7 +545,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "MedicalEventCreateDto.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalEvent\\MedicalEventCreateDto.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\MedicalEvent\\MedicalEventCreateDto.cs",
@@ -516,19 +557,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "MedicalEventIventory.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
-              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\MedicalEventIventory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T19:31:12.623Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "BaseEntities.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Entities\\BaseEntities.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\Entities\\BaseEntities.cs",
@@ -540,7 +569,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 29,
               "Title": "MedicalInventoryDTO.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\MedicalInventory\\MedicalInventoryDTO.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\MedicalInventory\\MedicalInventoryDTO.cs",
@@ -552,19 +581,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
-              "RelativeToolTip": "SchoolMedical\\Infrastructure\\Services\\AuthService.cs",
-              "ViewState": "AgIAACcBAAAAAAAAAAAuwFABAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T12:47:31.631Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "HealthProfileRequest.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\HealthProfile\\HealthProfileRequest.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\HealthProfile\\HealthProfileRequest.cs",
@@ -576,7 +593,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "StudentController.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\StudentController.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\StudentController.cs",
@@ -588,19 +605,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "SimpleTestController.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\SimpleTestController.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Controllers\\SimpleTestController.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Controllers\\SimpleTestController.cs",
-              "RelativeToolTip": "SchoolMedical\\Controllers\\SimpleTestController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T12:47:31.618Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "Account.cs",
               "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\Entities\\Account.cs",
               "RelativeDocumentMoniker": "SchoolMedical\\Core\\Entities\\Account.cs",
@@ -609,18 +614,6 @@
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwCAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-14T12:47:31.566Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "AccountDTO.cs",
-              "DocumentMoniker": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
-              "RelativeDocumentMoniker": "SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
-              "ToolTip": "D:\\testGit\\Summer25SWP391_SE1832_Group432-BE\\SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
-              "RelativeToolTip": "SchoolMedical\\Core\\DTOs\\AccountDTO.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAywCUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T12:47:31.563Z"
             },
             {
               "$type": "Document",
