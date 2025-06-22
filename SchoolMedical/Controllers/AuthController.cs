@@ -20,26 +20,6 @@ namespace SchoolMedical.API.Controllers
 			_logger = logger;
 		}
 
-		/// Test database connection and check accounts
-		[HttpGet("test-db")]
-		public async Task<ActionResult> TestDatabase()
-		{
-			try
-			{
-				_logger.LogInformation("Testing database connection...");
-
-				// Test qua AuthService thay vì direct context
-				var testResult = await _authService.TestDatabaseConnectionAsync();
-
-				return Ok(testResult);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Database test failed");
-				return BadRequest(new { error = ex.Message, stackTrace = ex.StackTrace });
-			}
-		}
-
 		/// User login endpoint
 		[HttpPost("login")]
 		public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request){
