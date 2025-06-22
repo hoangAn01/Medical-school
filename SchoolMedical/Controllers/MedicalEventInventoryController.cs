@@ -26,14 +26,18 @@ namespace SchoolMedical.API.Controllers
         public async Task<ActionResult<IEnumerable<MedicalEventInventoryDto>>> GetMedicalEventInventories()
         {
             var eventInventories = await _context.MedicalEventInventory
-                .Select(e => new MedicalEventInventoryDto
-                {
-                    EventInventoryID = e.EventInventoryID,
-                    EventID = e.EventID,
-                    ItemID = e.ItemID,
-                    QuantityUsed = e.QuantityUsed,
-                    UsedTime = e.UsedTime
-                })
+                .Join(_context.MedicalInventory,
+                      e => e.ItemID,
+                      i => i.ItemID,
+                      (e, i) => new MedicalEventInventoryDto
+                      {
+                          EventInventoryID = e.EventInventoryID,
+                          EventID = e.EventID,
+                          ItemID = e.ItemID,
+                          ItemName = i.ItemName,
+                          QuantityUsed = e.QuantityUsed,
+                          UsedTime = e.UsedTime
+                      })
                 .ToListAsync();
 
             return Ok(eventInventories);
@@ -45,14 +49,18 @@ namespace SchoolMedical.API.Controllers
         {
             var eventInventory = await _context.MedicalEventInventory
                 .Where(e => e.EventInventoryID == id)
-                .Select(e => new MedicalEventInventoryDto
-                {
-                    EventInventoryID = e.EventInventoryID,
-                    EventID = e.EventID,
-                    ItemID = e.ItemID,
-                    QuantityUsed = e.QuantityUsed,
-                    UsedTime = e.UsedTime
-                })
+                .Join(_context.MedicalInventory,
+                      e => e.ItemID,
+                      i => i.ItemID,
+                      (e, i) => new MedicalEventInventoryDto
+                      {
+                          EventInventoryID = e.EventInventoryID,
+                          EventID = e.EventID,
+                          ItemID = e.ItemID,
+                          ItemName = i.ItemName,
+                          QuantityUsed = e.QuantityUsed,
+                          UsedTime = e.UsedTime
+                      })
                 .FirstOrDefaultAsync();
 
             if (eventInventory == null)
@@ -61,6 +69,29 @@ namespace SchoolMedical.API.Controllers
             }
 
             return Ok(eventInventory);
+        }
+
+        // GET: api/MedicalEventInventory/event/{eventId}
+        [HttpGet("event/{eventId}")]
+        public async Task<ActionResult<IEnumerable<MedicalEventInventoryDto>>> GetMedicalEventInventoriesByEventId(int eventId)
+        {
+            var eventInventories = await _context.MedicalEventInventory
+                .Where(e => e.EventID == eventId)
+                .Join(_context.MedicalInventory,
+                      e => e.ItemID,
+                      i => i.ItemID,
+                      (e, i) => new MedicalEventInventoryDto
+                      {
+                          EventInventoryID = e.EventInventoryID,
+                          EventID = e.EventID,
+                          ItemID = e.ItemID,
+                          ItemName = i.ItemName,
+                          QuantityUsed = e.QuantityUsed,
+                          UsedTime = e.UsedTime
+                      })
+                .ToListAsync();
+
+            return Ok(eventInventories);
         }
 
         // POST: api/MedicalEventInventory

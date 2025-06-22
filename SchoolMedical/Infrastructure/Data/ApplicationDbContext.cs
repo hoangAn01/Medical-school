@@ -30,6 +30,8 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<MedicalEventInventory> MedicalEventInventory { get; set; }
 		public DbSet<AuditLog> AuditLogs { get; set; }
 		public DbSet<VaccineRecord> VaccineRecords { get; set; }
+		public DbSet<DashboardPreferences> DashboardPreferences { get; set; }
+		public DbSet<DashboardNotification> DashboardNotifications { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -241,6 +243,20 @@ namespace SchoolMedical.Infrastructure.Data
 					.WithMany()
 					.HasForeignKey(pc => pc.ParentID)
 					.OnDelete(DeleteBehavior.Restrict);
+			});
+
+			// Configure DashboardPreferences entity
+			modelBuilder.Entity<DashboardPreferences>(entity =>
+			{
+				entity.HasKey(e => e.Id);
+				entity.HasIndex(e => e.UserID).IsUnique();
+			});
+
+			// Configure DashboardNotification entity
+			modelBuilder.Entity<DashboardNotification>(entity =>
+			{
+				entity.HasKey(e => e.NotificationID);
+				entity.HasIndex(e => e.UserID);
 			});
 
 			// Configure Blog entity

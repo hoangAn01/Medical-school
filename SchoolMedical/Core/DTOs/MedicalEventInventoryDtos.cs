@@ -7,6 +7,7 @@ namespace SchoolMedical.Core.DTOs
         public int EventInventoryID { get; set; }
         public int EventID { get; set; }
         public int ItemID { get; set; }
+        public string ItemName { get; set; }
         public int QuantityUsed { get; set; }
         public DateTime UsedTime { get; set; }
     }
