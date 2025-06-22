@@ -51,7 +51,7 @@ public class RequestItemListController : ControllerBase
 
 	// POST: api/RequestItemList
 	[HttpPost]
-	public async Task<ActionResult<RequestItemListDTO>> CreateRequestItem([FromBody] RequestItemListDTO request)
+	public async Task<ActionResult<RequestItemListDTO>> CreateRequestItem([FromBody] RequestItemListCreateDTO request)
 	{
 		var newItem = new RequestItemList
 		{
@@ -62,8 +62,14 @@ public class RequestItemListController : ControllerBase
 		_context.RequestItemList.Add(newItem);
 		await _context.SaveChangesAsync();
 
-		request.RequestItemID = newItem.RequestItemID;
-		return CreatedAtAction(nameof(GetRequestItem), new { id = newItem.RequestItemID }, request);
+		var result = new RequestItemListDTO
+		{
+			RequestItemID = newItem.RequestItemID,
+			RequestItemName = newItem.RequestItemName,
+			Description = newItem.Description
+		};
+
+		return CreatedAtAction(nameof(GetRequestItem), new { id = newItem.RequestItemID }, result);
 	}
 
 	// PUT: api/RequestItemList/{id}
