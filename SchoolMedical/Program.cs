@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SchoolMedical.Infrastructure.Data;
 using SchoolMedical.Infrastructure.Services;
 using SchoolMedical.Core.Interfaces.Services;
+using SchoolMedical.Services;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -55,6 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICheckupService, CheckupService>();
 
 builder.Services.AddScoped<AuditLogInterceptor>();
 

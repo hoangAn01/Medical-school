@@ -14,13 +14,17 @@ namespace SchoolMedical.Core.Entities
 		[ForeignKey("StudentID")]
 		public Student Student { get; set; }
 
-		public int VaccinationEventID { get; set; }
+		public int? VaccinationEventID { get; set; }
 		[ForeignKey("VaccinationEventID")]
-		public VaccinationEvent VaccinationEvent { get; set; }
+		public VaccinationEvent? VaccinationEvent { get; set; }
 
 		public int ParentID { get; set; }
 		[ForeignKey("ParentID")]
 		public Parent Parent { get; set; }
+
+		public int? CheckupID { get; set; }
+		[ForeignKey("CheckupID")]
+		public SchoolCheckup? SchoolCheckup { get; set; }
 
 		[Required]
 		[StringLength(50)]

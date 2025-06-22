@@ -32,6 +32,8 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<VaccineRecord> VaccineRecords { get; set; }
 		public DbSet<DashboardPreferences> DashboardPreferences { get; set; }
 		public DbSet<DashboardNotification> DashboardNotifications { get; set; }
+		public DbSet<HealthReport> HealthReport { get; set; }
+		public DbSet<SchoolCheckup> SchoolCheckup { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -274,6 +276,28 @@ namespace SchoolMedical.Infrastructure.Data
 				entity.HasKey(e => e.RequestItemID);
 				entity.Property(e => e.RequestItemName).IsRequired().HasMaxLength(255);
 				entity.Property(e => e.Description).HasMaxLength(500);
+			});
+
+			// Configure SchoolCheckup entity
+			modelBuilder.Entity<SchoolCheckup>(entity =>
+			{
+				entity.HasKey(e => e.CheckupID);
+
+				// Khai báo các cột
+				entity.Property(e => e.Weight).HasColumnType("decimal(5,2)");
+				entity.Property(e => e.Height).HasColumnType("decimal(5,2)");
+				entity.Property(e => e.BloodPressure).HasMaxLength(20);
+				entity.Property(e => e.VisionLeft).HasMaxLength(10);
+				entity.Property(e => e.VisionRight).HasMaxLength(10);
+
+				// Khai báo tên trigger (bất kỳ) để EF Core biết bảng có trigger
+				entity.ToTable(tb => tb.HasTrigger("TR_SchoolCheckup_Audit"));
+
+				// Quan hệ
+				entity.HasOne(sc => sc.HealthReport)
+					  .WithOne(hr => hr.SchoolCheckup)
+					  .HasForeignKey<SchoolCheckup>(sc => sc.ReportID)
+					  .OnDelete(DeleteBehavior.Cascade);
 			});
 		}
 	}

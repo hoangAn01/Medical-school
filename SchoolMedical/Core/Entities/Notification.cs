@@ -37,6 +37,11 @@ namespace SchoolMedical.Core.Entities
 		[ForeignKey("MedicalEventID")]
 		public MedicalEvent? MedicalEvent { get; set; }
 
+		// Liên kết đến kết quả khám (nếu có)
+		public int? CheckupID { get; set; }
+		[ForeignKey("CheckupID")]
+		public SchoolCheckup? SchoolCheckup { get; set; }
+
 		// Navigation property for the join table
 		public ICollection<ParentNotification> ParentNotifications { get; set; } = new List<ParentNotification>();
 	}

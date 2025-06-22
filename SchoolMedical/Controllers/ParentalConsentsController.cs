@@ -6,6 +6,7 @@ using SchoolMedical.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace SchoolMedical.Controllers
 {
@@ -27,6 +28,8 @@ namespace SchoolMedical.Controllers
 			var consents = await _context.ParentalConsents
 				.Include(pc => pc.Student)
 				.Include(pc => pc.VaccinationEvent)
+				.Include(pc => pc.SchoolCheckup)
+				.ThenInclude(sc => sc.HealthReport)
 				.Include(pc => pc.Parent)
 				.Select(pc => new ParentalConsentDto
 				{
@@ -34,12 +37,15 @@ namespace SchoolMedical.Controllers
 					StudentID = pc.StudentID,
 					StudentName = pc.Student.FullName,
 					VaccinationEventID = pc.VaccinationEventID,
-					EventName = pc.VaccinationEvent.EventName,
+					EventName = pc.VaccinationEvent != null ? pc.VaccinationEvent.EventName : null,
+					CheckupID = pc.CheckupID,
+					CheckupDate = pc.SchoolCheckup != null ? pc.SchoolCheckup.HealthReport.Date : null,
 					ParentID = pc.ParentID,
 					ParentName = pc.Parent.FullName,
 					ConsentStatus = pc.ConsentStatus,
 					ConsentDate = pc.ConsentDate,
-					Note = pc.Note
+					Note = pc.Note,
+					ConsentType = pc.VaccinationEventID.HasValue ? "Vaccination" : "Checkup"
 				})
 				.ToListAsync();
 
@@ -53,6 +59,8 @@ namespace SchoolMedical.Controllers
 			var consent = await _context.ParentalConsents
 				.Include(pc => pc.Student)
 				.Include(pc => pc.VaccinationEvent)
+				.Include(pc => pc.SchoolCheckup)
+				.ThenInclude(sc => sc.HealthReport)
 				.Include(pc => pc.Parent)
 				.Where(pc => pc.ConsentID == id)
 				.Select(pc => new ParentalConsentDto
@@ -61,12 +69,15 @@ namespace SchoolMedical.Controllers
 					StudentID = pc.StudentID,
 					StudentName = pc.Student.FullName,
 					VaccinationEventID = pc.VaccinationEventID,
-					EventName = pc.VaccinationEvent.EventName,
+					EventName = pc.VaccinationEvent != null ? pc.VaccinationEvent.EventName : null,
+					CheckupID = pc.CheckupID,
+					CheckupDate = pc.SchoolCheckup != null ? pc.SchoolCheckup.HealthReport.Date : null,
 					ParentID = pc.ParentID,
 					ParentName = pc.Parent.FullName,
 					ConsentStatus = pc.ConsentStatus,
 					ConsentDate = pc.ConsentDate,
-					Note = pc.Note
+					Note = pc.Note,
+					ConsentType = pc.VaccinationEventID.HasValue ? "Vaccination" : "Checkup"
 				})
 				.FirstOrDefaultAsync();
 
@@ -82,13 +93,26 @@ namespace SchoolMedical.Controllers
 		[HttpPost]
 		public async Task<ActionResult<ParentalConsentDto>> CreateParentalConsent(ParentalConsentCreateDto createDto)
 		{
+			// Validate input: Phải có một trong hai: VaccinationEventID hoặc CheckupID
+			if (!createDto.VaccinationEventID.HasValue && !createDto.CheckupID.HasValue)
+			{
+				return BadRequest("Phải cung cấp một trong hai: VaccinationEventID hoặc CheckupID");
+			}
+
+			// Không được cung cấp cả hai
+			if (createDto.VaccinationEventID.HasValue && createDto.CheckupID.HasValue)
+			{
+				return BadRequest("Chỉ được cung cấp một trong hai: VaccinationEventID hoặc CheckupID");
+			}
+
 			var parentalConsent = new ParentalConsent
 			{
 				StudentID = createDto.StudentID,
 				VaccinationEventID = createDto.VaccinationEventID,
+				CheckupID = createDto.CheckupID,
 				ParentID = createDto.ParentID,
 				ConsentStatus = createDto.ConsentStatus,
-				ConsentDate = createDto.ConsentDate,
+				ConsentDate = createDto.ConsentDate ?? DateTime.Now,
 				Note = createDto.Note
 			};
 
@@ -98,6 +122,8 @@ namespace SchoolMedical.Controllers
 			var createdConsent = await _context.ParentalConsents
 				.Include(pc => pc.Student)
 				.Include(pc => pc.VaccinationEvent)
+				.Include(pc => pc.SchoolCheckup)
+				.ThenInclude(sc => sc.HealthReport)
 				.Include(pc => pc.Parent)
 				.Where(pc => pc.ConsentID == parentalConsent.ConsentID)
 				.Select(pc => new ParentalConsentDto
@@ -106,12 +132,15 @@ namespace SchoolMedical.Controllers
 					StudentID = pc.StudentID,
 					StudentName = pc.Student.FullName,
 					VaccinationEventID = pc.VaccinationEventID,
-					EventName = pc.VaccinationEvent.EventName,
+					EventName = pc.VaccinationEvent != null ? pc.VaccinationEvent.EventName : null,
+					CheckupID = pc.CheckupID,
+					CheckupDate = pc.SchoolCheckup != null ? pc.SchoolCheckup.HealthReport.Date : null,
 					ParentID = pc.ParentID,
 					ParentName = pc.Parent.FullName,
 					ConsentStatus = pc.ConsentStatus,
 					ConsentDate = pc.ConsentDate,
-					Note = pc.Note
+					Note = pc.Note,
+					ConsentType = pc.VaccinationEventID.HasValue ? "Vaccination" : "Checkup"
 				})
 				.FirstOrDefaultAsync();
 
@@ -128,11 +157,24 @@ namespace SchoolMedical.Controllers
 				return NotFound();
 			}
 
+			// Validate input: Phải có một trong hai: VaccinationEventID hoặc CheckupID
+			if (!updateDto.VaccinationEventID.HasValue && !updateDto.CheckupID.HasValue)
+			{
+				return BadRequest("Phải cung cấp một trong hai: VaccinationEventID hoặc CheckupID");
+			}
+
+			// Không được cung cấp cả hai
+			if (updateDto.VaccinationEventID.HasValue && updateDto.CheckupID.HasValue)
+			{
+				return BadRequest("Chỉ được cung cấp một trong hai: VaccinationEventID hoặc CheckupID");
+			}
+
 			parentalConsent.StudentID = updateDto.StudentID;
 			parentalConsent.VaccinationEventID = updateDto.VaccinationEventID;
+			parentalConsent.CheckupID = updateDto.CheckupID;
 			parentalConsent.ParentID = updateDto.ParentID;
 			parentalConsent.ConsentStatus = updateDto.ConsentStatus;
-			parentalConsent.ConsentDate = updateDto.ConsentDate;
+			parentalConsent.ConsentDate = updateDto.ConsentDate ?? DateTime.Now;
 			parentalConsent.Note = updateDto.Note;
 
 			await _context.SaveChangesAsync();
@@ -172,12 +214,49 @@ namespace SchoolMedical.Controllers
 					StudentID = pc.StudentID,
 					StudentName = pc.Student.FullName,
 					VaccinationEventID = pc.VaccinationEventID,
-					EventName = pc.VaccinationEvent.EventName,
+					EventName = pc.VaccinationEvent != null ? pc.VaccinationEvent.EventName : null,
+					CheckupID = pc.CheckupID,
 					ParentID = pc.ParentID,
 					ParentName = pc.Parent.FullName,
 					ConsentStatus = pc.ConsentStatus,
 					ConsentDate = pc.ConsentDate,
-					Note = pc.Note
+					Note = pc.Note,
+					ConsentType = "Vaccination"
+				})
+				.FirstOrDefaultAsync();
+
+			if (consent == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(consent);
+		}
+
+		// GET: api/ParentalConsents/student/{studentId}/checkup/{checkupId}
+		[HttpGet("student/{studentId}/checkup/{checkupId}")]
+		public async Task<ActionResult<ParentalConsentDto>> GetParentalConsentByStudentAndCheckup(
+			int studentId, int checkupId)
+		{
+			var consent = await _context.ParentalConsents
+				.Include(pc => pc.Student)
+				.Include(pc => pc.SchoolCheckup)
+				.ThenInclude(sc => sc.HealthReport)
+				.Include(pc => pc.Parent)
+				.Where(pc => pc.StudentID == studentId && pc.CheckupID == checkupId)
+				.Select(pc => new ParentalConsentDto
+				{
+					ConsentID = pc.ConsentID,
+					StudentID = pc.StudentID,
+					StudentName = pc.Student.FullName,
+					CheckupID = pc.CheckupID,
+					CheckupDate = pc.SchoolCheckup != null ? pc.SchoolCheckup.HealthReport.Date : null,
+					ParentID = pc.ParentID,
+					ParentName = pc.Parent.FullName,
+					ConsentStatus = pc.ConsentStatus,
+					ConsentDate = pc.ConsentDate,
+					Note = pc.Note,
+					ConsentType = "Checkup"
 				})
 				.FirstOrDefaultAsync();
 
@@ -197,6 +276,8 @@ namespace SchoolMedical.Controllers
 			var query = _context.ParentalConsents
 				.Include(pc => pc.Student)
 				.Include(pc => pc.VaccinationEvent)
+				.Include(pc => pc.SchoolCheckup)
+				.ThenInclude(sc => sc.HealthReport)
 				.Include(pc => pc.Parent)
 				.AsQueryable();
 
@@ -204,9 +285,10 @@ namespace SchoolMedical.Controllers
 			{
 				query = query.Where(pc =>
 					pc.Student.FullName.Contains(keyword) ||
+					(pc.VaccinationEvent != null && pc.VaccinationEvent.EventName.Contains(keyword)) ||
 					pc.Parent.FullName.Contains(keyword) ||
-					pc.VaccinationEvent.EventName.Contains(keyword) ||
-					pc.ConsentStatus.Contains(keyword));
+					pc.ConsentStatus.Contains(keyword) ||
+					(pc.Note != null && pc.Note.Contains(keyword)));
 			}
 
 			var consents = await query
@@ -216,12 +298,15 @@ namespace SchoolMedical.Controllers
 					StudentID = pc.StudentID,
 					StudentName = pc.Student.FullName,
 					VaccinationEventID = pc.VaccinationEventID,
-					EventName = pc.VaccinationEvent.EventName,
+					EventName = pc.VaccinationEvent != null ? pc.VaccinationEvent.EventName : null,
+					CheckupID = pc.CheckupID,
+					CheckupDate = pc.SchoolCheckup != null ? pc.SchoolCheckup.HealthReport.Date : null,
 					ParentID = pc.ParentID,
 					ParentName = pc.Parent.FullName,
 					ConsentStatus = pc.ConsentStatus,
 					ConsentDate = pc.ConsentDate,
-					Note = pc.Note
+					Note = pc.Note,
+					ConsentType = pc.VaccinationEventID.HasValue ? "Vaccination" : "Checkup"
 				})
 				.ToListAsync();
 

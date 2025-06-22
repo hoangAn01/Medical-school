@@ -324,6 +324,34 @@ namespace SchoolMedical.Controllers
 			return Ok(parentNotifications);
 		}
 
+		// GET: api/ParentNotifications/checkup/{parentId}
+		[HttpGet("checkup/{parentId}")]
+		public async Task<ActionResult<List<ParentNotificationDto>>> GetCheckupNotifications(int parentId)
+		{
+			var notifications = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Where(pn => pn.ParentID == parentId && pn.Notification.NotificationType == "CHECKUP")
+				.OrderByDescending(pn => pn.IndividualSentDate)
+				.Select(pn => new ParentNotificationDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus,
+					Title = pn.Notification.Title,
+					Content = pn.Notification.Content,
+					SentDate = pn.Notification.SentDate,
+					Status = pn.Notification.Status,
+					NotificationType = pn.Notification.NotificationType,
+					CheckupID = pn.Notification.CheckupID
+				})
+				.ToListAsync();
+
+			return Ok(notifications);
+		}
+
 		private bool ParentNotificationExists(int notificationId, int parentId)
 		{
 			return _context.ParentNotifications.Any(e => e.NotificationID == notificationId && e.ParentID == parentId);
