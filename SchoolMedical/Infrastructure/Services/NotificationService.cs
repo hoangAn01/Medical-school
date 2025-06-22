@@ -13,7 +13,6 @@ namespace SchoolMedical.Infrastructure.Services
 	public class NotificationService : INotificationService
 	{
 		private readonly ApplicationDbContext _context;
-		
 		public NotificationService(ApplicationDbContext context)
 		{
 			_context = context;

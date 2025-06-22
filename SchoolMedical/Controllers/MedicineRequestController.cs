@@ -3,16 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using SchoolMedical.Core.Entities;
 using SchoolMedical.Infrastructure.Data;
 using SchoolMedical.Core.DTOs.MedicineRequest;
+using SchoolMedical.Infrastructure.Services;
 
 [ApiController]
 [Route("api/[controller]")]
 public class MedicineRequestController : ControllerBase
 {
 	private readonly ApplicationDbContext _context;
+	private readonly INotificationService _notificationService;
 
-	public MedicineRequestController(ApplicationDbContext context)
+	public MedicineRequestController(ApplicationDbContext context, INotificationService notificationService)
 	{
 		_context = context;
+		_notificationService = notificationService;
 	}
 
 	// GET: api/MedicineRequest/{id}
@@ -36,14 +39,17 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
-						ItemID = d.ItemID,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						Quantity = d.Quantity,
-						DosageInstructions = d.DosageInstructions
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
 					}).ToList()
 			})
 			.FirstOrDefaultAsync();
@@ -72,14 +78,17 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
-						ItemID = d.ItemID,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						Quantity = d.Quantity,
-						DosageInstructions = d.DosageInstructions
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
 					}).ToList()
 			})
 			.OrderByDescending(m => m.Date)
@@ -113,14 +122,57 @@ public class MedicineRequestController : ControllerBase
 				StudentName = m.Student.FullName,
 				ParentName = m.Parent.FullName,
 				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
 					.Where(d => d.RequestID == m.RequestID)
 					.Select(d => new MedicineRequestDetailDTO
 					{
 						RequestDetailID = d.RequestDetailID,
-						RequestID = d.RequestID,
-						ItemID = d.ItemID,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
 						Quantity = d.Quantity,
-						DosageInstructions = d.DosageInstructions
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
+					}).ToList()
+			})
+			.OrderByDescending(m => m.Date)
+			.ToListAsync();
+
+		return Ok(requests);
+	}
+
+	// GET: api/MedicineRequest/pending
+	[HttpGet("pending")]
+	public async Task<ActionResult<IEnumerable<MedicineRequestDTO>>> GetPendingMedicineRequests()
+	{
+		var requests = await _context.MedicineRequests
+			.Include(m => m.Student)
+			.Include(m => m.Parent)
+			.Where(m => m.RequestStatus == "Pending")
+			.Select(m => new MedicineRequestDTO
+			{
+				RequestID = m.RequestID,
+				Date = m.Date,
+				RequestStatus = m.RequestStatus,
+				StudentID = m.StudentID,
+				ParentID = m.ParentID,
+				Note = m.Note,
+				ApprovedBy = m.ApprovedBy,
+				ApprovalDate = m.ApprovalDate,
+				StudentName = m.Student.FullName,
+				ParentName = m.Parent.FullName,
+				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
+					.Where(d => d.RequestID == m.RequestID)
+					.Select(d => new MedicineRequestDetailDTO
+					{
+						RequestDetailID = d.RequestDetailID,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
+						Quantity = d.Quantity,
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
 					}).ToList()
 			})
 			.OrderByDescending(m => m.Date)
@@ -137,6 +189,17 @@ public class MedicineRequestController : ControllerBase
 		var student = await _context.Students.FindAsync(request.StudentID);
 		if (student == null)
 			return BadRequest("Invalid StudentID");
+
+		// Validate all RequestItemIDs exist
+		var requestItemIds = request.MedicineDetails.Select(d => d.RequestItemID).Distinct().ToList();
+		var existingItems = await _context.RequestItemList
+			.Where(ri => requestItemIds.Contains(ri.RequestItemID))
+			.Select(ri => ri.RequestItemID)
+			.ToListAsync();
+
+		var missingItems = requestItemIds.Except(existingItems).ToList();
+		if (missingItems.Any())
+			return BadRequest($"Invalid RequestItemID(s): {string.Join(", ", missingItems)}");
 
 		using var transaction = await _context.Database.BeginTransactionAsync();
 		try
@@ -160,9 +223,10 @@ public class MedicineRequestController : ControllerBase
 				var requestDetail = new MedicineRequestDetail
 				{
 					RequestID = medicineRequest.RequestID,
-					ItemID = detail.ItemID,
+					RequestItemID = detail.RequestItemID,
 					Quantity = detail.Quantity,
-					DosageInstructions = detail.DosageInstructions
+					DosageInstructions = detail.DosageInstructions,
+					Time = detail.Time
 				};
 				_context.MedicineRequestDetails.Add(requestDetail);
 			}
@@ -182,17 +246,82 @@ public class MedicineRequestController : ControllerBase
 
 	// PUT: api/MedicineRequest/{id}/approve
 	[HttpPut("{id}/approve")]
-	public async Task<IActionResult> ApproveMedicineRequest(int id, [FromQuery] int approvedBy)
+	public async Task<IActionResult> ApproveMedicineRequest(int id, [FromBody] ApproveRequestDto request)
 	{
 		var medicineRequest = await _context.MedicineRequests.FindAsync(id);
 		if (medicineRequest == null)
 			return NotFound();
 
 		medicineRequest.RequestStatus = "Approved";
-		medicineRequest.ApprovedBy = approvedBy;
+		medicineRequest.ApprovedBy = request.ApprovedBy;
 		medicineRequest.ApprovalDate = DateTime.UtcNow.Date;
 
+		// Append nurse note to existing note (with separator if needed)
+		if (!string.IsNullOrWhiteSpace(request.NurseNote))
+		{
+			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
+				medicineRequest.Note += "\n---\n";
+			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
+		}
+
 		await _context.SaveChangesAsync();
+		
+		// Send automatic notification to parent
+		await _notificationService.SendMedicineRequestNotificationAsync(id, "Approved", request.NurseNote);
+		
 		return NoContent();
 	}
+
+	// PUT: api/MedicineRequest/{id}/refuse
+	[HttpPut("{id}/refuse")]
+	public async Task<IActionResult> RefuseMedicineRequest(int id, [FromBody] RefuseRequestDto request)
+	{
+		var medicineRequest = await _context.MedicineRequests.FindAsync(id);
+		if (medicineRequest == null)
+			return NotFound();
+
+		// Set status to "Refused"
+		medicineRequest.RequestStatus = "Refused";
+
+		// Append nurse note to existing note (with separator if needed)
+		if (!string.IsNullOrWhiteSpace(request.NurseNote))
+		{
+			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
+				medicineRequest.Note += "\n---\n";
+			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
+		}
+		await _context.SaveChangesAsync();
+		
+		// Send automatic notification to parent
+		await _notificationService.SendMedicineRequestNotificationAsync(id, "Refused", request.NurseNote);
+		
+		return NoContent();
+	}
+
+	// GET: api/MedicineRequest/items
+	[HttpGet("items")]
+	public async Task<ActionResult<IEnumerable<RequestItemListDTO>>> GetAllItemNamesAndMedicineTypes()
+	{
+		var items = await _context.RequestItemList
+			.Select(ri => new RequestItemListDTO
+			{
+				RequestItemID = ri.RequestItemID,
+				RequestItemName = ri.RequestItemName,
+				Description = ri.Description
+			})
+			.ToListAsync();
+
+		return Ok(items);
+	}
+}
+
+public class RefuseRequestDto
+{
+	public string NurseNote { get; set; } = string.Empty;
+}
+
+public class ApproveRequestDto
+{
+	public int ApprovedBy { get; set; }
+	public string NurseNote { get; set; } = string.Empty;
 }

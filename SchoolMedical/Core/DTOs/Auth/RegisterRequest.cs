@@ -29,5 +29,7 @@ namespace SchoolMedical.Core.DTOs.Auth
 		
 		[StringLength(10)]
 		public string? Phone { get; set; }
+		
+		// public string MedicineType { get; set; } = string.Empty;
 	}
 }

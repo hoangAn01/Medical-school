@@ -25,6 +25,7 @@ namespace SchoolMedical.Infrastructure.Data
 		public DbSet<ParentalConsent> ParentalConsents { get; set; }
 		public DbSet<VaccinationEvent> VaccinationEvents { get; set; }
 		public DbSet<MedicineRequestDetail> MedicineRequestDetails { get; set; }
+		public DbSet<RequestItemList> RequestItemList { get; set; }
 		public DbSet<Blog> Blogs { get; set; }
 		public DbSet<MedicalEventInventory> MedicalEventInventory { get; set; }
 		public DbSet<AuditLog> AuditLogs { get; set; }
@@ -185,10 +186,10 @@ namespace SchoolMedical.Infrastructure.Data
 					.WithMany(m => m.MedicineRequestDetails)
 					.HasForeignKey(d => d.RequestID)
 					.OnDelete(DeleteBehavior.Restrict);
-
-				entity.HasOne(d => d.MedicalInventory)
+					
+				entity.HasOne(d => d.RequestItem)
 					.WithMany()
-					.HasForeignKey(d => d.ItemID)
+					.HasForeignKey(d => d.RequestItemID)
 					.OnDelete(DeleteBehavior.Restrict);
 			});
 
@@ -253,6 +254,13 @@ namespace SchoolMedical.Infrastructure.Data
 					.OnDelete(DeleteBehavior.Restrict);
 			});
 
+			// Configure RequestItemList entity
+			modelBuilder.Entity<RequestItemList>(entity =>
+			{
+				entity.HasKey(e => e.RequestItemID);
+				entity.Property(e => e.RequestItemName).IsRequired().HasMaxLength(255);
+				entity.Property(e => e.Description).HasMaxLength(500);
+			});
 		}
 	}
 }

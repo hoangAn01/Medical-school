@@ -125,6 +125,13 @@ namespace SchoolMedical.API.Controllers
 		[HttpPost]
 		public async Task<ActionResult<HealthProfileDTO>> CreateHealthProfile(HealthProfileRequest request)
 		{
+			// Check if StudentID is provided
+			if (request.StudentID == null) return BadRequest("StudentID is required.");
+
+			// Check if a health profile already exists for this student
+			bool exists = await _context.HealthProfiles.AnyAsync(hp => hp.StudentID == request.StudentID);
+			if (exists) return BadRequest("A health profile for this student already exists.");
+
 			var healthProfile = new HealthProfile
 			{
 				StudentID = request.StudentID,
@@ -162,13 +169,13 @@ namespace SchoolMedical.API.Controllers
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateHealthProfile(int id, HealthProfileRequest request)
 		{
-			if (request.ProfileID == null || id != request.ProfileID)
-				return BadRequest();
-
+			// Remove ProfileID check to prevent updating the profile's own ID
 			var healthProfile = await _context.HealthProfiles.FindAsync(id);
 			if (healthProfile == null)
 				return NotFound();
 
+			// Do not allow changing the ProfileID
+			// Only update other fields
 			healthProfile.StudentID = request.StudentID;
 			healthProfile.ChronicDisease = request.ChronicDisease;
 			healthProfile.VisionTest = request.VisionTest;
@@ -194,5 +201,42 @@ namespace SchoolMedical.API.Controllers
 
 			return NoContent();
 		}
+
+		// GET: api/HealthProfile/students-without-profile?parentId=123
+		[HttpGet("students-without-profile")]
+		public async Task<ActionResult<IEnumerable<StudentInfoDTO>>> GetStudentsWithoutHealthProfile([FromQuery] int parentId)
+		{
+			// Validate parent exists
+			var parent = await _context.Parents.FindAsync(parentId);
+			if (parent == null)
+				return NotFound($"Parent with ID {parentId} not found");
+
+			var students = await _context.Students
+				.Where(s => s.ParentID == parentId && !_context.HealthProfiles.Any(hp => hp.StudentID == s.StudentID))
+				.Select(s => new StudentInfoDTO
+				{
+					StudentID = s.StudentID,
+					FullName = s.FullName,
+					Gender = s.Gender,
+					DateOfBirth = s.DateOfBirth,
+					ClassID = s.ClassID,
+					ParentID = s.ParentID,
+					UserID = s.UserID
+				})
+				.ToListAsync();
+
+			return Ok(students);
+		}
 	}
+}
+
+public class StudentInfoDTO
+{
+	public int StudentID { get; set; }
+	public string? FullName { get; set; }
+	public char? Gender { get; set; }
+	public DateTime? DateOfBirth { get; set; }
+	public int? ClassID { get; set; }
+	public int? ParentID { get; set; }
+	public int? UserID { get; set; }
 }

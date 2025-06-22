@@ -187,6 +187,7 @@ namespace SchoolMedical.Controllers
 
 		// GET: api/ParentNotifications/parent/{parentId}
 		[HttpGet("parent/{parentId}")]
+		
 		public async Task<ActionResult<IEnumerable<NotificationDto>>> GetNotificationsForParent(int parentId)
 		{
 			var notifications = await _context.ParentNotifications
@@ -216,15 +217,6 @@ namespace SchoolMedical.Controllers
 				.Include(pn => pn.Notification)
 				.Include(pn => pn.Parent)
 				.Where(pn => pn.Parent.FullName.Contains(parentName))
-				.Select(pn => new ParentNotificationDto
-				{
-					NotificationID = pn.NotificationID,
-					ParentID = pn.ParentID,
-					ParentName = pn.Parent.FullName,
-					NotificationTitle = pn.Notification.Title,
-					IndividualSentDate = pn.IndividualSentDate,
-					IndividualStatus = pn.IndividualStatus
-				})
 				.ToListAsync();
 
 			if (!notifications.Any())
@@ -233,6 +225,70 @@ namespace SchoolMedical.Controllers
 			}
 
 			return Ok(notifications);
+		}
+
+		// GET: api/ParentNotifications/parent/{parentId}/details
+		[HttpGet("parent/{parentId}/details")]
+		public async Task<ActionResult<IEnumerable<ParentNotificationDetailDto>>> GetDetailedNotificationsByParent(int parentId)
+		{
+			// Validate parent exists
+			var parent = await _context.Parents.FindAsync(parentId);
+			if (parent == null)
+				return BadRequest("Invalid ParentID");
+
+			var parentNotifications = await _context.ParentNotifications
+				.Include(pn => pn.Notification)
+				.Include(pn => pn.Parent)
+				.Where(pn => pn.ParentID == parentId)
+				.Select(pn => new ParentNotificationDetailDto
+				{
+					NotificationID = pn.NotificationID,
+					ParentID = pn.ParentID,
+					ParentName = pn.Parent.FullName,
+					NotificationTitle = pn.Notification.Title,
+					NotificationContent = pn.Notification.Content,
+					IndividualSentDate = pn.IndividualSentDate,
+					IndividualStatus = pn.IndividualStatus,
+					NotificationSentDate = pn.Notification.SentDate,
+					NotificationStatus = pn.Notification.Status
+				})
+				.OrderByDescending(pn => pn.IndividualSentDate)
+				.ToListAsync();
+
+			return Ok(parentNotifications);
+		}
+
+		// PUT: api/ParentNotifications/parent/{parentId}/notification/{notificationId}/mark-read
+		[HttpPut("parent/{parentId}/notification/{notificationId}/mark-read")]
+		public async Task<IActionResult> MarkNotificationAsRead(int parentId, int notificationId)
+		{
+			var parentNotification = await _context.ParentNotifications
+				.FindAsync(notificationId, parentId);
+
+			if (parentNotification == null)
+			{
+				return NotFound();
+			}
+
+			parentNotification.IndividualStatus = "Read";
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ParentNotificationExists(notificationId, parentId))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
 		}
 
 		// GET: api/ParentNotifications/search?keyword=abc
@@ -272,7 +328,5 @@ namespace SchoolMedical.Controllers
 		{
 			return _context.ParentNotifications.Any(e => e.NotificationID == notificationId && e.ParentID == parentId);
 		}
-
-		
 	}
 }

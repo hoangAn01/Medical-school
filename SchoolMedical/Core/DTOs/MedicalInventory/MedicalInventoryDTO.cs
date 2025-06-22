@@ -2,7 +2,6 @@ namespace SchoolMedical.Core.DTOs.MedicalInventory
 {
 	public class MedicalInventoryDTO
 	{
-		public int ItemID { get; set; }
 		public string ItemName { get; set; } = string.Empty;
 		public string? Category { get; set; }
 		public int? Quantity { get; set; }

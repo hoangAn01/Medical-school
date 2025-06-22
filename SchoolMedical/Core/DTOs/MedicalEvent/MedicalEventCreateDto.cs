@@ -8,6 +8,6 @@ namespace SchoolMedical.Core.DTOs.MedicalEvent
         public DateTime EventTime { get; set; }
         public int? NurseID { get; set; }
 
-        public string? Status { get; set; } = "Ch?a x? l�"; // Default status is "Ch?a x? l�"
+        public string? Status { get; set; } = "Chưa xử lý"; // Default status is "Chưa xử lý"
     }
 } 

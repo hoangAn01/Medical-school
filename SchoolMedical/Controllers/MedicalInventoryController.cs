@@ -23,7 +23,6 @@ namespace SchoolMedical.API.Controllers
 			var items = await _context.MedicalInventory
 				.Select(i => new MedicalInventoryDTO
 				{
-					ItemID = i.ItemID,
 					ItemName = i.ItemName,
 					Category = i.Category,
 					Quantity = i.Quantity,
@@ -42,7 +41,6 @@ namespace SchoolMedical.API.Controllers
 				.Where(i => i.ItemID == id)
 				.Select(i => new MedicalInventoryDTO
 				{
-					ItemID = i.ItemID,
 					ItemName = i.ItemName,
 					Category = i.Category,
 					Quantity = i.Quantity,
@@ -78,7 +76,6 @@ namespace SchoolMedical.API.Controllers
 				new { id = item.ItemID },
 				new MedicalInventoryDTO
 				{
-					ItemID = item.ItemID,
 					ItemName = item.ItemName,
 					Category = item.Category,
 					Quantity = item.Quantity,

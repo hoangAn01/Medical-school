@@ -161,6 +161,7 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(255)]
 		public string? Description { get; set; }
 	}
+
 	[Table("MedicalEvent")]
 	public class MedicalEvent
 	{
