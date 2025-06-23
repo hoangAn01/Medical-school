@@ -128,6 +128,9 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(255)]
 		public string? Note { get; set; }
 
+		[StringLength(50)]
+		public string? NurseNote { get; set; }
+
 		public int? ApprovedBy { get; set; }
 
 		[Column(TypeName = "date")]

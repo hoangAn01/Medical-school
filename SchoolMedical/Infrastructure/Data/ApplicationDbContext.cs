@@ -157,6 +157,7 @@ namespace SchoolMedical.Infrastructure.Data
 				entity.Property(e => e.Date).HasColumnType("date").IsRequired();
 				entity.Property(e => e.RequestStatus).HasMaxLength(50);
 				entity.Property(e => e.Note).HasMaxLength(255);
+				entity.Property(e => e.NurseNote).HasMaxLength(50);
 				entity.Property(e => e.ApprovalDate).HasColumnType("date");
 
 				// Configure relationship with Student (Required)

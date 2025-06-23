@@ -50,7 +50,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.FirstOrDefaultAsync();
 
@@ -89,7 +90,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.OrderByDescending(m => m.Date)
 			.ToListAsync();
@@ -133,7 +135,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.OrderByDescending(m => m.Date)
 			.ToListAsync();
@@ -173,7 +176,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.OrderByDescending(m => m.Date)
 			.ToListAsync();
@@ -255,14 +259,7 @@ public class MedicineRequestController : ControllerBase
 		medicineRequest.RequestStatus = "Approved";
 		medicineRequest.ApprovedBy = request.ApprovedBy;
 		medicineRequest.ApprovalDate = DateTime.UtcNow.Date;
-
-		// Append nurse note to existing note (with separator if needed)
-		if (!string.IsNullOrWhiteSpace(request.NurseNote))
-		{
-			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
-				medicineRequest.Note += "\n---\n";
-			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
-		}
+		medicineRequest.NurseNote = request.NurseNote;
 
 		await _context.SaveChangesAsync();
 		
@@ -282,14 +279,7 @@ public class MedicineRequestController : ControllerBase
 
 		// Set status to "Refused"
 		medicineRequest.RequestStatus = "Refused";
-
-		// Append nurse note to existing note (with separator if needed)
-		if (!string.IsNullOrWhiteSpace(request.NurseNote))
-		{
-			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
-				medicineRequest.Note += "\n---\n";
-			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
-		}
+		medicineRequest.NurseNote = request.NurseNote;
 		await _context.SaveChangesAsync();
 		
 		// Send automatic notification to parent
