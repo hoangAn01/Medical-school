@@ -201,9 +201,6 @@ namespace SchoolMedical.Controllers
 					inventory.Quantity -= item.Quantity;
 				}
 
-				// Cập nhật trạng thái sự kiện
-				medicalEvent.Status = "Đã xử lý";
-
 				await _context.SaveChangesAsync();
 				await transaction.CommitAsync();
 

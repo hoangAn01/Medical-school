@@ -140,8 +140,9 @@ namespace SchoolMedical.Controllers
 				return NotFound();
 			}
 			
-			// Ensure the IDs in the DTO match the route parameters
-			if (notificationId != updateDto.NotificationID || parentId != updateDto.ParentID)
+			// Ensure the IDs in the DTO match the route parameters (nếu DTO có truyền xuống)
+			if ((updateDto.NotificationID != 0 && notificationId != updateDto.NotificationID) ||
+				(updateDto.ParentID != 0 && parentId != updateDto.ParentID))
 			{
 				return BadRequest("NotificationID or ParentID in DTO does not match route parameters.");
 			}

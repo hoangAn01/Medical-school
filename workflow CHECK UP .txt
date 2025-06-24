@@ -1,0 +1,115 @@
+# Hướng dẫn sử dụng API Checkup
+
+## Quy trình làm việc
+
+Quy trình khám sức khỏe trong hệ thống bao gồm các bước sau:
+
+1. **Y tá tạo Health Report**: Y tá tạo một báo cáo sức khỏe cơ bản cho học sinh
+2. **Y tá nhập kết quả khám**: Y tá nhập các thông số sức khỏe chi tiết (chiều cao, cân nặng, huyết áp, thị lực)
+3. **Hệ thống gửi thông báo**: Phụ huynh nhận được thông báo về kết quả khám
+4. **Phụ huynh xem kết quả**: Phụ huynh xem chi tiết kết quả khám của con
+5. **Phụ huynh phản hồi**: Phụ huynh có thể đồng ý hoặc từ chối kết quả khám
+
+## Quy trình tạo kết quả khám sức khỏe
+
+Để tạo một kết quả khám sức khỏe (checkup) cho học sinh, bạn cần thực hiện theo các bước sau:
+
+### Bước 1: Tạo Health Report
+
+Đầu tiên, bạn cần tạo một Health Report cho học sinh:
+
+```
+POST /api/checkup/reports
+```
+
+Body:
+```json
+{
+  "date": "2023-07-20T10:00:00",  // Ngày khám (tùy chọn, mặc định là ngày hiện tại)
+  "description": "Khám sức khỏe định kỳ",
+  "studentID": 1,  // ID của học sinh
+  "nurseID": 2     // ID của y tá (tùy chọn)
+}
+```
+
+Kết quả trả về sẽ bao gồm `reportID` mà bạn sẽ cần cho bước tiếp theo:
+
+```json
+{
+  "reportID": 123,
+  "date": "2023-07-20T10:00:00",
+  "description": "Khám sức khỏe định kỳ",
+  "studentID": 1,
+  "studentName": "Nguyễn Văn A",
+  "nurseID": 2,
+  "nurseName": "Y tá Nguyễn Thị B",
+  "hasCheckup": false
+}
+```
+
+### Bước 2: Tạo Checkup
+
+Sau khi có `reportID`, bạn có thể tạo kết quả khám:
+
+```
+POST /api/checkup
+```
+
+Body:
+```json
+{
+  "reportID": 123,  // ID của Health Report đã tạo ở bước 1
+  "weight": 45.5,   // Cân nặng (kg)
+  "height": 150.0,  // Chiều cao (cm)
+  "bloodPressure": "120/80",
+  "visionLeft": "20/20",
+  "visionRight": "20/20"
+}
+```
+
+Kết quả trả về sẽ bao gồm thông tin đầy đủ của kết quả khám:
+
+```json
+{
+  "checkupID": 456,
+  "reportID": 123,
+  "date": "2023-07-20T10:00:00",
+  "studentID": 1,
+  "studentName": "Nguyễn Văn A",
+  "weight": 45.5,
+  "height": 150.0,
+  "bloodPressure": "120/80",
+  "visionLeft": "20/20",
+  "visionRight": "20/20",
+  "description": "Khám sức khỏe định kỳ",
+  "nurseName": "Y tá Nguyễn Thị B"
+}
+```
+
+## Sơ đồ luồng dữ liệu
+
+```
+┌────────────┐       ┌───────────────┐       ┌──────────────┐
+│            │       │               │       │              │
+│    Y tá    ├──────►│ Health Report ├──────►│   Checkup    │
+│            │       │               │       │              │
+└────────────┘       └───────────────┘       └──────┬───────┘
+                                                    │
+                                                    ▼
+┌────────────┐       ┌───────────────┐       ┌──────────────┐
+│            │       │               │       │              │
+│ Phụ huynh  │◄──────┤  Thông báo   │◄──────┤ Gửi thông báo│
+│            │       │               │       │              │
+└──────┬─────┘       └───────────────┘       └──────────────┘
+       │
+       ▼
+┌────────────┐
+│            │
+│  Phản hồi  │
+│            │
+└────────────┘
+```
+
+## Lấy danh sách Health Report
+
+// ... phần còn lại giữ nguyên

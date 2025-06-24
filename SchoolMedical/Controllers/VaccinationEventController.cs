@@ -61,45 +61,46 @@ namespace SchoolMedical.Controllers
                     .Include(s => s.Parent)
                     .ToListAsync();
 
+                var notifications = new List<Notification>();
+                var parentNotis    = new List<ParentNotification>();
+                var consents       = new List<ParentalConsent>();
+
                 foreach (var student in students)
                 {
-                    if (student.Parent != null)
+                    if (student.Parent == null) continue;
+
+                    var noti = new Notification
                     {
-                        // 1. Tạo một Notification object
-                        var notification = new Notification
-                        {
-                            Title = $"Thông báo sự kiện tiêm chủng: {model.EventName}",
-                            Content = $"Trường tổ chức tiêm chủng {model.EventName} vào ngày {model.Date:dd/MM/yyyy} tại {model.Location}. Vui lòng xác nhận đồng ý cho con tham gia.",
-                            SentDate = DateTime.Now,
-                            Status = "Sent",
-                            NotificationType = "Event",
-                            VaccinationEventID = model.EventID
-                        };
-                        _context.Notifications.Add(notification);
-                        await _context.SaveChangesAsync(); // Lưu để lấy NotificationID
+                        Title = $"Thông báo sự kiện tiêm chủng: {model.EventName}",
+                        Content = $"Trường tổ chức tiêm chủng {model.EventName} vào ngày {model.Date:dd/MM/yyyy} tại {model.Location}. Vui lòng xác nhận đồng ý cho con tham gia.",
+                        SentDate = DateTime.Now,
+                        Status = "Sent",
+                        NotificationType = "Event",
+                        VaccinationEventID = model.EventID
+                    };
+                    notifications.Add(noti);
 
-                        // 2. Tạo ParentNotification để nối Parent và Notification
-                        var parentNotification = new ParentNotification
-                        {
-                            ParentID = student.Parent.ParentID,
-                            NotificationID = notification.NotificationID, // Sử dụng ID vừa tạo
-                            IndividualStatus = "Sent",
-                            IndividualSentDate = DateTime.Now
-                        };
-                        _context.ParentNotifications.Add(parentNotification);
+                    parentNotis.Add(new ParentNotification
+                    {
+                        ParentID = student.Parent.ParentID,
+                        Notification = noti,
+                        IndividualStatus = "Sent",
+                        IndividualSentDate = DateTime.Now
+                    });
 
-                        // 3. Tạo bản ghi đồng ý của phụ huynh
-                        var consent = new ParentalConsent
-                        {
-                            StudentID = student.StudentID,
-                            VaccinationEventID = model.EventID, // Sửa tên trường
-                            ParentID = student.Parent.ParentID,
-                            ConsentStatus = "Chờ phản hồi",     // Sửa tên trường
-                            ConsentDate = DateTime.Now          // Sửa tên trường
-                        };
-                        _context.ParentalConsents.Add(consent);
-                    }
+                    consents.Add(new ParentalConsent
+                    {
+                        StudentID = student.StudentID,
+                        VaccinationEventID = model.EventID,
+                        ParentID = student.Parent.ParentID,
+                        ConsentStatus = "Chờ phản hồi",
+                        ConsentDate = DateTime.Now
+                    });
                 }
+
+                _context.Notifications.AddRange(notifications);
+                _context.ParentNotifications.AddRange(parentNotis);
+                _context.ParentalConsents.AddRange(consents);
                 await _context.SaveChangesAsync();
             }
 

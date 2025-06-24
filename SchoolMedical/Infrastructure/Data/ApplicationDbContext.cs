@@ -299,6 +299,9 @@ namespace SchoolMedical.Infrastructure.Data
 					  .HasForeignKey<SchoolCheckup>(sc => sc.ReportID)
 					  .OnDelete(DeleteBehavior.Cascade);
 			});
+
+			// // Configure AuditLog entity
+			modelBuilder.Entity<AuditLog>().ToTable("AuditLog");
 		}
 	}
 }

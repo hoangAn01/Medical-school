@@ -25,15 +25,17 @@ namespace SchoolMedical.Infrastructure.Services
 		}
 
 		public async Task<LoginResponse> LoginAsync(LoginRequest request){
-			try{
-				_logger.LogInformation($"Login attempt for username: {request.Username}");
+			try
+			{
+				_logger.LogInformation("Login attempt for username: {Username}",request.Username);
+
 
 				// Find user by username
 				var account = await _context.Accounts
 					.FirstOrDefaultAsync(a => a.Username == request.Username);
 
 				if (account == null){
-					_logger.LogWarning($"User not found: {request.Username}");
+					_logger.LogWarning("User not found: {Username}",request.Username);
 					return new LoginResponse
 					{
 						Success = false,
@@ -87,27 +89,33 @@ namespace SchoolMedical.Infrastructure.Services
 
 		public string GenerateJwtToken(int userId, string username, string role)
 {
-    var claims = new[]
-    {
-        new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-        new Claim(ClaimTypes.Name, username),
-        new Claim(ClaimTypes.Role, role)
-    };
+	var jwtSettings = _configuration.GetSection("JwtSettings");
 
-    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!));
-    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-    var expires = DateTime.Now.AddHours(1); // Thêm thời gian hết hạn
+	var secretKey = jwtSettings["SecretKey"];
+	if (string.IsNullOrEmpty(secretKey))
+		throw new InvalidOperationException("JWT SecretKey is missing in configuration.");
 
-    var token = new JwtSecurityToken(
-        issuer: _configuration["JwtSettings:Issuer"],
-        audience: _configuration["JwtSettings:Audience"],
-        claims: claims,
-        expires: expires,
-        signingCredentials: creds
-    );
+	var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+	var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-    return new JwtSecurityTokenHandler().WriteToken(token);
+	var claims = new[]
+	{
+		new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+		new Claim(ClaimTypes.Name, username),
+		new Claim(ClaimTypes.Role, role)
+	};
+
+	var token = new JwtSecurityToken(
+		issuer: jwtSettings["Issuer"],
+		audience: jwtSettings["Audience"],
+		claims: claims,
+		expires: DateTime.UtcNow.AddHours(1),
+		signingCredentials: creds
+	);
+
+	return new JwtSecurityTokenHandler().WriteToken(token);
 }
+
 
 		public async Task<bool> ValidateTokenAsync(string token)
 		{

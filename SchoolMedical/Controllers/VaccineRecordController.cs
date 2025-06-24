@@ -43,6 +43,29 @@ public class VaccineRecordController : ControllerBase
     {
         _context.VaccineRecords.Add(model);
         await _context.SaveChangesAsync();
+
+        var student = await _context.Students.Include(s => s.Parent)
+            .FirstOrDefaultAsync(s => s.StudentID == model.StudentID);
+        if (student?.Parent != null)
+        {
+            var noti = new Notification{
+                Title = $"Kết quả tiêm {model.VaccineName}",
+                Content = $"Học sinh {student.FullName} đã được tiêm {model.VaccineName} ngày {model.InjectionDate:dd/MM/yyyy}.",
+                SentDate = DateTime.Now,
+                Status = "Sent",
+                NotificationType = "VaccineResult",
+                VaccinationEventID = model.VaccinationEventID
+            };
+            var pn = new ParentNotification{
+                ParentID = student.Parent.ParentID,
+                Notification = noti,
+                IndividualStatus = "Sent",
+                IndividualSentDate = DateTime.Now
+            };
+            _context.AddRange(noti, pn);
+            await _context.SaveChangesAsync();
+        }
+
         return CreatedAtAction(nameof(GetById), new { id = model.VaccineRecordID }, model);
     }
 

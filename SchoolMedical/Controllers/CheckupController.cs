@@ -313,6 +313,20 @@ namespace SchoolMedical.Controllers
 
             await _context.SaveChangesAsync();
 
+            // Cập nhật trạng thái thông báo cá nhân (ParentNotification)
+            var relatedNotification = await _context.Notifications
+                .FirstOrDefaultAsync(n => n.CheckupID == checkupId);
+            if (relatedNotification != null)
+            {
+                var parentNotification = await _context.ParentNotifications
+                    .FirstOrDefaultAsync(pn => pn.NotificationID == relatedNotification.NotificationID && pn.ParentID == parentId);
+                if (parentNotification != null)
+                {
+                    parentNotification.IndividualStatus = consent.ConsentStatus;
+                    await _context.SaveChangesAsync();
+                }
+            }
+
             return Ok(new { Message = "Phản hồi đã được ghi nhận", Status = consent.ConsentStatus });
         }
 
