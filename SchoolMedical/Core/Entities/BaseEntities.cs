@@ -114,7 +114,7 @@ namespace SchoolMedical.Core.Entities
 		public int RequestID { get; set; }
 
 		[Required]
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime2")]
 		public DateTime Date { get; set; }
 
 		[StringLength(50)]
@@ -128,9 +128,12 @@ namespace SchoolMedical.Core.Entities
 		[StringLength(255)]
 		public string? Note { get; set; }
 
+		[StringLength(50)]
+		public string? NurseNote { get; set; }
+
 		public int? ApprovedBy { get; set; }
 
-		[Column(TypeName = "date")]
+		[Column(TypeName = "datetime2")]
 		public DateTime? ApprovalDate { get; set; }
 
 		// Navigation properties

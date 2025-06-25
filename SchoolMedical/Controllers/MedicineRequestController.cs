@@ -50,7 +50,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.FirstOrDefaultAsync();
 
@@ -89,7 +90,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.OrderByDescending(m => m.Date)
 			.ToListAsync();
@@ -133,7 +135,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.OrderByDescending(m => m.Date)
 			.ToListAsync();
@@ -173,7 +176,8 @@ public class MedicineRequestController : ControllerBase
 						Quantity = d.Quantity,
 						DosageInstructions = d.DosageInstructions,
 						Time = d.Time
-					}).ToList()
+					}).ToList(),
+				NurseNote = m.NurseNote
 			})
 			.OrderByDescending(m => m.Date)
 			.ToListAsync();
@@ -204,10 +208,13 @@ public class MedicineRequestController : ControllerBase
 		using var transaction = await _context.Database.BeginTransactionAsync();
 		try
 		{
+			// Capture the real-time timestamp
+			var realTimeDate = DateTime.UtcNow;
+			
 			// Create main request
 			var medicineRequest = new MedicineRequest
 			{
-				Date = DateTime.UtcNow,
+				Date = realTimeDate,
 				RequestStatus = "Pending",
 				StudentID = request.StudentID,
 				ParentID = request.ParentID,
@@ -234,8 +241,8 @@ public class MedicineRequestController : ControllerBase
 			await _context.SaveChangesAsync();
 			await transaction.CommitAsync();
 
-			// Return the created request with details
-			return await GetMedicineRequest(medicineRequest.RequestID);
+			// Return the created request with real-time timestamp instead of fetching from database
+			return await CreateMedicineRequestDTO(medicineRequest.RequestID, realTimeDate);
 		}
 		catch (Exception)
 		{
@@ -246,30 +253,60 @@ public class MedicineRequestController : ControllerBase
 
 	// PUT: api/MedicineRequest/{id}/approve
 	[HttpPut("{id}/approve")]
-	public async Task<IActionResult> ApproveMedicineRequest(int id, [FromBody] ApproveRequestDto request)
+	public async Task<ActionResult<MedicineRequestDTO>> ApproveMedicineRequest(int id, [FromBody] ApproveRequestDto request)
 	{
 		var medicineRequest = await _context.MedicineRequests.FindAsync(id);
 		if (medicineRequest == null)
 			return NotFound();
 
+		// Capture the real-time approval timestamp
+		var realTimeApprovalDate = DateTime.UtcNow;
+
 		medicineRequest.RequestStatus = "Approved";
 		medicineRequest.ApprovedBy = request.ApprovedBy;
-		medicineRequest.ApprovalDate = DateTime.UtcNow.Date;
-
-		// Append nurse note to existing note (with separator if needed)
-		if (!string.IsNullOrWhiteSpace(request.NurseNote))
-		{
-			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
-				medicineRequest.Note += "\n---\n";
-			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
-		}
+		medicineRequest.ApprovalDate = realTimeApprovalDate;
+		medicineRequest.NurseNote = request.NurseNote;
 
 		await _context.SaveChangesAsync();
 		
 		// Send automatic notification to parent
 		await _notificationService.SendMedicineRequestNotificationAsync(id, "Approved", request.NurseNote);
 		
-		return NoContent();
+		// Return the updated request with real-time approval timestamp
+		var updatedRequest = await _context.MedicineRequests
+			.Include(m => m.Student)
+			.Include(m => m.Parent)
+			.Where(m => m.RequestID == id)
+			.Select(m => new MedicineRequestDTO
+			{
+				RequestID = m.RequestID,
+				Date = m.Date,
+				RequestStatus = m.RequestStatus,
+				StudentID = m.StudentID,
+				ParentID = m.ParentID,
+				Note = m.Note,
+				ApprovedBy = m.ApprovedBy,
+				ApprovalDate = realTimeApprovalDate, // Use the real-time approval timestamp
+				StudentName = m.Student.FullName,
+				ParentName = m.Parent.FullName,
+				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
+					.Where(d => d.RequestID == m.RequestID)
+					.Select(d => new MedicineRequestDetailDTO
+					{
+						RequestDetailID = d.RequestDetailID,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
+						Quantity = d.Quantity,
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
+					}).ToList(),
+				NurseNote = m.NurseNote
+			})
+			.FirstOrDefaultAsync();
+
+		return updatedRequest;
 	}
 
 	// PUT: api/MedicineRequest/{id}/refuse
@@ -282,14 +319,7 @@ public class MedicineRequestController : ControllerBase
 
 		// Set status to "Refused"
 		medicineRequest.RequestStatus = "Refused";
-
-		// Append nurse note to existing note (with separator if needed)
-		if (!string.IsNullOrWhiteSpace(request.NurseNote))
-		{
-			if (!string.IsNullOrWhiteSpace(medicineRequest.Note))
-				medicineRequest.Note += "\n---\n";
-			medicineRequest.Note += $"Nurse note: {request.NurseNote}";
-		}
+		medicineRequest.NurseNote = request.NurseNote;
 		await _context.SaveChangesAsync();
 		
 		// Send automatic notification to parent
@@ -312,6 +342,43 @@ public class MedicineRequestController : ControllerBase
 			.ToListAsync();
 
 		return Ok(items);
+	}
+
+	// Helper method to create MedicineRequestDTO
+	private async Task<MedicineRequestDTO> CreateMedicineRequestDTO(int requestId, DateTime? overrideDate = null, DateTime? overrideApprovalDate = null)
+	{
+		return await _context.MedicineRequests
+			.Include(m => m.Student)
+			.Include(m => m.Parent)
+			.Where(m => m.RequestID == requestId)
+			.Select(m => new MedicineRequestDTO
+			{
+				RequestID = m.RequestID,
+				Date = overrideDate ?? m.Date,
+				RequestStatus = m.RequestStatus,
+				StudentID = m.StudentID,
+				ParentID = m.ParentID,
+				Note = m.Note,
+				ApprovedBy = m.ApprovedBy,
+				ApprovalDate = overrideApprovalDate ?? m.ApprovalDate,
+				StudentName = m.Student.FullName,
+				ParentName = m.Parent.FullName,
+				MedicineDetails = _context.MedicineRequestDetails
+					.Include(d => d.RequestItem)
+					.Where(d => d.RequestID == m.RequestID)
+					.Select(d => new MedicineRequestDetailDTO
+					{
+						RequestDetailID = d.RequestDetailID,
+						RequestItemID = d.RequestItemID,
+						RequestItemName = d.RequestItem.RequestItemName,
+						Description = d.RequestItem.Description,
+						Quantity = d.Quantity,
+						DosageInstructions = d.DosageInstructions,
+						Time = d.Time
+					}).ToList(),
+				NurseNote = m.NurseNote
+			})
+			.FirstOrDefaultAsync();
 	}
 }
 
