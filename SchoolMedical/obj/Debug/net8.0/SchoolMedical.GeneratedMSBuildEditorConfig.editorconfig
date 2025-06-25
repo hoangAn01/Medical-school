@@ -9,21 +9,17 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SchoolMedical
 build_property.RootNamespace = SchoolMedical
-<<<<<<< HEAD
 build_property.ProjectDir = D:\testGit\Summer25SWP391\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\
-=======
-build_property.ProjectDir = E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical\
->>>>>>> 638a1b2e7578b6d1809a7530a0e21c617cef4ca2
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = D:\testGit\Summer25SWP391\Summer25SWP391_SE1832_Group432-BE\SchoolMedical
-=======
-build_property.MSBuildProjectDirectory = E:\SWP391\Summer25SWP391_SE1832_Group432\Summer25SWP391_SE1832_Group432_BE\Summer25SWP391_SE1832_Group432-BE\SchoolMedical
->>>>>>> 638a1b2e7578b6d1809a7530a0e21c617cef4ca2
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/hoang/AppData/Roaming/SonarLint for Visual Studio/Bindings/SchoolMedical/csharp/SonarLint.xml]
+build_metadata.AdditionalFiles.TargetPath = 
+build_metadata.AdditionalFiles.CssScope = 
